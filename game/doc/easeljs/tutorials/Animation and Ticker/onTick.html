@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>EaselJS demo: DisplayObject.onTick</title>
+	<link href="../shared/demo.css" rel="stylesheet" type="text/css">
+	<script src="../../lib/easeljs-0.5.0.min.js"></script>
+	<script>
+		
+		var stage, circle;
+		function init() {
+			stage = new createjs.Stage("demoCanvas");
+			
+			circle = new createjs.Shape();
+			circle.graphics.beginFill("red").drawCircle(0, 0, 40);
+			circle.y = 50;
+			stage.addChild(circle);
+			
+			// Ticker will pass elapsedTime and paused params when it calls stage.update()
+			// which will pass them to onTick() handlers for us in time based animation.
+			circle.onTick = function(elapsedTime) {
+				this.x += elapsedTime/1000*100;
+				if (this.x > stage.canvas.width) { this.x = 0; }
+			}
+			
+			createjs.Ticker.addListener(stage);
+		}
+	</script>
+</head>
+<body onLoad="init();">
+	<canvas id="demoCanvas" width="500" height="100">
+		alternate content
+	</canvas>
+</body>
+</html>

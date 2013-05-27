@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<title>Notebook Numbers - Staging Server</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>
+			function validateEmail(input) {
+				var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+				return emailReg.test(input);
+			}
+
+			function saveEmail() {
+				var input = $("#email").val()
+				if (validateEmail(input)) {
+					$.ajax({
+						type: "POST",
+						url: "cgi-bin/holdingpage.py",
+						data: { email: input}
+					}).done(function( msg ) {
+						if (msg == "Error") {
+							alert("Please enter a valid email address or try again later");
+						} else {
+							$("#result").html(msg);
+						}
+					});
+				} else {
+					alert("Please enter a valid email address");
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div id="content">
+			<div id="title">Notebook Numbers</div>
+			<div id="screen"><center><img src="images/screen.png" /></center></div>
+			<div id="playStoreLink">Check it out on the <a href='http://notebooknumbers.com'>Play Store</a>!</div>
+			<div id="signup"> Email: <input id="email" type="email" name="email" /> <input type="submit" value="Sign me up!" onclick="saveEmail()" /> </div>
+			<div id="result"></div>
+		</div>
+	</body>
+</html>
