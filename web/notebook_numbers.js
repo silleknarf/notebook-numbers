@@ -8,223 +8,67 @@ if(!Array.prototype.last) {
     }
 }
 
-function Point(x,y) {
-	this.x = x;
-	this.y = y;
+
+
+function NotebookNumbers() {} 
+
+NotebookNumbers.prototype = new Grid();
+NotebookNumbers.prototype.init = function() {
+	Grid.prototype.init.call(this);
+	this.selected = []
+	//this.rowCount = 20;	
+	this.cellHeight = 40;
+	this.marginLeft = 15;
+	this.marginTop = 15;
+	this.stage = new createjs.Stage('notebooknumbers');	
 }
 
-// Add two points together
-Point.prototype.add = function(otherPoint) {
-	this.x += otherPoint.x;
-	this.y += otherPoint.y;
-}
 
-// Add two points together
-Point.prototype.equals = function(otherPoint) {
-	this.x == otherPoint.x;
-	this.y == otherPoint.y;
-}
+NotebookNumbers.prototype.drawGrid = function(width, height) {
+	var cell = {}
+	cell.width = width / this.width;
+	cell.height = this.cellHeight;
+	for (var i = 0; i < this.grid.length; i++) {
+	//for (var i = 0; i < 1; i++) {
+		for (var j = 0; j < this.grid[i].length; j++) {
+			var digit = this.grid[i][j];
+			var image = 'img/'+digit+'.png';
+			var number = new createjs.Bitmap(image);
+			number.x = Math.floor(j*cell.width+this.marginLeft);
+			number.y = Math.floor(i*cell.height+this.marginTop);
+			number.i = i;
+			number.j = j;
 
-Point.prototype.isBefore(otherPoint) {
-	// Case they're on the same line or p1 is below
-	if (this.y <= otherPoint.y) {
-		// this is on the left
-		if (this.x < otherPoint.x) {
-			return true;
-		} 	
-	}
-	return false;
-}
+			// Create a hitbox for each number
+			var hit = new createjs.Shape();
+			hit.graphics.beginFill("#F00").drawRect(0, 0, cell.width, cell.height);
+			number.hitArea = hit;
 
-function Grid(){
-	this.width = 9;
-}
+			number.onClick = function(evt) {
+				console.log("You clicked:");
+				console.log("evt i:"+evt.target.i,"evt j:"+evt.target.j);
+				app.cursor.click(new Cell(evt.target.j,evt.target.i));
+				var valid = app.check();
+				console.log("Valid move:"+valid);
+			}
 
-// Creates an arraylist representing the grid with the normal start values
-Grid.prototype.init = function() {
-	grid = [[],[],[]] 
-	firstRow = grid[0]
-	secondRow = grid[1]
-	thirdRow = grid[2]
-	for (int i = 1; i<=this.width; i++) {
-		firstRow[i-1] = i;
-		if (i%2==1) {
-			secondRow[i-1] = 1;
-		} else {
-			secondRow[i-1] = i/2;
-		}
-		if (this.width%2==1) {
-			if (i%2==1) {
-				thirdRow[i-1] = (i/2)+((this.width/2)+1);
-			} else {
-				thirdRow[i-1] = 1;
-			}	
-		} else {
-			if (i%2==1) {
-				thirdRow[i-1] = 1;
-			} else {
-				thirdRow[i-1] = (i/2)+((this.width/2)+1)-1;
-			}	
-		}
-	}
-	this.grid = grid
-}
-
-Grid.prototype.check = function(firstPoint, secondPoint) {
-	if (!checkTotal) {
-		return false;
-	}
-	if (!checkVerticalMove(firstPoint, secondPoint) {
-		return false;
-	}
-
-	if (!checkHorizontalMove(firstPoint, secondPoint) {
-		return false;
-	}
-	return true;
-}
-
-// Takes a pair of co-ords and returns true if they add to the given total
-// or are equal
-Grid.prototype.checkTotal = function(firstPoint, secondPoint) {
-	var targetTotal = 10;
-	first = this.grid[firstPoint.y][firstPoint.x];
-	second = this.grid[secondPoint.y][secondPoint.x];
-	if ((first != second) || (first+second != targetTotal)) {
-		return false;
-	}
-	return true;
-}
-
-Grid.prototype.checkVerticalMove = function(p1,p2){
-	var lowerPoint = p1;
-	var upperPoint = p2;
-	if (p1.y < p2.y) {
-		lowerPoint = p1;
-		upperPoint = p2;
-	} 	
-
-	// x axis not aligned
-	if (lowerPoint.x != upperPoint.x ) {
-		// No vertical moves possible
-		return false;
-	}
-
-	for (var y = lowerPoint.y; y <= upperPoint.y; y++) {
-		x = lowerPoint.x;
-
-		// numbers > 0 block the path
-		if (this.grid[y][x] > 0) {
-			return false;
-		}
-	}
-
-	// Test
-	if (upperPoint.y == y) {
-		//return true;
-	}
-
-	// We found it!
-	return true;
-}
-
-Grid.prototype.checkHorizontalMove = function(p1,p2){
-	var firstPoint = p1;
-	var secondPoint = p2;
-	if (p2.isBefore(p1)) {
-		firstPoint = p2;
-		secondPoint = p1;
-	}
-
-	var checkPoint = firstPoint;
-	while (checkPoint.isBefore(secondPoint)) {
-		// Move to the start of new line when we get to the end
-		if (checkPoint.x == this.grid[0].length) {
-			checkPoint.x = 0;
-			checkPoint.y++;
-		}
-		// numbers > 0 block the path
-		if (this.grid[checkPoint.y][checkPoint.x] > 0) {
-			return false;
+			this.stage.addChild(number);
 		}	
-
-		// Move left to right
-		checkPoint.x++;	
 	}
-	
-	// We found it!
-	return true;
-}
-Grid.prototype.refillGrid = function() {
-	var remainingNumbers = []
-	for (var row in this.grid) {
-		for (var item in row) { 
-			// if it is > 0 it should be re-added
-			if (item > 0) {
-				remainingNumbers.push(item);
-			}
-		}
-	}
-	for (var number in remainingNumbers) {
-		var currentLine = this.grid.last();
-		// Add a new row
-		if (currentLine.length == this.grid[0].length) {
-			this.grid.push([number])
-		// Add to the current row
-		} else {
-			this.grid.last().push(number)
-		}
-	}
+	this.stage.update();
 }
 
-Grid.prototype.finalise = function() {
-	for (var row in this.grid) {
-		for (var item in row) { 
-			// We still have numbers left to clear
-			if (item > 0) {
-				return false;
-			}
+function init() {
+	app = new NotebookNumbers();
+	app.init();
+	app.drawGrid(1024,768);
+}
+/*
+function Controls() {
+
+	this.stage.onMouseMove(evt) {
+		if (evt.intersects(a number)) {
+			// add to hand
 		}
 	}
-	return true;
-}
-
-
-	
-	/**
-	 * @param args
-	 */
-	/*
-	public static void main(String[] args) {
-		Logic logic = new Logic();
-		
-		ArrayList<int[]> grid = logic.gridNumbers(9);
-		grid.get(0)[0]=-1;
-		grid.get(1)[0]=-1;
-		grid.get(1)[1]=8;
-		grid.get(0)[7]=-1;
-		grid.get(1)[2]=7;
-		grid = logic.refillGrid(grid);
-		grid = logic.makeMove(grid, new int[]{1,0}, new int[]{1,1});
-		grid = logic.makeMove(grid, new int[]{5,5}, new int[]{5,4});
-		grid = logic.refillGrid(grid);
-
-		
-		for (int[] i : grid) {
-			for (int j : i) {
-				System.out.print(j+", ");
-			}
-			System.out.println();
-		}
-		
-		
-		ArrayList<int[]> valids = logic.validMoves(grid, new int[]{8,2});
-		for (int[] valid : valids) {
-			System.out.print(valid[0]+", ");
-			System.out.println(valid[1]);
-
-		}
-	}
-	*/
-
-}
+}*/
