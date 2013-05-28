@@ -14,13 +14,13 @@ function NotebookNumbers() {}
 
 NotebookNumbers.prototype = new Grid();
 NotebookNumbers.prototype.init = function() {
-	Grid.prototype.init.call(this);
 	this.selected = []
 	//this.rowCount = 20;	
 	this.cellHeight = 40;
 	this.marginLeft = 15;
 	this.marginTop = 15;
 	this.stage = new createjs.Stage('notebooknumbers');	
+	this.grid = new Grid();
 }
 
 
@@ -28,14 +28,15 @@ NotebookNumbers.prototype.drawGrid = function(width, height) {
 	var cell = {}
 	cell.width = width / this.width;
 	cell.height = this.cellHeight;
-	for (var i = 0; i < this.grid.length; i++) {
+	var grid = this.grid.data;
+	for (var i = 0; i < grid.length; i++) {
 	//for (var i = 0; i < 1; i++) {
-		for (var j = 0; j < this.grid[i].length; j++) {
-			var digit = this.grid[i][j];
+		for (var j = 0; j < grid[i].length; j++) {
+			var digit = grid[i][j];
 			var image = 'img/'+digit+'.png';
 			var number = new createjs.Bitmap(image);
-			number.x = Math.floor(j*cell.width+this.marginLeft);
-			number.y = Math.floor(i*cell.height+this.marginTop);
+			number.x = Math.floor(j*cell.width+marginLeft);
+			number.y = Math.floor(i*cell.height+marginTop);
 			number.i = i;
 			number.j = j;
 
@@ -47,15 +48,15 @@ NotebookNumbers.prototype.drawGrid = function(width, height) {
 			number.onClick = function(evt) {
 				console.log("You clicked:");
 				console.log("evt i:"+evt.target.i,"evt j:"+evt.target.j);
-				app.cursor.click(new Cell(evt.target.j,evt.target.i));
+				app.grid.cursor.click(new Cell(evt.target.j,evt.target.i));
 				var valid = app.check();
 				console.log("Valid move:"+valid);
 			}
 
-			this.stage.addChild(number);
+			stage.addChild(number);
 		}	
 	}
-	this.stage.update();
+	stage.update();
 }
 
 function init() {
