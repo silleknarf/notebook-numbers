@@ -5,10 +5,10 @@ function Grid(){
 
 // Creates an arraylist representing the grid with the normal start values
 Grid.prototype.init = function() {
-	grid = [[],[],[]] 
-	firstRow = grid[0]
-	secondRow = grid[1]
-	thirdRow = grid[2]
+	data = [[],[],[]] 
+	firstRow = data[0]
+	secondRow = data[1]
+	thirdRow = data[2]
 	for (var i = 1; i<=this.width; i++) {
 		firstRow[i-1] = i;
 		if (i%2==1) {
@@ -30,11 +30,11 @@ Grid.prototype.init = function() {
 			}	
 		}
 	}
-	this.grid = grid
+	this.data = data
 }
 
 Grid.prototype.check = function() {
-	if (!this.cursor.hasEnoughCells) {
+	if (!this.cursor.hasEnoughCells()) {
 		return false;
 	}	
 	firstCell = this.cursor.cells[0];
@@ -48,8 +48,8 @@ Grid.prototype.check = function() {
 // or are equal
 Grid.prototype.checkTotal = function(firstCell, secondCell) {
 	var targetTotal = 10;
-	first = this.grid[firstCell.y][firstCell.x];
-	second = this.grid[secondCell.y][secondCell.x];
+	first = this.data[firstCell.y][firstCell.x];
+	second = this.data[secondCell.y][secondCell.x];
 	if ((first==second) || (first+second==10)) {
 		return true;
 	}
@@ -74,7 +74,7 @@ Grid.prototype.checkVerticalMove = function(p1,p2){
 		x = lowerCell.x;
 
 		// numbers > 0 block the path
-		if (this.grid[y][x] > 0) {
+		if (this.data[y][x] > 0) {
 			return false;
 		}
 	}
@@ -99,12 +99,12 @@ Grid.prototype.checkHorizontalMove = function(p1,p2){
 	var checkCell = firstCell;
 	while (checkCell.isBefore(secondCell)) {
 		// Move to the start of new line when we get to the end
-		if (checkCell.x == this.grid[0].length) {
+		if (checkCell.x == this.data[0].length) {
 			checkCell.x = 0;
 			checkCell.y++;
 		}
 		// numbers > 0 block the path
-		if (this.grid[checkCell.y][checkCell.x] > 0) {
+		if (this.data[checkCell.y][checkCell.x] > 0) {
 			return false;
 		}	
 
@@ -117,7 +117,7 @@ Grid.prototype.checkHorizontalMove = function(p1,p2){
 }
 Grid.prototype.refillGrid = function() {
 	var remainingNumbers = []
-	for (var row in this.grid) {
+	for (var row in this.data) {
 		for (var item in row) { 
 			// if it is > 0 it should be re-added
 			if (item > 0) {
@@ -126,19 +126,19 @@ Grid.prototype.refillGrid = function() {
 		}
 	}
 	for (var number in remainingNumbers) {
-		var currentLine = this.grid.last();
+		var currentLine = this.data.last();
 		// Add a new row
-		if (currentLine.length == this.grid[0].length) {
-			this.grid.push([number])
+		if (currentLine.length == this.data[0].length) {
+			this.data.push([number])
 		// Add to the current row
 		} else {
-			this.grid.last().push(number)
+			this.data.last().push(number)
 		}
 	}
 }
 
 Grid.prototype.finalise = function() {
-	for (var row in this.grid) {
+	for (var row in this.data) {
 		for (var item in row) { 
 			// We still have numbers left to clear
 			if (item > 0) {
