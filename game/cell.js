@@ -13,8 +13,7 @@ Cell.prototype.add = function(otherCell) {
 
 // Add two points together
 Cell.prototype.equals = function(otherCell) {
-	this.x == otherCell.x;
-	this.y == otherCell.y;
+	return this.x == otherCell.x && this.y == otherCell.y;
 }
 
 Cell.prototype.isBefore = function(otherCell) {
