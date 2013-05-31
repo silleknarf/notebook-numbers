@@ -1,6 +1,8 @@
-function Cell(x,y) {
-	this.x = x;
-	this.y = y;
+function Cell(target) {
+	this.target = target;
+	this.digit = target.digit;
+	this.x = target.j;
+	this.y = target.i;
 }
 
 // Add two points together

@@ -1,6 +1,7 @@
 function Grid(){
 	this.width = 9;
 	this.cursor = new Cursor();
+	this.init();
 }
 
 // Creates an arraylist representing the grid with the normal start values
@@ -71,7 +72,7 @@ Grid.prototype.checkVerticalMove = function(p1,p2){
 	}
 
 	for (var y = lowerCell.y; y < upperCell.y-1; y++) {
-		x = lowerCell.x;
+		var x = lowerCell.x;
 
 		// numbers > 0 block the path
 		if (this.data[y][x] > 0) {
@@ -79,12 +80,7 @@ Grid.prototype.checkVerticalMove = function(p1,p2){
 		}
 	}
 
-	// Test
-	if (upperCell.y == y) {
-		//return true;
-	}
-
-	// We found it!
+	// Vertical Match!
 	return true;
 }
 
@@ -96,7 +92,12 @@ Grid.prototype.checkHorizontalMove = function(p1,p2){
 		secondCell = p1;
 	}
 
-	var checkCell = firstCell;
+	var checkCell = {};
+	$.extend(checkCell, firstCell);
+	if (checkCell.equals(secondCell)) {
+		return false;
+	}
+	checkCell.x++;	
 	while (checkCell.isBefore(secondCell)) {
 		// Move to the start of new line when we get to the end
 		if (checkCell.x == this.data[0].length) {
@@ -112,20 +113,22 @@ Grid.prototype.checkHorizontalMove = function(p1,p2){
 		checkCell.x++;	
 	}
 	
-	// We found it!
+	// Horizontal Match!
 	return true;
 }
 Grid.prototype.refillGrid = function() {
 	var remainingNumbers = []
-	for (var row in this.data) {
-		for (var item in row) { 
+	for (var y = 0; y < this.data.length; y++) {
+		for (var x = 0; x < this.data[0].length; x++) {
 			// if it is > 0 it should be re-added
+			var item = this.data[y][x];
 			if (item > 0) {
 				remainingNumbers.push(item);
 			}
 		}
 	}
-	for (var number in remainingNumbers) {
+	for (var i = 0; i < remainingNumbers.length; i++) {
+		var number = remainingNumbers[i];
 		var currentLine = this.data.last();
 		// Add a new row
 		if (currentLine.length == this.data[0].length) {
@@ -147,5 +150,13 @@ Grid.prototype.finalise = function() {
 		}
 	}
 	return true;
+}
+
+Grid.prototype.makeMove = function() {
+	for (var c = 0; c < this.cursor.cells.length; c++) {
+		var x = this.cursor.cells[c].x;
+		var y = this.cursor.cells[c].y;
+		this.data[y][x] = 0;
+	}
 }
 
