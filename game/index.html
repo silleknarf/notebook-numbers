@@ -6,11 +6,23 @@
 
 	<script type="text/javascript" src="lib/easeljs-0.6.0.min.js"></script>
 	<script type="text/javascript" src="lib/jquery-1.5.1.min.js"></script>
+	<script type="text/javascript" src="lib/preloadjs-0.3.1.min.js"></script>
 
 	<script type="text/javascript" src="cursor.js"></script>
 	<script type="text/javascript" src="cell.js"></script>
 	<script type="text/javascript" src="grid.js"></script>
 	<script type="text/javascript" src="notebook_numbers.js"></script>
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-41406639-1', 'silleknarf.com');
+		ga('send', 'pageview');
+	</script>
 </head>
 <body onload="init();">
 	<canvas id="notebooknumbers" width="1024" height="768" >Notebook Numbers</canvas>

@@ -1,14 +1,6 @@
 //
-// NotebookNumbers.js -- version 1
+// NotebookNumbers.js -- version 0.0.2
 //
-
-if(!Array.prototype.last) {
-    Array.prototype.last = function() {
-        return this[this.length - 1];
-    }
-}
-
-
 
 function NotebookNumbers() {
 	this.init();
@@ -17,16 +9,27 @@ function NotebookNumbers() {
 NotebookNumbers.prototype = new Grid();
 NotebookNumbers.prototype.init = function() {
 	this.selected = []
+	this.stage = new createjs.Stage('notebooknumbers');	
+
+	// Enable touch screen support
+	//createjs.Touch.enable(this.stage);
+			
+	// Enable fast cursor
+	this.stage.enableMouseOver();
+
+
 	//this.rowCount = 20;	
+	this.width = 1024;
+	this.numColums = 9;
+	this.height = 768;
 	this.cellHeight = 40;
 	this.marginLeft = 15;
 	this.marginTop = 15;
-	this.stage = new createjs.Stage('notebooknumbers');	
-	createjs.Ticker.addListener(this.stage);
-	this.loadImages();
 	this.grid = new Grid();
 	this.assets = {};
-	this.numbers = new createjs.Container();
+	this.loadImages();
+	this.cells = new createjs.Container();
+	this.stage.addChild(this.cells);
 }
 
 NotebookNumbers.prototype.loadImages = function() {
@@ -40,7 +43,7 @@ NotebookNumbers.prototype.loadImages = function() {
 	loader.addEventListener("fileload", this.handleFileLoad);
 	loader.addEventListener("complete", this.handleComplete);
 	loader.loadManifest(manifest);
-	this.stage.autoClear = false;
+	//this.stage.autoClear = false;
 }
 
 NotebookNumbers.prototype.handleFileLoad = function(event) {
@@ -52,61 +55,79 @@ NotebookNumbers.prototype.handleComplete = function() {
 		// Log the preloaded files for now
 		var item = app.assets[i]; //loader.getResult(id);
 		console.log(item);
-		//if (item.type == createjs.LoadQueue.IMAGE) {
-			//var bmp = new createjs.Bitmap(result);
-		//}
 	}
-	app.drawGrid(1024,768);
-	app.drawRefillGridButton();
+	app.initGame();
 }
 
+NotebookNumbers.prototype.initGame = function() {
+	// Draw things
+	app.updateCells();
+	app.drawRefillGridButton();
 
+	// Now we can start the main loop
+	createjs.Ticker.setFPS(25);
+	createjs.Ticker.addListener(this);
+}
 
-NotebookNumbers.prototype.drawGrid = function(width, height) {
-	var grid = this.grid.data;
-	for (var i = 0; i < grid.length; i++) {
-		for (var j = 0; j < grid[i].length; j++) {
-			var cell = {}
-			cell.width = width / this.width;
-			cell.height = this.cellHeight;
-			var digit = grid[i][j];
-			var number = new createjs.Bitmap(this.assets[digit]);
-			number.x = Math.floor(j*cell.width+this.marginLeft);
-			number.y = Math.floor(i*cell.height+this.marginTop);
-			number.i = i;
-			number.j = j;
-			number.digit = digit;
-
-			// Create a hitbox for each number
-			var hit = new createjs.Shape();
-			hit.graphics.beginFill("#F00").drawRect(0, 0, cell.width, cell.height);
-			//hit.graphics.beginFill("#F"+i+j).drawRect(0, 0, cell.width, cell.height);
-			number.hitArea = hit;
-				
-			number.onClick = function(evt) {
-				console.log("You clicked:");
-				console.log("evt i:"+evt.target.i,"evt j:"+evt.target.j);
-				app.grid.cursor.click(new Cell(evt.target));
-				app.redrawGrid();
-				app.stage.update();
-			}
-			number.onTick = function(evt) { 
-				var digit = app.grid.data[this.i][this.j];
-				if (digit == 0) {
-					digit = "scribble";
-				}
-				this.image = app.assets[digit];
-			}
-			console.log(number);
-			this.numbers.addChild(number);
-			this.stage.addChild(number);
-		}	
-	}
+NotebookNumbers.prototype.tick = function() {
 	this.stage.update();
 }
 
-NotebookNumbers.prototype.redrawGrid = function() {
-	var cells = app.grid.cursor.cells;
+NotebookNumbers.prototype.updateCells = function() {
+	this.cells.removeAllChildren();
+	var width = this.width / this.numColums;
+	var height = this.cellHeight;
+	var grid = this.grid.data;
+	var cursor = this.grid.cursor.cells;
+
+	for (var i = 0; i < grid.length; i++) {
+		for (var j = 0; j < grid[i].length; j++) {
+			var digit = grid[i][j];
+			var allowClick = true;
+			var cell = new Cell(i, j, width, height, digit, allowClick);
+			for (var k = 0; k < cursor.length; k++) {
+				if (cell.equals(cursor[k])) {
+					cell.inCursor = true;
+				}
+			}
+			this.cells.addChild(cell);
+		}	
+	}
+
+}
+
+NotebookNumbers.prototype.drawRefillGridButton = function() {
+	this.refillGridButton = new createjs.Container();
+ 	var refillGrid = new createjs.Text("Refill Grid", "32px Helvetica", "#000000");
+	var middleX = 512;
+	var refillGridPadding = 100;
+	refillGrid.x = middleX - refillGridPadding;
+
+	var topPadding = 15;
+	refillGrid.gridBottom = this.cellHeight * this.grid.data.length;
+	refillGrid.y = topPadding+refillGrid.gridBottom+app.marginTop;
+ 
+	var hit = new createjs.Shape();
+	hit.graphics.beginFill("#F00").drawRect(0, 0, refillGrid.getMeasuredWidth(), refillGrid.getMeasuredHeight());
+	refillGrid.hitArea = hit;
+
+	refillGrid.onClick = function(evt) {
+		app.grid.refillGrid();
+		app.updateCells();
+		//evt.target.y = Math.floor(topPadding+gridBottom+app.marginTop);
+		//app.redrawRefillGrid();
+
+		var gridBottom = app.cellHeight * app.grid.data.length;
+		var buttonPadding = 15;
+		var yCoOrd = gridBottom + buttonPadding + app.marginTop;
+		this.y = yCoOrd;
+	}
+	this.stage.addChild(refillGrid);
+}
+
+/*
+NotebookNumbers.prototype.redrawCursor = function() {
+	var cells = this.grid.cursor.cells;
 	for (var i = 0; i < cells.length; i++) {
 		var x = cells[i].x;
 		var y = cells[i].y;
@@ -114,46 +135,10 @@ NotebookNumbers.prototype.redrawGrid = function() {
 		if (digit == 0) {
 			digit = "scribble";
 		}
-		cells[i].target.image = app.assets[digit];
+		cells[i].target.image = this.assets[digit];
 	}
-}
-
-NotebookNumbers.prototype.redrawRefillGrid = function() {
-	this.stage.removeAllChildren();
-	this.drawGrid(1024,768);
-}
-
-NotebookNumbers.prototype.drawRefillGridButton = function() {
- 	var refillGrid = new createjs.Text("Refill Grid", "20px Arial", "#000000");
-	refillGrid.x = Math.floor(this.marginLeft);
-
-	var hit = new createjs.Shape();
-	hit.graphics.beginFill("#F00").drawRect(0, 0, refillGrid.getMeasuredWidth(), refillGrid.getMeasuredHeight());
-	//hit.graphics.beginFill("#F"+i+j).drawRect(0, 0, cell.width, cell.height);
-	refillGrid.hitArea = hit;
-
-	var topPadding = 15;
-	var gridBottom = this.cellHeight * this.grid.data.length;
-	refillGrid.onClick = function(evt) {
-		app.grid.refillGrid();
-		this.y = Math.floor(topPadding+gridBottom+app.marginTop);
-		app.redrawRefillGrid();
-		app.stage.update();
-	}
-	this.stage.addChild(refillGrid);
-	this.refillGridButton = refillGrid;
-}
-
+}*/
 
 function init() {
 	app = new NotebookNumbers();
 }
-/*
-function Controls() {
-
-	this.stage.onMouseMove(evt) {
-		if (evt.intersects(a number)) {
-			// add to hand
-		}
-	}
-}*/
