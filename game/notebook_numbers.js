@@ -1,5 +1,5 @@
 //
-// NotebookNumbers.js -- version 0.0.2
+// NotebookNumbers.js -- version 0.0.3
 //
 
 function NotebookNumbers() {
@@ -19,9 +19,9 @@ NotebookNumbers.prototype.init = function() {
 
 
 	//this.rowCount = 20;	
-	this.width = 1024;
+	this.width = 700;
 	this.numColums = 9;
-	this.height = 768;
+	this.height = 3000;
 	this.cellHeight = 40;
 	this.marginLeft = 15;
 	this.marginTop = 15;
@@ -33,7 +33,9 @@ NotebookNumbers.prototype.init = function() {
 }
 
 NotebookNumbers.prototype.loadImages = function() {
-	manifest = [{src:'img/scribble.png', id: 'scribble'}]; 
+	manifest = [	{src:'img/scribble.png', id: 'scribble'},
+		 	{src:'img/graph_paper_large.jpg',id: 'background'},
+			{src: 'img/bindings.png',id:'bindings'}]; 
 	for (var i = 1; i <= 9; i++) {
 		var digit = i;
 		var image = 'img/'+digit+'.png';
@@ -61,6 +63,7 @@ NotebookNumbers.prototype.handleComplete = function() {
 
 NotebookNumbers.prototype.initGame = function() {
 	// Draw things
+	app.drawBackground();
 	app.updateCells();
 	app.drawRefillGridButton();
 
@@ -96,10 +99,47 @@ NotebookNumbers.prototype.updateCells = function() {
 
 }
 
+NotebookNumbers.prototype.drawBackground = function() {
+	//var g = new createjs.Graphics();
+
+	var coverMargin = 10;
+	var cover = new createjs.Shape();
+
+	var navy = "#003266";
+	var blue = "#000066";
+	var minHeight = Math.max(this.height, 2600);
+	cover.graphics.beginFill(navy).drawRoundRect(0, 0, this.width*2+coverMargin*2+20, minHeight, 30);
+	this.stage.addChildAt(cover, 0);
+
+
+	var leftPage = new createjs.Bitmap(app.assets['background']);
+	leftPage.x = coverMargin;
+	leftPage.y = coverMargin;
+	leftPage.sourceRect = new createjs.Rectangle(0,0,this.width, minHeight);
+
+	this.stage.addChildAt(leftPage, 1);
+
+	var rightPage = new createjs.Bitmap(app.assets['background']);
+	rightPage.x = this.width+coverMargin+20;
+	rightPage.y = coverMargin; 
+	rightPage.sourceRect = new createjs.Rectangle(0,0,this.width, minHeight);
+	this.stage.addChildAt(rightPage, 2);
+
+	for (var i = 0; i < 5; i++) {
+		var bindings = new createjs.Bitmap(app.assets['bindings']);
+		bindings.x = this.width - 20;
+		bindings.y = 10+(i*225);
+		bindings.scaleX = 0.6;
+		bindings.scaleY = 0.6;
+		//bindings.sourceRect = new createjs.Rectangle(0,0,20,30);
+		this.stage.addChildAt(bindings, 3);
+	}
+}
+
 NotebookNumbers.prototype.drawRefillGridButton = function() {
 	this.refillGridButton = new createjs.Container();
  	var refillGrid = new createjs.Text("Refill Grid", "32px Helvetica", "#000000");
-	var middleX = 512;
+	var middleX = this.width/2;
 	var refillGridPadding = 100;
 	refillGrid.x = middleX - refillGridPadding;
 
@@ -121,6 +161,9 @@ NotebookNumbers.prototype.drawRefillGridButton = function() {
 		var buttonPadding = 15;
 		var yCoOrd = gridBottom + buttonPadding + app.marginTop;
 		this.y = yCoOrd;
+
+		var canvas = document.getElementById("notebooknumbers");
+    		canvas.height = yCoOrd+this.getMeasuredHeight()+buttonPadding;
 	}
 	this.stage.addChild(refillGrid);
 }

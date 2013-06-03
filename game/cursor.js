@@ -41,8 +41,6 @@ Cursor.prototype.onMouseOver = function(cell) {
 
 
 Cursor.prototype.onClick = function(cell) {
-
-	// Cursor state machine
 		
 	// Log that shit!
 	console.log("cells:");
@@ -56,13 +54,16 @@ Cursor.prototype.onClick = function(cell) {
 		valid = app.grid.check();
 	}
 	console.log("Valid move:"+valid);
+
+
+	// Cursor state machine
 	if (valid) {
 		app.grid.makeMove();
 		this.cells = [];
 		this.state = "SPEED";
 	} else {
-		if (this.state = "SPEED") { 
-			this.cells[0] = cell;
+		if (this.state == "SPEED") { 
+			this.cells = [cell];
 			this.state = "SELECT";
 		} else { 
 			this.state = "SPEED";

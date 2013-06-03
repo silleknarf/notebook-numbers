@@ -1,14 +1,15 @@
 body {
-	background-image: url('../img/graph_paper_large.jpg');
+	/*background-image: url('../img/graph_paper_large.jpg');*/
+ 	background-color: #F5F5F5;
 }
 
 #notebooknumbers {
-	width: 100%;
-	text-align: center;
-	border: solid 1px rgba(0,0,0,0.05);
+     	margin: 0px auto;
+	margin-top: 40px;
+	/*border: solid 1px rgba(0,0,0,0.05);*/
 }
 
 
 canvas {
-   display: inline;
+   display: block;
 }
