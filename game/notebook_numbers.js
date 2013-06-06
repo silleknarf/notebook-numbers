@@ -1,12 +1,26 @@
-//
-// NotebookNumbers.js -- version 0.0.3
-//
+/**
+ * NotebookNumbers.js -- version 0.0.3
+ *
+ * @module NotebookNumbers
+**/
 
+/**
+ * Base class for the app, handles preloading and running the main loop
+ *
+ * @class NotebookNumbers
+ * @constructor
+**/
 function NotebookNumbers() {
 	this.init();
 } 
 
 NotebookNumbers.prototype = new Grid();
+
+/**
+ * Intialises the easel.js stage, sets up the grid properties and preloads the images
+ *
+ * @method init
+ **/
 NotebookNumbers.prototype.init = function() {
 	this.selected = []
 	this.stage = new createjs.Stage('notebooknumbers');	
@@ -17,21 +31,31 @@ NotebookNumbers.prototype.init = function() {
 	// Enable fast cursor
 	this.stage.enableMouseOver();
 
-
-	//this.rowCount = 20;	
+	
+	// Setup the display properties of the grid
+	this.cells = new createjs.Container();
 	this.width = 700;
 	this.numColums = 9;
 	this.height = 3000;
 	this.cellHeight = 40;
 	this.marginLeft = 15;
 	this.marginTop = 15;
+	this.stage.addChild(this.cells);
+
+	// Load the grid game logic
 	this.grid = new Grid();
+
+	// Preload the images
 	this.assets = {};
 	this.loadImages();
-	this.cells = new createjs.Container();
-	this.stage.addChild(this.cells);
+
 }
 
+/**
+ * Preloads the images that are used for the game
+ *
+ * @method loadImages
+ **/
 NotebookNumbers.prototype.loadImages = function() {
 	manifest = [	{src:'img/scribble.png', id: 'scribble'},
 		 	{src:'img/graph_paper_large.jpg',id: 'background'},
@@ -41,26 +65,44 @@ NotebookNumbers.prototype.loadImages = function() {
 		var image = 'img/'+digit+'.png';
 		manifest.push({src: image, id: digit});
 	}
+	// Create an image loader with handlers
 	loader = new createjs.LoadQueue();
 	loader.addEventListener("fileload", this.handleFileLoad);
 	loader.addEventListener("complete", this.handleComplete);
+	// Pass the manifest to the image loader
 	loader.loadManifest(manifest);
 	//this.stage.autoClear = false;
 }
 
+/**
+ *  Callback function from the preloader to store the images in the app.assets object
+ *
+ *  @method handleFileLoad
+ **/
 NotebookNumbers.prototype.handleFileLoad = function(event) {
  	app.assets[event.item.id] = event.result;
 }
 
+/**
+ *  Callback function for whene the images have all been loaded
+ *
+ *  @method handleComplete
+ **/
 NotebookNumbers.prototype.handleComplete = function() {
+	// Log the preloaded files for now
 	for (var i = 0; i < app.assets.length; i++) {
-		// Log the preloaded files for now
 		var item = app.assets[i]; //loader.getResult(id);
 		console.log(item);
 	}
+	// Start the game
 	app.initGame();
 }
 
+/**
+ *  Draws the background and starts the main loop
+ *
+ *  @method initGame
+ **/
 NotebookNumbers.prototype.initGame = function() {
 	// Draw things
 	app.drawBackground();
@@ -72,10 +114,21 @@ NotebookNumbers.prototype.initGame = function() {
 	createjs.Ticker.addListener(this);
 }
 
+/**
+ * Main Loop
+ *
+ * @method tick
+ **/
 NotebookNumbers.prototype.tick = function() {
+	// Update all the objects on the easel.js stage
 	this.stage.update();
 }
 
+/** 
+ *  Removes all the crells from the grid and readds and updated version, also checks if each of the cells is in the cursor
+ *
+ *  @method updateCells
+ **/
 NotebookNumbers.prototype.updateCells = function() {
 	this.cells.removeAllChildren();
 	var width = this.width / this.numColums;
@@ -99,18 +152,22 @@ NotebookNumbers.prototype.updateCells = function() {
 
 }
 
+/** 
+ * Draws the notebooks using a rounded rectangle, some bindings and a right side panel (banderole)
+ *
+ * @method drawBackground
+ **/
 NotebookNumbers.prototype.drawBackground = function() {
-	//var g = new createjs.Graphics();
 
+	// Draw the outermost cover
 	var coverMargin = 10;
 	var cover = new createjs.Shape();
 
+	//var blue = "#000066";
 	var navy = "#003266";
-	var blue = "#000066";
 	var minHeight = Math.max(this.height, 2600);
 	cover.graphics.beginFill(navy).drawRoundRect(0, 0, this.width*2+coverMargin*2+20, minHeight, 30);
 	this.stage.addChildAt(cover, 0);
-
 
 	var leftPage = new createjs.Bitmap(app.assets['background']);
 	leftPage.x = coverMargin;
@@ -125,6 +182,14 @@ NotebookNumbers.prototype.drawBackground = function() {
 	rightPage.sourceRect = new createjs.Rectangle(0,0,this.width, minHeight);
 	this.stage.addChildAt(rightPage, 2);
 
+	// Draw the banderole on the right hand side
+	var banderole = new createjs.Shape();
+	banderole.graphics.beginFill(navy).drawRect(0, 0, (this.width/2), minHeight, 30);
+	banderole.x = rightPage.x + (this.width/2);
+	banderole.y = coverMargin; 
+	this.stage.addChildAt(banderole, 3);
+
+	// Draw the bindings in the middle
 	for (var i = 0; i < 5; i++) {
 		var bindings = new createjs.Bitmap(app.assets['bindings']);
 		bindings.x = this.width - 20;
@@ -136,6 +201,11 @@ NotebookNumbers.prototype.drawBackground = function() {
 	}
 }
 
+/** 
+ * Draws the button that refills the grid when you have no more moves to make
+ *
+ * @method drawRefillGridButton
+ **/
 NotebookNumbers.prototype.drawRefillGridButton = function() {
 	this.refillGridButton = new createjs.Container();
  	var refillGrid = new createjs.Text("Refill Grid", "32px Helvetica", "#000000");
