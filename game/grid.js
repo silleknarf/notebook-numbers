@@ -1,10 +1,20 @@
+/**
+ * Initialises the logical grid backend and provides the functionality for checking using it's cursor object.
+ *
+ * @class Grid
+ * @constructor
+ **/
 function Grid(){
 	this.width = 9;
 	this.cursor = new Cursor();
 	this.init();
 }
 
-// Creates an arraylist representing the grid with the normal start values
+/**
+ * Creates an arraylist representing the grid with the normal start values and stores it as data
+ *
+ * @method init
+ **/
 Grid.prototype.init = function() {
 	data = [[],[],[]] 
 	firstRow = data[0]
@@ -34,6 +44,12 @@ Grid.prototype.init = function() {
 	this.data = data
 }
 
+/** 
+ * Checks whether the items in the cursor are a valid move
+ *
+ * @method check
+ * @return {Boolean} True if the move is valid
+ **/
 Grid.prototype.check = function() {
 	if (!this.cursor.hasEnoughCells()) {
 		return false;
@@ -45,8 +61,14 @@ Grid.prototype.check = function() {
 	return validTotal && validMove;
 }
 
-// Takes a pair of co-ords and returns true if they add to the given total
-// or are equal
+/** 
+ * Takes a pair of co-ords and returns true if they add to the given total
+ * or are equal.
+ *
+ * @param {Cell} firstCell the first of the cells to check for digit equality
+ * @param {Cell} secondCell the second of the cells to check for digit equality
+ * @return {Boolean} True if there is a valid total
+ **/
 Grid.prototype.checkTotal = function(firstCell, secondCell) {
 	var targetTotal = this.width+1;
 	first = this.data[firstCell.i][firstCell.j];
@@ -57,6 +79,13 @@ Grid.prototype.checkTotal = function(firstCell, secondCell) {
 	return false;
 }
 
+/** 
+ * Takes a pair of co-ords and returns true if the have a clear path between them vertically.
+ * 
+ * @param {Cell} firstCell the first of the cells to check 
+ * @param {Cell} secondCell the second of the cells to check 
+ * @return {Boolean} True if there is a valid vertical move
+ **/
 Grid.prototype.checkVerticalMove = function(p1,p2){
 	var lowerCell = p1;
 	var upperCell = p2;
@@ -85,6 +114,14 @@ Grid.prototype.checkVerticalMove = function(p1,p2){
 	return true;
 }
 
+/** 
+ * Takes a pair of co-ords and returns true if the have a clear path between them horizontal and
+ * down to the start of the next line (Like English text)
+ * 
+ * @param {Cell} firstCell the first of the cells to check 
+ * @param {Cell} secondCell the second of the cells to check 
+ * @return {Boolean} True if there is a valid horizontal move
+ **/
 Grid.prototype.checkHorizontalMove = function(p1,p2){
 	var firstCell = p1;
 	var secondCell = p2;
@@ -119,6 +156,12 @@ Grid.prototype.checkHorizontalMove = function(p1,p2){
 	// Horizontal Match!
 	return true;
 }
+
+/** 
+ * Refills the grid using the numbers which haven't been removed yet.
+ *
+ * @method refillGrid
+ **/
 Grid.prototype.refillGrid = function() {
 	var remainingNumbers = []
 	for (var i = 0; i < this.data.length; i++) {
@@ -143,6 +186,12 @@ Grid.prototype.refillGrid = function() {
 	}
 }
 
+/** 
+ * Checks if the game has been completed TODO: Call this somewhere game complete!
+ *
+ * @method finalise
+ * @return {Boolean} True if the game has been completed
+ **/
 Grid.prototype.finalise = function() {
 	for (var row in this.data) {
 		for (var item in row) { 
@@ -155,6 +204,11 @@ Grid.prototype.finalise = function() {
 	return true;
 }
 
+/**
+ * Updates the cells in the cursor if a move has been made, by setting their values in the grid to 0.
+ *
+ * @method makeMove
+ **/
 Grid.prototype.makeMove = function() {
 	for (var c = 0; c < this.cursor.cells.length; c++) {
 		var i = this.cursor.cells[c].i;

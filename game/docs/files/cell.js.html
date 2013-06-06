@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>doc/easeljs/src/easeljs/utils/UID.js - Notebook Numbers</title>
+    <title>cell.js - Notebook Numbers</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -158,71 +158,171 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: doc/easeljs/src/easeljs/utils/UID.js</h1>
+                        <h1 class="file-heading">File: cell.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/*
-* UID
-* Visit http://createjs.com/ for documentation, updates and examples.
-*
-* Copyright (c) 2010 gskinner.com, inc.
-* 
-* Permission is hereby granted, free of charge, to any person
-* obtaining a copy of this software and associated documentation
-* files (the &quot;Software&quot;), to deal in the Software without
-* restriction, including without limitation the rights to use,
-* copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the
-* Software is furnished to do so, subject to the following
-* conditions:
-* 
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-* OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-* HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-* WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-* FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-* OTHER DEALINGS IN THE SOFTWARE.
-*/
-// namespace:
-this.createjs = this.createjs||{};
-
+/**
+ * @module NotebookNumbers
+ **/
 (function() {
 
-/**
- * Global utility for generating sequential unique ID numbers. The UID class uses a static interface (ex. &lt;code&gt;UID.get()&lt;/code&gt;)
- * and should not be instantiated.
- * @class UID
- * @static
- **/
-var UID = function() {
-	throw &quot;UID cannot be instantiated&quot;;
-}
-
 	/**
-	 * @property _nextID
-	 * @type Number
-	 * @protected
+	 * Sets up the cell position, properties and graphics. &lt;/br&gt;
+	 * Holds the cell information such as graphical and logical positionings in the grid. &lt;/br&gt;
+	 * It also controls the events that happen when cells are clicked. &lt;/br&gt;
+	 * Constructor for a cell on the grid.
+	 * 
+	 * @param {Number} i the vertical logical position of a cell
+	 * @param {Number} j the horizontal logical position of a cell
+	 * @param {Number} width the width of a cell on the current grid
+	 * @param {Number} height the height of a cell on the current grid
+	 * @param {Boolean} allowClick if true, then the cell is interactive and can be clicked
+	 * @class Cell
+	 * @contructor
 	 **/
-	UID._nextID = 0;
+	var Cell = function(i, j, width, height, digit, allowClick) {
+		this.initialize(i, j, width, height, digit, allowClick);
+	}
+	var p = Cell.prototype = new createjs.Container();
+	p.Container_initialize = p.initialize;
+	p.initialize = function(i, j, width, height, digit, allowClick) {
+		this.Container_initialize();
 
-	/**
-	 * Returns the next unique id.
-	 * @method get
-	 * @return {Number} The next unique id
-	 * @static
-	 **/
-	UID.get = function() {
-		return UID._nextID++;
+		// Set up the cell properties
+		this.digit = digit;
+		this.i = i;
+		this.j = j;
+		this.inCursor = false;
+
+		// Set the cell position
+		this.x = Math.floor(j*width+app.marginLeft);
+		this.y = Math.floor(i*height+app.marginTop);
+
+		// Set up the cell background image
+		this.number = new createjs.Bitmap(app.assets[digit]);
+		this.number.i = i;
+		this.number.j = j;
+		this.number.digit = digit;
+
+		if (allowClick) {
+
+			// Create a hitbox for each number
+			var hit = new createjs.Shape();
+			hit.graphics.beginFill(&quot;#F00&quot;).drawRect(0, 0, width, height);
+			this.number.hitArea = hit;
+
+			/** 
+			 * Event that is triggered when a cell is clicked, passes a copy of the current grid item
+			 * to the cursor to be evaluated.
+			 *
+			 * @event onClick
+			 **/
+			this.number.onClick = function(evt) {
+				// Get the cell context
+				var target = evt.target;
+
+				// Create a dummy test cell for evaluation
+				var disableClick = false;
+				var tempCell = new Cell(target.i, target.j,width,height,target.digit, disableClick);
+				// Pass it to the cursor for further evaluation
+				app.grid.cursor.onClick(tempCell);
+
+				// Update the view TODO: Remove this
+				app.updateCells();
+				var digit = target.digit;
+				this.image = app.assets[digit];
+				app.updateCells();
+			}
+			/** 
+			 * Event that is triggered when a cell is being hovered over, passes a copy of the current grid item
+			 * to the cursor to be evaluated.  
+			 * 
+			 * @event onMouseOver
+			 **/
+			this.number.onMouseOver = function(evt) {
+				// Get the cell context
+				var target = evt.target;
+
+				// Create a dummy test cell for evaluation
+				var disableClick = false;
+				var tempCell = new Cell(target.i, target.j,width,height,target.digit, disableClick);
+				// Pass it to the cursor for further evaluation
+				app.grid.cursor.onMouseOver(tempCell);
+
+				// Update the view TODO: Remove this
+				app.updateCells();
+				var digit = target.digit;
+				this.image = app.assets[digit];
+				app.updateCells();
+			}
+			
+			// Add the graphics to the easel.js canvas 
+			this.addChild(this.number);
+		}
 	}
 
-createjs.UID = UID;
-}());
+	/** 
+	 * Called when the update function is called on the cell, e.g. every frame.
+	 * At the minute it is responsible for drawing the cursor
+	 *
+	 * @event onTick
+	 */
+	Cell.prototype.onTick = function() {
+
+		// If we are in the cursor we need to draw a circle below
+		if (this.inCursor) {
+			// Draw a black circle below the items currently in the cursor
+			var g = new createjs.Graphics();
+			g.setStrokeStyle(1);
+			g.beginStroke(createjs.Graphics.getRGB(0,0,0));
+			g.beginFill(createjs.Graphics.getRGB(255,255,255));
+			g.drawCircle(0,0,2);
+			var s = new createjs.Shape(g);
+			s.x = 15;
+			s.y = 32;
+			this.addChild(s);
+		}
+	}
+
+	/** 
+	 *  Check if two cells are logically equal
+	 *
+	 *  @method equals
+	 *  @param {Cell} otherCell the cell you wish to compare with
+	 *  @return {Boolean}
+	 **/
+	Cell.prototype.equals = function(otherCell) {
+		return (this.i == otherCell.i) &amp;&amp; (this.j == otherCell.j);
+	}
+
+	/** 
+	 *  Check if the cell being checked is before the other cell
+	 *
+	 *  @method isBefore
+	 *  @param {Cell} otherCell the cell you wish to compare with
+	 *  @return {Boolean}
+	 **/
+	Cell.prototype.isBefore = function(otherCell) {
+		// Case they&#x27;re on the same line or otherCell is below
+		if (this.i &lt;= otherCell.i) {
+			// It&#x27;s definitely below
+			if (this.i &lt; otherCell.i) {
+				return true;
+			}
+
+			// this is on the left on the same line
+			if (this.j &lt; otherCell.j) {
+				return true;
+			} 	
+		}
+		return false;
+	}
+
+	window.Cell = Cell;
+
+})();
+
     </pre>
 </div>
 

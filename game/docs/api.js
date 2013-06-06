@@ -6,17 +6,20 @@ YUI.add("yuidoc-meta", function(Y) {
         "Bitmap",
         "BitmapAnimation",
         "BoxBlurFilter",
+        "Cell",
         "ColorFilter",
         "ColorMatrix",
         "ColorMatrixFilter",
         "Command",
         "Container",
+        "Cursor",
         "DOMElement",
         "DisplayObject",
         "EaselJS",
         "EventDispatcher",
         "Filter",
         "Graphics",
+        "Grid",
         "Log",
         "Matrix2D",
         "MouseEvent",
@@ -48,8 +51,7 @@ YUI.add("yuidoc-meta", function(Y) {
         },
         {
             "displayName": "NotebookNumbers",
-            "name": "NotebookNumbers",
-            "description": "NotebookNumbers.js -- version 0.0.3"
+            "name": "NotebookNumbers"
         }
     ]
 } };

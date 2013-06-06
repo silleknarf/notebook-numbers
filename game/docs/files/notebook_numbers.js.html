@@ -51,6 +51,8 @@
             
                 <li><a href="../classes/BoxBlurFilter.html">BoxBlurFilter</a></li>
             
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
                 <li><a href="../classes/ColorFilter.html">ColorFilter</a></li>
             
                 <li><a href="../classes/ColorMatrix.html">ColorMatrix</a></li>
@@ -60,6 +62,8 @@
                 <li><a href="../classes/Command.html">Command</a></li>
             
                 <li><a href="../classes/Container.html">Container</a></li>
+            
+                <li><a href="../classes/Cursor.html">Cursor</a></li>
             
                 <li><a href="../classes/DisplayObject.html">DisplayObject</a></li>
             
@@ -72,6 +76,8 @@
                 <li><a href="../classes/Filter.html">Filter</a></li>
             
                 <li><a href="../classes/Graphics.html">Graphics</a></li>
+            
+                <li><a href="../classes/Grid.html">Grid</a></li>
             
                 <li><a href="../classes/Log.html">Log</a></li>
             
@@ -160,6 +166,7 @@
  * NotebookNumbers.js -- version 0.0.3
  *
  * @module NotebookNumbers
+ * @author silleknarf
 **/
 
 /**
@@ -366,7 +373,11 @@ NotebookNumbers.prototype.drawBackground = function() {
  **/
 NotebookNumbers.prototype.drawRefillGridButton = function() {
 	this.refillGridButton = new createjs.Container();
+
+	// Setting up the text properties
  	var refillGrid = new createjs.Text(&quot;Refill Grid&quot;, &quot;32px Helvetica&quot;, &quot;#000000&quot;);
+
+	// Setting up the button positioning
 	var middleX = this.width/2;
 	var refillGridPadding = 100;
 	refillGrid.x = middleX - refillGridPadding;
@@ -375,41 +386,41 @@ NotebookNumbers.prototype.drawRefillGridButton = function() {
 	refillGrid.gridBottom = this.cellHeight * this.grid.data.length;
 	refillGrid.y = topPadding+refillGrid.gridBottom+app.marginTop;
  
+	// Adding collision detection
 	var hit = new createjs.Shape();
 	hit.graphics.beginFill(&quot;#F00&quot;).drawRect(0, 0, refillGrid.getMeasuredWidth(), refillGrid.getMeasuredHeight());
 	refillGrid.hitArea = hit;
 
+	/**
+	 *  Refill Grid Click Event - updates the cells and move the button down
+	 *  @event onClick
+	 **/
 	refillGrid.onClick = function(evt) {
+		// Perform the refill grid logic
 		app.grid.refillGrid();
-		app.updateCells();
-		//evt.target.y = Math.floor(topPadding+gridBottom+app.marginTop);
-		//app.redrawRefillGrid();
 
+		// Update the cells
+		app.updateCells();
+
+		// Move the button down
 		var gridBottom = app.cellHeight * app.grid.data.length;
 		var buttonPadding = 15;
 		var yCoOrd = gridBottom + buttonPadding + app.marginTop;
 		this.y = yCoOrd;
 
+		// Resize the canvas
 		var canvas = document.getElementById(&quot;notebooknumbers&quot;);
     		canvas.height = yCoOrd+this.getMeasuredHeight()+buttonPadding;
+
+		// TODO: Resize the bindings and the cover
 	}
 	this.stage.addChild(refillGrid);
 }
-
-/*
-NotebookNumbers.prototype.redrawCursor = function() {
-	var cells = this.grid.cursor.cells;
-	for (var i = 0; i &lt; cells.length; i++) {
-		var x = cells[i].x;
-		var y = cells[i].y;
-		var digit = app.grid.data[y][x];
-		if (digit == 0) {
-			digit = &quot;scribble&quot;;
-		}
-		cells[i].target.image = this.assets[digit];
-	}
-}*/
-
+/**
+ * Application Entry Point 
+ *
+ * @method init
+ **/
 function init() {
 	app = new NotebookNumbers();
 }

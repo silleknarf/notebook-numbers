@@ -2,6 +2,7 @@
  * NotebookNumbers.js -- version 0.0.3
  *
  * @module NotebookNumbers
+ * @author silleknarf
 **/
 
 /**
@@ -208,7 +209,11 @@ NotebookNumbers.prototype.drawBackground = function() {
  **/
 NotebookNumbers.prototype.drawRefillGridButton = function() {
 	this.refillGridButton = new createjs.Container();
+
+	// Setting up the text properties
  	var refillGrid = new createjs.Text("Refill Grid", "32px Helvetica", "#000000");
+
+	// Setting up the button positioning
 	var middleX = this.width/2;
 	var refillGridPadding = 100;
 	refillGrid.x = middleX - refillGridPadding;
@@ -217,41 +222,41 @@ NotebookNumbers.prototype.drawRefillGridButton = function() {
 	refillGrid.gridBottom = this.cellHeight * this.grid.data.length;
 	refillGrid.y = topPadding+refillGrid.gridBottom+app.marginTop;
  
+	// Adding collision detection
 	var hit = new createjs.Shape();
 	hit.graphics.beginFill("#F00").drawRect(0, 0, refillGrid.getMeasuredWidth(), refillGrid.getMeasuredHeight());
 	refillGrid.hitArea = hit;
 
+	/**
+	 *  Refill Grid Click Event - updates the cells and move the button down
+	 *  @event onClick
+	 **/
 	refillGrid.onClick = function(evt) {
+		// Perform the refill grid logic
 		app.grid.refillGrid();
-		app.updateCells();
-		//evt.target.y = Math.floor(topPadding+gridBottom+app.marginTop);
-		//app.redrawRefillGrid();
 
+		// Update the cells
+		app.updateCells();
+
+		// Move the button down
 		var gridBottom = app.cellHeight * app.grid.data.length;
 		var buttonPadding = 15;
 		var yCoOrd = gridBottom + buttonPadding + app.marginTop;
 		this.y = yCoOrd;
 
+		// Resize the canvas
 		var canvas = document.getElementById("notebooknumbers");
     		canvas.height = yCoOrd+this.getMeasuredHeight()+buttonPadding;
+
+		// TODO: Resize the bindings and the cover
 	}
 	this.stage.addChild(refillGrid);
 }
-
-/*
-NotebookNumbers.prototype.redrawCursor = function() {
-	var cells = this.grid.cursor.cells;
-	for (var i = 0; i < cells.length; i++) {
-		var x = cells[i].x;
-		var y = cells[i].y;
-		var digit = app.grid.data[y][x];
-		if (digit == 0) {
-			digit = "scribble";
-		}
-		cells[i].target.image = this.assets[digit];
-	}
-}*/
-
+/**
+ * Application Entry Point 
+ *
+ * @method init
+ **/
 function init() {
 	app = new NotebookNumbers();
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>doc/easeljs/src/easeljs/utils/UID.js - Notebook Numbers</title>
+    <title>cursor.js - Notebook Numbers</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -158,71 +158,127 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: doc/easeljs/src/easeljs/utils/UID.js</h1>
+                        <h1 class="file-heading">File: cursor.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/*
-* UID
-* Visit http://createjs.com/ for documentation, updates and examples.
-*
-* Copyright (c) 2010 gskinner.com, inc.
-* 
-* Permission is hereby granted, free of charge, to any person
-* obtaining a copy of this software and associated documentation
-* files (the &quot;Software&quot;), to deal in the Software without
-* restriction, including without limitation the rights to use,
-* copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the
-* Software is furnished to do so, subject to the following
-* conditions:
-* 
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-* OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-* HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-* WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-* FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-* OTHER DEALINGS IN THE SOFTWARE.
-*/
-// namespace:
-this.createjs = this.createjs||{};
-
-(function() {
+/**
+ * @module NotebookNumbers
+ **/
 
 /**
- * Global utility for generating sequential unique ID numbers. The UID class uses a static interface (ex. &lt;code&gt;UID.get()&lt;/code&gt;)
- * and should not be instantiated.
- * @class UID
- * @static
+ *
+ * Defines custom behaviour used by the cursor and controls the execution of moves on the board. &lt;/br&gt;
+ * The contructor for a new cursor, this is called once by Grid on startup
+ *
+ * @class Cursor
+ * @contructor
  **/
-var UID = function() {
-	throw &quot;UID cannot be instantiated&quot;;
+function Cursor() {
+	this.cells = []
+	this.state = &quot;SPEED&quot;;
+	this.max_length = 2;
 }
 
-	/**
-	 * @property _nextID
-	 * @type Number
-	 * @protected
-	 **/
-	UID._nextID = 0;
+/**
+ *  Checks if the cursor is full
+ *
+ *  @method hasEnoughCells
+ *  @return {Boolean} true if it is full
+ **/
+Cursor.prototype.hasEnoughCells = function() {
+	return this.cells.length == this.max_length;
+}
 
-	/**
-	 * Returns the next unique id.
-	 * @method get
-	 * @return {Number} The next unique id
-	 * @static
-	 **/
-	UID.get = function() {
-		return UID._nextID++;
+/**
+ * Checks if a new cell is allowed in the cursor
+ *
+ * @method allowedInCursor
+ * @return {Boolean} true is the cell is allow to be added
+ **/
+Cursor.prototype.allowedInCursor = function(cell) {
+	for (var i = 0; i &lt; this.cells.length; i++) { 
+			// Don&#x27;t allow duplicates
+		if (	cell.equals(this.cells[i]) ||
+			// Don&#x27;t allow empty cells
+			cell.digit == 0) {
+			return false;
+		}
+	} 
+
+	return true;
+}
+
+/** 
+ * Attempts to add a new cell to the cursor
+ *
+ * @method addToCursor
+ **/
+Cursor.prototype.addToCursor = function(cell) {
+	if (this.allowedInCursor(cell)) {
+
+		// Cursor state machine
+		if (this.state == &quot;SPEED&quot;) {
+			this.cells.push(cell);
+			if (this.cells.length&gt;this.max_length) {
+				this.cells.shift();
+			}
+		} else {
+			this.cells[1] = cell;
+		}
 	}
 
-createjs.UID = UID;
-}());
+}
+
+/**
+ * When the mouse is moved over a cell then it is attemptted to be added to the cursor
+ *
+ * @event onMouseOver
+ **/
+Cursor.prototype.onMouseOver = function(cell) {
+	this.addToCursor(cell);
+}
+
+
+/** 
+ * Determines the reaction by the cursor to a new cell being clicked. It causes the cursor state machine to
+ * change state from &quot;SPEED&quot; -&gt; &quot;SELECT&quot; and vice-versa. Also, it is only when a cell is clicked that the cursor
+ * checks itself to see if it contain a valid selection.
+ *
+ * @event onClick
+ **/
+Cursor.prototype.onClick = function(cell) {
+		
+	// Log that shit!
+	console.log(&quot;cells:&quot;);
+	for (var c = 0; c &lt; this.cells.length; c++) {
+		console.log(&quot;cell i:&quot;+this.cells[c].i+&quot; j:&quot;+this.cells[c].j);
+
+	}
+
+	// Check if the cursors is valid (Can be crossed out/removed/etc)
+	var valid = false;
+	if (this.hasEnoughCells()) { 
+		valid = app.grid.check();
+	}
+	console.log(&quot;Valid move:&quot;+valid);
+
+
+	// Cursor state machine
+	if (valid) {
+		app.grid.makeMove();
+		this.cells = [];
+		this.state = &quot;SPEED&quot;;
+	} else {
+		if (this.state == &quot;SPEED&quot;) { 
+			this.cells = [cell];
+			this.state = &quot;SELECT&quot;;
+		} else { 
+			this.state = &quot;SPEED&quot;;
+		}
+	}
+}
+
     </pre>
 </div>
 
