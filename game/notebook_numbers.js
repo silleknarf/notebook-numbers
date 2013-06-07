@@ -15,7 +15,15 @@ function NotebookNumbers() {
 	this.init();
 } 
 
-NotebookNumbers.prototype = new Grid();
+/**
+ * Add Backbone.js events to the button
+ *
+ * @method vent
+ * @extends Backbone.Events
+ **/
+NotebookNumbers.vent = _.extend(NotebookNumbers, Backbone.Events);
+
+//NotebookNumbers.prototype = new Grid();
 
 /**
  * Intialises the easel.js stage, sets up the grid properties and preloads the images
@@ -45,11 +53,13 @@ NotebookNumbers.prototype.init = function() {
 
 	// Load the grid game logic
 	this.grid = new Grid();
+	this.stage.addChild(this.grid);
 
 	// Preload the images
 	this.assets = {};
 	this.loadImages();
 
+ 	createjs.EventDispatcher.initialize(NotebookNumbers.prototype);
 }
 
 /**
@@ -107,8 +117,12 @@ NotebookNumbers.prototype.handleComplete = function() {
 NotebookNumbers.prototype.initGame = function() {
 	// Draw things
 	app.drawBackground();
-	app.updateCells();
-	app.drawRefillGridButton();
+	NotebookNumbers.vent.on("GRID:NUMBERS_UPDATED", this.updateCells, this);
+	NotebookNumbers.trigger("GRID:NUMBERS_UPDATED");
+	NotebookNumbers.vent.on("GRID:HEIGHT_UPDATED", this.updateCanvas, this);
+
+	this.refillGridButton = new RefillGridView(this.width, this.getHeight()); 
+	this.stage.addChild(this.refillGridButton);
 
 	// Now we can start the main loop
 	createjs.Ticker.setFPS(25);
@@ -150,7 +164,20 @@ NotebookNumbers.prototype.updateCells = function() {
 			this.cells.addChild(cell);
 		}	
 	}
+}
 
+NotebookNumbers.prototype.updateCanvas = function() {
+	// Resize the canvas
+	var canvas = document.getElementById("notebooknumbers");
+	var buttonPadding = 15;
+	canvas.height = this.getHeight()+this.refillGridButton.height+buttonPadding;
+
+	// TODO: Resize the bindings and the cover
+}
+
+NotebookNumbers.prototype.getHeight = function() {
+	var height = this.cellHeight*this.grid.data.length+this.marginTop;
+	return height;
 }
 
 /** 
@@ -202,56 +229,6 @@ NotebookNumbers.prototype.drawBackground = function() {
 	}
 }
 
-/** 
- * Draws the button that refills the grid when you have no more moves to make
- *
- * @method drawRefillGridButton
- **/
-NotebookNumbers.prototype.drawRefillGridButton = function() {
-	this.refillGridButton = new createjs.Container();
-
-	// Setting up the text properties
- 	var refillGrid = new createjs.Text("Refill Grid", "32px Helvetica", "#000000");
-
-	// Setting up the button positioning
-	var middleX = this.width/2;
-	var refillGridPadding = 100;
-	refillGrid.x = middleX - refillGridPadding;
-
-	var topPadding = 15;
-	refillGrid.gridBottom = this.cellHeight * this.grid.data.length;
-	refillGrid.y = topPadding+refillGrid.gridBottom+app.marginTop;
- 
-	// Adding collision detection
-	var hit = new createjs.Shape();
-	hit.graphics.beginFill("#F00").drawRect(0, 0, refillGrid.getMeasuredWidth(), refillGrid.getMeasuredHeight());
-	refillGrid.hitArea = hit;
-
-	/**
-	 *  Refill Grid Click Event - updates the cells and move the button down
-	 *  @event onClick
-	 **/
-	refillGrid.onClick = function(evt) {
-		// Perform the refill grid logic
-		app.grid.refillGrid();
-
-		// Update the cells
-		app.updateCells();
-
-		// Move the button down
-		var gridBottom = app.cellHeight * app.grid.data.length;
-		var buttonPadding = 15;
-		var yCoOrd = gridBottom + buttonPadding + app.marginTop;
-		this.y = yCoOrd;
-
-		// Resize the canvas
-		var canvas = document.getElementById("notebooknumbers");
-    		canvas.height = yCoOrd+this.getMeasuredHeight()+buttonPadding;
-
-		// TODO: Resize the bindings and the cover
-	}
-	this.stage.addChild(refillGrid);
-}
 /**
  * Application Entry Point 
  *
