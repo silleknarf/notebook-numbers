@@ -4,7 +4,7 @@
 (function() {
 
 	/** 
-	 * Draws the button that refills the grid when you have no more moves to make
+	 * Draws the button that refills the grid, i.e. click when you have no more moves you want to make
 	 *
 	 * @method drawRefillGridButton
 	 **/
@@ -14,14 +14,8 @@
 	var p = RefillGridView.prototype = new createjs.Container();
 	p.Container_initialize = p.initialize;
 
-
-	RefillGridView.prototype.moveRefillGridButton = function(evt) {
-		console.log("Refill Grid Event: "+evt);
-	}
-
 	p.initialize = function(width, height) {
 		this.Container_initialize();
- 		//createjs.EventDispatcher.initialize(RefillGridView.prototype);
 
 		// Setting up the text properties
 		var refillGrid = new createjs.Text("Refill Grid", "32px Helvetica", "#000000");
@@ -39,7 +33,7 @@
 		hit.graphics.beginFill("#F00").drawRect(0, 0, refillGrid.getMeasuredWidth(), refillGrid.getMeasuredHeight());
 		refillGrid.hitArea = hit;
 
-		// Set the height of the button as a prop
+		// Set the height of the button as a property
 		this.height = refillGrid.getMeasuredHeight()
 
 		/**

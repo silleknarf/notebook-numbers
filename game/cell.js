@@ -65,10 +65,7 @@
 				app.grid.cursor.onClick(tempCell);
 
 				// Update the view TODO: Remove this
-				app.updateCells();
-				var digit = target.digit;
-				this.image = app.assets[digit];
-				app.updateCells();
+				NotebookNumbers.vent.trigger("GRID:NUMBERS_UPDATED");
 			}
 			/** 
 			 * Event that is triggered when a cell is being hovered over, passes a copy of the current grid item
@@ -110,13 +107,15 @@
 		if (this.inCursor) {
 			// Draw a black circle below the items currently in the cursor
 			var g = new createjs.Graphics();
+			g.beginFill(null);
 			g.setStrokeStyle(1);
 			g.beginStroke(createjs.Graphics.getRGB(0,0,0));
-			g.beginFill(createjs.Graphics.getRGB(255,255,255));
-			g.drawCircle(0,0,2);
+			g.beginFill(null);
+			//g.beginFill(createjs.Graphics.getRGB(255,255,255));
+			g.drawCircle(0,0,20);
 			var s = new createjs.Shape(g);
-			s.x = 15;
-			s.y = 32;
+			s.x = 12;
+			s.y = 14;
 			this.addChild(s);
 		}
 	}

@@ -12,18 +12,15 @@
 	var p = Grid.prototype = new createjs.Container();
 	p.Container_initialize = p.initialize;
 
-	_.extend(p, Backbone.Events);
-
 	/**
 	 * Creates an arraylist representing the grid with the normal start values and stores it as data
 	 *
 	 * @method init
 	 **/
-	p.initialize = function(width, view) {
+	p.initialize = function(width) {
 		console.log("Grid created");
- 		//createjs.EventDispatcher.initialize(Grid.prototype);
-		//NotebookNumbers.vent.on("REFILL_GRID", function(evt) { console.log("Grid Event: "+evt); });
 		NotebookNumbers.vent.on("REFILL_GRID", this.refillGrid, this);
+		NotebookNumbers.vent.on("CURSOR:MAKE_MOVE", this.makeMove, this);
 		this.width = width;
 		this.cursor = new Cursor();
 		data = [[],[],[]] 
@@ -222,8 +219,8 @@
 	 *
 	 * @method makeMove
 	 **/
-	Grid.prototype.makeMove = function() {
-		for (var c = 0; c < this.cursor.cells.length; c++) {
+	Grid.prototype.makeMove = function(cells) {
+		for (var c = 0; c < cells.length; c++) {
 			var i = this.cursor.cells[c].i;
 			var j = this.cursor.cells[c].j;
 			this.data[i][j] = 0;

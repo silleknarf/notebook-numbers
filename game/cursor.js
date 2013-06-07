@@ -102,7 +102,7 @@ Cursor.prototype.onClick = function(cell) {
 
 	// Cursor state machine
 	if (valid) {
-		app.grid.makeMove();
+		NotebookNumbers.vent.trigger("CURSOR:MAKE_MOVE", this.cells);
 		this.cells = [];
 		this.state = "SPEED";
 	} else {

@@ -40,16 +40,18 @@ NotebookNumbers.prototype.init = function() {
 	// Enable fast cursor
 	this.stage.enableMouseOver();
 
-	
 	// Setup the display properties of the grid
 	this.cells = new createjs.Container();
 	this.width = 700;
-	this.numColums = 9;
+	this.numColumns = 9;
 	this.height = 3000;
 	this.cellHeight = 40;
 	this.marginLeft = 15;
 	this.marginTop = 15;
 	this.stage.addChild(this.cells);
+
+	// TODO: Setup tutorial mode
+	NotebookNumbers.vent.on("TUTORIAL", this.initTutorial, this);
 
 	// Load the grid game logic
 	this.grid = new Grid();
@@ -95,7 +97,7 @@ NotebookNumbers.prototype.handleFileLoad = function(event) {
 }
 
 /**
- *  Callback function for whene the images have all been loaded
+ *  Callback function for when the images have all been loaded
  *
  *  @method handleComplete
  **/
@@ -115,18 +117,86 @@ NotebookNumbers.prototype.handleComplete = function() {
  *  @method initGame
  **/
 NotebookNumbers.prototype.initGame = function() {
-	// Draw things
-	app.drawBackground();
+	// Drawing Events
 	NotebookNumbers.vent.on("GRID:NUMBERS_UPDATED", this.updateCells, this);
-	NotebookNumbers.trigger("GRID:NUMBERS_UPDATED");
 	NotebookNumbers.vent.on("GRID:HEIGHT_UPDATED", this.updateCanvas, this);
+	
+	// Draw the background
+	this.background = new BackgroundView(this.width, this.height);
+	this.stage.addChildAt(this.background, 0);
 
+	// Trigger the numbers updated event
+	NotebookNumbers.vent.trigger("GRID:NUMBERS_UPDATED");
+
+	// Add the refill grid button
 	this.refillGridButton = new RefillGridView(this.width, this.getHeight()); 
 	this.stage.addChild(this.refillGridButton);
 
 	// Now we can start the main loop
 	createjs.Ticker.setFPS(25);
 	createjs.Ticker.addListener(this);
+
+	NotebookNumbers.vent.trigger("TUTORIAL");
+}
+
+NotebookNumbers.prototype.initTutorial = function() {
+	//this.refillGridEnabled = false;
+	//this.stage.removeChild(this.refillGridButton);
+
+	var marginLeft = 10;
+	// Add text to help
+	var overview = new createjs.Text("SELECT MODE OR CROSS OUT:\n\nClick once on the number", "22px Helvetica", "#000000");
+	overview.x = this.marginLeft+this.width+50;
+	overview.y = this.marginTop+20;
+	overview.lineWidth = 300;
+	this.stage.addChild(overview);
+
+	// Setup tutorial
+	var tutorial = [ [0], [1,1] ,[0], [4,0,4,5,0,0,5],[0],[2,0,0,8],[0],[3,0,0,1],[7,0,0,0],[0,0,0,1],[0],[0,0,0,0,0,0,0,8,9],[1,2,0,0,0,0,0,0,0]];
+	// Tutorial part two
+	tutorial.push([0]);
+	tutorial.push([1,1,1,1,9,9,9]);
+	this.grid.data = tutorial;
+
+	// Add text to help
+	var sameNumber = new createjs.Text("Two numbers that are the same can be crossed out ", "22px Helvetica", "#000000");
+	sameNumber.x = this.marginLeft+marginLeft;
+	sameNumber.y = this.marginTop;
+	this.stage.addChild(sameNumber);
+
+	// Add text to help
+	var sameNumber = new createjs.Text("You can play through gaps", "22px Helvetica", "#000000");
+	sameNumber.x = this.marginLeft+marginLeft;
+	sameNumber.y = this.marginTop+this.cellHeight*2;
+	this.stage.addChild(sameNumber);
+
+	// Add text to help
+	var sameNumber = new createjs.Text("You can also cross them out if they add to 10", "22px Helvetica", "#000000");
+	sameNumber.x = this.marginLeft+marginLeft;
+	sameNumber.y = this.marginTop+this.cellHeight*4;
+	this.stage.addChild(sameNumber);
+
+	// Add text to help
+	var sameNumber = new createjs.Text("You can play moves vertically", "22px Helvetica", "#000000");
+	sameNumber.x = this.marginLeft+marginLeft;
+	sameNumber.y = this.marginTop+this.cellHeight*6;
+	this.stage.addChild(sameNumber);
+
+	// Add text to help
+	var sameNumber = new createjs.Text("Play moves from the end of a line to the start of the next", "22px Helvetica", "#000000");
+	sameNumber.x = this.marginLeft+marginLeft;
+	sameNumber.y = this.marginTop+this.cellHeight*10;
+	this.stage.addChild(sameNumber);
+
+	// Add text to help
+	var sameNumber = new createjs.Text("When there are no more moves you can play, click refill grid", "22px Helvetica", "#000000");
+	sameNumber.x = this.marginLeft+marginLeft;
+	sameNumber.y = this.marginTop+this.cellHeight*13;
+	this.stage.addChild(sameNumber);
+
+	NotebookNumbers.vent.trigger("GRID:NUMBERS_UPDATED");
+	NotebookNumbers.vent.trigger("GRID:HEIGHT_UPDATED");
+	// Create achievements that unlock the next board
 }
 
 /**
@@ -145,8 +215,9 @@ NotebookNumbers.prototype.tick = function() {
  *  @method updateCells
  **/
 NotebookNumbers.prototype.updateCells = function() {
+
 	this.cells.removeAllChildren();
-	var width = this.width / this.numColums;
+	var width = this.width / this.numColumns;
 	var height = this.cellHeight;
 	var grid = this.grid.data;
 	var cursor = this.grid.cursor.cells;
@@ -166,6 +237,7 @@ NotebookNumbers.prototype.updateCells = function() {
 	}
 }
 
+// This should be moved to background_view and be triggered by an event
 NotebookNumbers.prototype.updateCanvas = function() {
 	// Resize the canvas
 	var canvas = document.getElementById("notebooknumbers");
@@ -178,55 +250,6 @@ NotebookNumbers.prototype.updateCanvas = function() {
 NotebookNumbers.prototype.getHeight = function() {
 	var height = this.cellHeight*this.grid.data.length+this.marginTop;
 	return height;
-}
-
-/** 
- * Draws the notebooks using a rounded rectangle, some bindings and a right side panel (banderole)
- *
- * @method drawBackground
- **/
-NotebookNumbers.prototype.drawBackground = function() {
-
-	// Draw the outermost cover
-	var coverMargin = 10;
-	var cover = new createjs.Shape();
-
-	//var blue = "#000066";
-	var navy = "#003266";
-	var minHeight = Math.max(this.height, 2600);
-	cover.graphics.beginFill(navy).drawRoundRect(0, 0, this.width*2+coverMargin*2+20, minHeight, 30);
-	this.stage.addChildAt(cover, 0);
-
-	var leftPage = new createjs.Bitmap(app.assets['background']);
-	leftPage.x = coverMargin;
-	leftPage.y = coverMargin;
-	leftPage.sourceRect = new createjs.Rectangle(0,0,this.width, minHeight);
-
-	this.stage.addChildAt(leftPage, 1);
-
-	var rightPage = new createjs.Bitmap(app.assets['background']);
-	rightPage.x = this.width+coverMargin+20;
-	rightPage.y = coverMargin; 
-	rightPage.sourceRect = new createjs.Rectangle(0,0,this.width, minHeight);
-	this.stage.addChildAt(rightPage, 2);
-
-	// Draw the banderole on the right hand side
-	var banderole = new createjs.Shape();
-	banderole.graphics.beginFill(navy).drawRect(0, 0, (this.width/2), minHeight, 30);
-	banderole.x = rightPage.x + (this.width/2);
-	banderole.y = coverMargin; 
-	this.stage.addChildAt(banderole, 3);
-
-	// Draw the bindings in the middle
-	for (var i = 0; i < 5; i++) {
-		var bindings = new createjs.Bitmap(app.assets['bindings']);
-		bindings.x = this.width - 20;
-		bindings.y = 10+(i*225);
-		bindings.scaleX = 0.6;
-		bindings.scaleY = 0.6;
-		//bindings.sourceRect = new createjs.Rectangle(0,0,20,30);
-		this.stage.addChildAt(bindings, 3);
-	}
 }
 
 /**
