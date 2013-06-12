@@ -14,6 +14,8 @@ function Cursor() {
 	this.cells = []
 	this.state = "SPEED";
 	this.max_length = 2;
+	NotebookNumbers.vent.on("CURSOR:CHECK", this.check, this);
+	NotebookNumbers.vent.on("CURSOR:ADD", this.addToCursor, this);
 }
 
 /**
@@ -33,13 +35,14 @@ Cursor.prototype.hasEnoughCells = function() {
  * @return {Boolean} true is the cell is allow to be added
  **/
 Cursor.prototype.allowedInCursor = function(cell) {
+	// Don't allow empty cells
+	if (cell.digit == 0)
+		return false;
+
+	// Don't allow duplicates
 	for (var i = 0; i < this.cells.length; i++) { 
-			// Don't allow duplicates
-		if (	cell.equals(this.cells[i]) ||
-			// Don't allow empty cells
-			cell.digit == 0) {
+		if (cell.equals(this.cells[i]))
 			return false;
-		}
 	} 
 
 	return true;
@@ -62,19 +65,11 @@ Cursor.prototype.addToCursor = function(cell) {
 		} else {
 			this.cells[1] = cell;
 		}
+
+		// Update the view 				
+		NotebookNumbers.vent.trigger("GRID:NUMBERS_UPDATED");
 	}
-
 }
-
-/**
- * When the mouse is moved over a cell then it is attemptted to be added to the cursor
- *
- * @event onMouseOver
- **/
-Cursor.prototype.onMouseOver = function(cell) {
-	this.addToCursor(cell);
-}
-
 
 /** 
  * Determines the reaction by the cursor to a new cell being clicked. It causes the cursor state machine to
@@ -83,7 +78,7 @@ Cursor.prototype.onMouseOver = function(cell) {
  *
  * @event onClick
  **/
-Cursor.prototype.onClick = function(cell) {
+Cursor.prototype.check = function(cell) {
 		
 	// Log that shit!
 	console.log("cells:");
@@ -105,12 +100,20 @@ Cursor.prototype.onClick = function(cell) {
 		NotebookNumbers.vent.trigger("CURSOR:MAKE_MOVE", this.cells);
 		this.cells = [];
 		this.state = "SPEED";
+
 	} else {
-		if (this.state == "SPEED") { 
-			this.cells = [cell];
-			this.state = "SELECT";
-		} else { 
+		if (cell) {
+			if (this.state == "SPEED" && cell.digit != 0) {
+				this.cells = [cell];
+				this.state = "SELECT";
+			} else { 
+				this.state = "SPEED";
+			}
+		} else {
 			this.state = "SPEED";
 		}
 	}
+
+	// Update the view 				
+	NotebookNumbers.vent.trigger("GRID:NUMBERS_UPDATED");
 }

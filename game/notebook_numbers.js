@@ -40,6 +40,10 @@ NotebookNumbers.prototype.init = function() {
 	// Enable fast cursor
 	this.stage.enableMouseOver();
 
+	this.navy = "#003266";
+	this.font = "Londrina Solid"
+	//this.font = "Annie Use Your Telescope"
+
 	// Setup the display properties of the grid
 	this.cells = new createjs.Container();
 	this.width = 700;
@@ -50,8 +54,15 @@ NotebookNumbers.prototype.init = function() {
 	this.marginTop = 15;
 	this.stage.addChild(this.cells);
 
-	// TODO: Setup tutorial mode
+	// TODO: Setup mode selection
 	NotebookNumbers.vent.on("TUTORIAL", this.initTutorial, this);
+	NotebookNumbers.vent.on("TIME_TRIAL", this.initTimeTrial, this);
+
+	// Setup stats update
+	NotebookNumbers.vent.on("STATS:UPDATE", this.updateStats, this);
+
+	// Drawing Events
+	NotebookNumbers.vent.on("GRID:NUMBERS_UPDATED", this.updateCells, this);
 
 	// Load the grid game logic
 	this.grid = new Grid();
@@ -71,7 +82,7 @@ NotebookNumbers.prototype.init = function() {
  **/
 NotebookNumbers.prototype.loadImages = function() {
 	manifest = [	{src:'img/scribble.png', id: 'scribble'},
-		 	{src:'img/graph_paper_large.jpg',id: 'background'},
+		 	{src:'img/tile.png',id: 'background'},
 			{src: 'img/bindings.png',id:'bindings'}]; 
 	for (var i = 1; i <= 9; i++) {
 		var digit = i;
@@ -117,86 +128,150 @@ NotebookNumbers.prototype.handleComplete = function() {
  *  @method initGame
  **/
 NotebookNumbers.prototype.initGame = function() {
-	// Drawing Events
-	NotebookNumbers.vent.on("GRID:NUMBERS_UPDATED", this.updateCells, this);
-	NotebookNumbers.vent.on("GRID:HEIGHT_UPDATED", this.updateCanvas, this);
 	
 	// Draw the background
 	this.background = new BackgroundView(this.width, this.height);
 	this.stage.addChildAt(this.background, 0);
 
-	// Trigger the numbers updated event
-	NotebookNumbers.vent.trigger("GRID:NUMBERS_UPDATED");
-
 	// Add the refill grid button
 	this.refillGridButton = new RefillGridView(this.width, this.getHeight()); 
 	this.stage.addChild(this.refillGridButton);
+
+	// Trigger the numbers updated event
+	NotebookNumbers.vent.trigger("GRID:NUMBERS_UPDATED");
+	NotebookNumbers.vent.trigger("GRID:HEIGHT_UPDATED");
 
 	// Now we can start the main loop
 	createjs.Ticker.setFPS(25);
 	createjs.Ticker.addListener(this);
 
-	NotebookNumbers.vent.trigger("TUTORIAL");
+	//NotebookNumbers.vent.trigger("TUTORIAL");
+	NotebookNumbers.vent.trigger("TIME_TRIAL");
+}
+
+
+NotebookNumbers.prototype.addTutorialLevel = function(text, grid, position) {
+	var marginLeft = 10;
+	
+	var sameNumber = new createjs.Text(text, "24px "+this.font, this.navy);
+	sameNumber.x = this.marginLeft+marginLeft;
+	sameNumber.y = this.marginTop+this.cellHeight*position;
+	this.stage.addChild(sameNumber);
+	this.tutorial = this.tutorial.concat(grid);
 }
 
 NotebookNumbers.prototype.initTutorial = function() {
-	//this.refillGridEnabled = false;
-	//this.stage.removeChild(this.refillGridButton);
+	this.stage.removeChild(this.refillGridButton);
 
-	var marginLeft = 10;
 	// Add text to help
-	var overview = new createjs.Text("SELECT MODE OR CROSS OUT:\n\nClick once on the number", "22px Helvetica", "#000000");
-	overview.x = this.marginLeft+this.width+50;
+	var controls = "HIGHLIGHT:\n\n Hover over number\n\n\n";
+	controls += "SELECT MODE OR CROSS OUT:\n\n Click once on the number";
+	var overview = new createjs.Text(controls, "22px "+this.font, this.navy);
+	overview.x = this.marginLeft+this.width+60;
 	overview.y = this.marginTop+20;
-	overview.lineWidth = 300;
+	overview.lineWidth = 350;
 	this.stage.addChild(overview);
 
 	// Setup tutorial
-	var tutorial = [ [0], [1,1] ,[0], [4,0,4,5,0,0,5],[0],[2,0,0,8],[0],[3,0,0,1],[7,0,0,0],[0,0,0,1],[0],[0,0,0,0,0,0,0,8,9],[1,2,0,0,0,0,0,0,0]];
-	// Tutorial part two
-	tutorial.push([0]);
-	tutorial.push([1,1,1,1,9,9,9]);
-	this.grid.data = tutorial;
+	this.tutorial = [];
+	this.level = 0;
+	this.nextLevel();
 
-	// Add text to help
-	var sameNumber = new createjs.Text("Two numbers that are the same can be crossed out ", "22px Helvetica", "#000000");
-	sameNumber.x = this.marginLeft+marginLeft;
-	sameNumber.y = this.marginTop;
-	this.stage.addChild(sameNumber);
+	// If grid completed do next tutorial level
+	NotebookNumbers.vent.on("GRID:COMPLETED", this.nextLevel, this);
+}
 
-	// Add text to help
-	var sameNumber = new createjs.Text("You can play through gaps", "22px Helvetica", "#000000");
-	sameNumber.x = this.marginLeft+marginLeft;
-	sameNumber.y = this.marginTop+this.cellHeight*2;
-	this.stage.addChild(sameNumber);
+NotebookNumbers.prototype.nextLevel = function() {
 
-	// Add text to help
-	var sameNumber = new createjs.Text("You can also cross them out if they add to 10", "22px Helvetica", "#000000");
-	sameNumber.x = this.marginLeft+marginLeft;
-	sameNumber.y = this.marginTop+this.cellHeight*4;
-	this.stage.addChild(sameNumber);
+	this.level += 1;
 
-	// Add text to help
-	var sameNumber = new createjs.Text("You can play moves vertically", "22px Helvetica", "#000000");
-	sameNumber.x = this.marginLeft+marginLeft;
-	sameNumber.y = this.marginTop+this.cellHeight*6;
-	this.stage.addChild(sameNumber);
+	// Horizontal Same 
+	if (this.level == 1)
+		this.addTutorialLevel("If two numbers are the same, then they can be crossed out", [[0], [1,1]], 0);
 
-	// Add text to help
-	var sameNumber = new createjs.Text("Play moves from the end of a line to the start of the next", "22px Helvetica", "#000000");
-	sameNumber.x = this.marginLeft+marginLeft;
-	sameNumber.y = this.marginTop+this.cellHeight*10;
-	this.stage.addChild(sameNumber);
+	// Horizontal spaces
+	if (this.level == 2)
+		this.addTutorialLevel("If there is a gap between numbers, then you can play through it", [[0], [4,0,4,5,0,0,5]], 2);
 
-	// Add text to help
-	var sameNumber = new createjs.Text("When there are no more moves you can play, click refill grid", "22px Helvetica", "#000000");
-	sameNumber.x = this.marginLeft+marginLeft;
-	sameNumber.y = this.marginTop+this.cellHeight*13;
-	this.stage.addChild(sameNumber);
+	// Horizontal add to 10
+	if (this.level == 3)
+		this.addTutorialLevel("If two numbers add to 10, then they can be crossed out", [[0],[2,0,0,8]], 4);
+
+	// Vertical add to 10 or same
+	if (this.level == 4)
+		this.addTutorialLevel("Two numbers can be beside each other vertically", [[0],[3,0,0,1],[7,0,0,0],[0,0,0,1]], 6);
+
+	// New line move twice
+	if (this.level == 5) {
+		var grid = [[0],[0,0,0,0,0,0,0,8,9],[1,2,0,0,0,0,0,0,0]];
+		this.addTutorialLevel("Two numbers are beside each other, from the end of one line to \n\nthe start of the next", grid, 10);
+	}
+
+	// Mini Game
+	if (this.level == 6) {
+		this.stage.addChild(this.refillGridButton);
+		var grid = [[0], [5,4,3,2,1,9,8,7,6]];
+		this.addTutorialLevel("If there are no more moves to play, you must click refill grid", grid, 13);
+	}
+
+	// Tutorial Complete
+	if (this.level == 7) {
+		// Congratulate user, they can now play Notebook Numbers!	
+	}
+	
+	this.grid.data = this.tutorial;
 
 	NotebookNumbers.vent.trigger("GRID:NUMBERS_UPDATED");
 	NotebookNumbers.vent.trigger("GRID:HEIGHT_UPDATED");
 	// Create achievements that unlock the next board
+}
+
+NotebookNumbers.prototype.initTimeTrial = function() {
+	this.time = 60;
+	this.score = 0;
+	this.finalScore = 0;
+	this.divider = 1;
+	NotebookNumbers.vent.on("CURSOR:MAKE_MOVE", this.moveMade, this);
+	//NotebookNumbers.vent.on("REFILL_GRID", this.refillGrid, this);
+	NotebookNumbers.vent.on("STATS:PERCENTAGE_CLEARED", this.percentCleared, this);
+
+	this.overview = new createjs.Text("", "22px "+this.font, this.navy);
+	this.updateStats();
+	NotebookNumbers.vent.trigger("GRID:NUMBERS_UPDATED");
+}
+
+NotebookNumbers.prototype.moveMade = function() {
+	this.score += 100;
+}
+
+NotebookNumbers.prototype.percentCleared = function(percentageCleared) {
+	this.divider += percentageCleared;
+}
+
+NotebookNumbers.prototype.updateStats = function() {
+
+	var score = (this.score/this.divider).toFixed(0);
+	if (this.time < 0 && this.finalScore == 0) {
+		this.finalScore = score;
+	}
+
+	var time = this.time;
+	if (this.time < 0) {
+		score = this.finalScore;
+
+		var stats = "TIME UP!\n\n\n";
+		stats += "FINAL SCORE:\n\n "+score;
+	} else {
+		var stats = "TIME REMAINING:\n\n "+time+"\n\n\n";
+		stats += "SCORE:\n\n "+score;
+	}
+
+	this.stage.removeChild(this.overview);
+	this.overview = new createjs.Text(stats, "30px "+this.font, this.navy);
+	this.overview.x = this.marginLeft+this.width+60;
+	this.overview.y = this.marginTop+20;
+	this.overview.lineWidth = 350;
+	this.stage.addChild(this.overview);
 }
 
 /**
@@ -204,9 +279,13 @@ NotebookNumbers.prototype.initTutorial = function() {
  *
  * @method tick
  **/
-NotebookNumbers.prototype.tick = function() {
+NotebookNumbers.prototype.tick = function(evt) {
 	// Update all the objects on the easel.js stage
 	this.stage.update();
+	if (this.time) 
+		this.time -= 1/25;
+		this.time = this.time.toFixed(3);
+	NotebookNumbers.vent.trigger("STATS:UPDATE");
 }
 
 /** 
@@ -237,19 +316,16 @@ NotebookNumbers.prototype.updateCells = function() {
 	}
 }
 
-// This should be moved to background_view and be triggered by an event
-NotebookNumbers.prototype.updateCanvas = function() {
-	// Resize the canvas
-	var canvas = document.getElementById("notebooknumbers");
-	var buttonPadding = 15;
-	canvas.height = this.getHeight()+this.refillGridButton.height+buttonPadding;
-
-	// TODO: Resize the bindings and the cover
-}
 
 NotebookNumbers.prototype.getHeight = function() {
 	var height = this.cellHeight*this.grid.data.length+this.marginTop;
 	return height;
+}
+
+NotebookNumbers.prototype.getBottom = function() {
+	var buttonPadding = 65;
+	var bottom = this.getHeight()+buttonPadding;
+	return Math.max(bottom, 820);
 }
 
 /**

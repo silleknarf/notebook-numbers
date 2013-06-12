@@ -172,6 +172,7 @@
 	 **/
 	Grid.prototype.refillGrid = function() {
 		var remainingNumbers = []
+		var allNumbers = 0;
 		for (var i = 0; i < this.data.length; i++) {
 			for (var j = 0; j < this.data[0].length; j++) {
 				// if it is > 0 it should be re-added
@@ -179,19 +180,45 @@
 				if (item > 0) {
 					remainingNumbers.push(item);
 				}
+				allNumbers += 1;
 			}
 		}
+			
+		var lastI = 0;
+		var lastJ = 0;
+		for (var i = this.data.length-1; i >= 0; i--) {
+			for (var j = this.data[i].length; j >= 0; j--) {
+				var number = this.data[i][j]; 
+				if (number > 0) {
+					lastJ = j+1;
+					lastI = i;
+
+					// Break the loop early
+					i = -1;
+					j = -1;
+				}
+			}
+		}
+		var currentLine = this.data[this.data.length-1];
 		for (var i = 0; i < remainingNumbers.length; i++) {
+			// For each number
 			var number = remainingNumbers[i];
-			var currentLine = this.data[this.data.length-1];
-			// Add a new row
-			if (currentLine.length == this.data[0].length) {
-				this.data.push([number])
-			// Add to the current row
+
+			if (lastJ == this.width) {
+				// Add a new row
+				lastI += 1;
+				lastJ = 0;
+				this.data[lastI] = [number];
+				//this.data.push([number])
 			} else {
-				this.data[this.data.length-1].push(number)
+				// Add to the current row
+				this.data[lastI][lastJ] = number;
+				//this.data[this.data.length-1].push(number)
 			}
+			lastJ += 1;
 		}
+
+		NotebookNumbers.vent.trigger("STATS:PERCENTAGE_CLEARED", remainingNumbers.length/allNumbers);
 		NotebookNumbers.vent.trigger("GRID:NUMBERS_UPDATED");
 		NotebookNumbers.vent.trigger("GRID:HEIGHT_UPDATED");
 	}
@@ -202,15 +229,17 @@
 	 * @method finalise
 	 * @return {Boolean} True if the game has been completed
 	 **/
-	Grid.prototype.finalise = function() {
-		for (var row in this.data) {
-			for (var item in row) { 
+	Grid.prototype.checkGridCompleted = function() {
+		for (var i = 0; i < this.data.length; i++) {
+			for (var j = 0; j < this.data[i].length; j++) { 
 				// We still have numbers left to clear
+				var item = this.data[i][j];
 				if (item > 0) {
 					return false;
 				}
 			}
 		}
+		NotebookNumbers.vent.trigger("GRID:COMPLETED");
 		return true;
 	}
 
@@ -225,6 +254,7 @@
 			var j = this.cursor.cells[c].j;
 			this.data[i][j] = 0;
 		}
+		this.checkGridCompleted();
 	}
 	window.Grid = Grid;
 })();

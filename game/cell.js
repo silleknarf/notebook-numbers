@@ -36,7 +36,12 @@
 		this.y = Math.floor(i*height+app.marginTop);
 
 		// Set up the cell background image
-		this.number = new createjs.Bitmap(app.assets[digit]);
+		//this.number = new createjs.Bitmap(app.assets[digit]);
+		if (digit == 0)
+			digit = "";
+		this.number = new createjs.Text(digit, "30px "+app.font, app.navy);
+		this.number.textAlign = "center";
+		this.number.x = 15;
 		this.number.i = i;
 		this.number.j = j;
 		this.number.digit = digit;
@@ -62,10 +67,8 @@
 				var disableClick = false;
 				var tempCell = new Cell(target.i, target.j,width,height,target.digit, disableClick);
 				// Pass it to the cursor for further evaluation
-				app.grid.cursor.onClick(tempCell);
+				NotebookNumbers.vent.trigger("CURSOR:CHECK", tempCell);
 
-				// Update the view TODO: Remove this
-				NotebookNumbers.vent.trigger("GRID:NUMBERS_UPDATED");
 			}
 			/** 
 			 * Event that is triggered when a cell is being hovered over, passes a copy of the current grid item
@@ -81,13 +84,8 @@
 				var disableClick = false;
 				var tempCell = new Cell(target.i, target.j,width,height,target.digit, disableClick);
 				// Pass it to the cursor for further evaluation
-				app.grid.cursor.onMouseOver(tempCell);
+				NotebookNumbers.vent.trigger("CURSOR:ADD", tempCell);
 
-				// Update the view TODO: Remove this
-				app.updateCells();
-				var digit = target.digit;
-				this.image = app.assets[digit];
-				app.updateCells();
 			}
 			
 			// Add the graphics to the easel.js canvas 
@@ -109,13 +107,14 @@
 			var g = new createjs.Graphics();
 			g.beginFill(null);
 			g.setStrokeStyle(1);
-			g.beginStroke(createjs.Graphics.getRGB(0,0,0));
+			var navy = createjs.Graphics.getRGB(0,50,102);
+			g.beginStroke(navy);
 			g.beginFill(null);
 			//g.beginFill(createjs.Graphics.getRGB(255,255,255));
-			g.drawCircle(0,0,20);
+			g.drawCircle(0,0,18);
 			var s = new createjs.Shape(g);
-			s.x = 12;
-			s.y = 14;
+			s.x = 16;
+			s.y = 16;
 			this.addChild(s);
 		}
 	}

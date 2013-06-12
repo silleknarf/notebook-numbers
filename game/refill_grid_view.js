@@ -18,19 +18,18 @@
 		this.Container_initialize();
 
 		// Setting up the text properties
-		var refillGrid = new createjs.Text("Refill Grid", "32px Helvetica", "#000000");
+		var refillGrid = new createjs.Text("Refill Grid", "40px "+app.font, app.navy);
 
 		// Setting up the button positioning
 		var middleX = width / 2;
-		var refillGridPadding = 100;
-		refillGrid.x = middleX - refillGridPadding;
+		refillGrid.x = middleX;
+		refillGrid.textAlign = "center";
 
-		var topPadding = 15;
-		refillGrid.y = topPadding+height;
-	 
 		// Adding collision detection
 		var hit = new createjs.Shape();
-		hit.graphics.beginFill("#F00").drawRect(0, 0, refillGrid.getMeasuredWidth(), refillGrid.getMeasuredHeight());
+		hit.graphics	.beginFill("#F00")
+				.drawRect(	-refillGrid.getMeasuredWidth()/2, 0, 
+					 	refillGrid.getMeasuredWidth(), refillGrid.getMeasuredHeight());
 		refillGrid.hitArea = hit;
 
 		// Set the height of the button as a property
