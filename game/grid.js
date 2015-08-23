@@ -1,4 +1,6 @@
-(function() {
+
+
+(function () {
 	/**
 	 * Initialises the logical grid backend and provides the functionality for checking using it's cursor object.
 	 *
@@ -6,9 +8,9 @@
 	 * @constructor
 	 **/
 	var Grid = function(width) {
-		var width = 9;
 		this.initialize(width);
 	}
+
 	var p = Grid.prototype = new createjs.Container();
 	p.Container_initialize = p.initialize;
 
@@ -18,15 +20,16 @@
 	 * @method init
 	 **/
 	p.initialize = function(width) {
-		console.log("Grid created");
-		NotebookNumbers.vent.on("REFILL_GRID", this.refillGrid, this);
-		NotebookNumbers.vent.on("CURSOR:MAKE_MOVE", this.makeMove, this);
+		console.log("Grid initialized");
+		eventManager.vent.on("REFILL_GRID", this.refillGrid, this);
+		eventManager.vent.on("CURSOR:MAKE_MOVE", this.makeMove, this);
 		this.width = width;
-		this.cursor = new Cursor();
-		data = [[],[],[]] 
-		firstRow = data[0]
-		secondRow = data[1]
-		thirdRow = data[2]
+	    var gridContext = this; 
+		this.cursor = new Cursor(function() { return gridContext.check.call(gridContext); });
+	    var data = [[], [], []];
+	    var firstRow = data[0];
+		var secondRow = data[1];
+	    var thirdRow = data[2];
 		for (var i = 1; i<=this.width; i++) {
 			firstRow[i-1] = i;
 			if (i%2==1) {
@@ -48,8 +51,15 @@
 				}	
 			}
 		}
-		this.data = data
+		this.data = data;
 	}
+
+    Grid.prototype.cleanUpEvents = function()
+    {
+		eventManager.vent.off("REFILL_GRID", this.refillGrid, this);
+		eventManager.vent.off("CURSOR:MAKE_MOVE", this.makeMove, this);
+        this.cursor.cleanUpEvents();
+    };
 
 
 	/** 
@@ -62,10 +72,10 @@
 		if (!this.cursor.hasEnoughCells()) {
 			return false;
 		}	
-		firstCell = this.cursor.cells[0];
-		secondCell = this.cursor.cells[1];
-		validTotal = this.checkTotal(firstCell, secondCell);
-		validMove = this.checkVerticalMove(firstCell, secondCell) || this.checkHorizontalMove(firstCell, secondCell);
+		var firstCell = this.cursor.cells[0];
+		var secondCell = this.cursor.cells[1];
+		var validTotal = this.checkTotal(firstCell, secondCell);
+		var validMove = this.checkVerticalMove(firstCell, secondCell) || this.checkHorizontalMove(firstCell, secondCell);
 		return validTotal && validMove;
 	}
 
@@ -79,8 +89,8 @@
 	 **/
 	Grid.prototype.checkTotal = function(firstCell, secondCell) {
 		var targetTotal = this.width+1;
-		first = this.data[firstCell.i][firstCell.j];
-		second = this.data[secondCell.i][secondCell.j];
+		var first = this.data[firstCell.i][firstCell.j];
+		var second = this.data[secondCell.i][secondCell.j];
 		if ((first==second) || (first+second==targetTotal)) {
 			return true;
 		}
@@ -171,10 +181,10 @@
 	 * @method refillGrid
 	 **/
 	Grid.prototype.refillGrid = function() {
-		var remainingNumbers = []
+	    var remainingNumbers = [];
 		var allNumbers = 0;
 		for (var i = 0; i < this.data.length; i++) {
-			for (var j = 0; j < this.data[0].length; j++) {
+			for (var j = 0; j < this.data[i].length; j++) {
 				// if it is > 0 it should be re-added
 				var item = this.data[i][j];
 				if (item > 0) {
@@ -199,28 +209,24 @@
 				}
 			}
 		}
-		var currentLine = this.data[this.data.length-1];
-		for (var i = 0; i < remainingNumbers.length; i++) {
+		for (i = 0; i < remainingNumbers.length; i++) {
 			// For each number
-			var number = remainingNumbers[i];
-
+			number = remainingNumbers[i];
 			if (lastJ == this.width) {
 				// Add a new row
 				lastI += 1;
 				lastJ = 0;
 				this.data[lastI] = [number];
-				//this.data.push([number])
 			} else {
 				// Add to the current row
 				this.data[lastI][lastJ] = number;
-				//this.data[this.data.length-1].push(number)
 			}
 			lastJ += 1;
 		}
 
-		NotebookNumbers.vent.trigger("STATS:PERCENTAGE_CLEARED", remainingNumbers.length/allNumbers);
-		NotebookNumbers.vent.trigger("GRID:NUMBERS_UPDATED");
-		NotebookNumbers.vent.trigger("GRID:HEIGHT_UPDATED");
+		eventManager.vent.trigger("STATS:PERCENTAGE_CLEARED", remainingNumbers.length/allNumbers);
+		eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
+		eventManager.vent.trigger("GRID:HEIGHT_UPDATED");
 	}
 
 	/** 
@@ -239,7 +245,7 @@
 				}
 			}
 		}
-		NotebookNumbers.vent.trigger("GRID:COMPLETED");
+		eventManager.vent.trigger("GRID:COMPLETED");
 		return true;
 	}
 
@@ -250,8 +256,8 @@
 	 **/
 	Grid.prototype.makeMove = function(cells) {
 		for (var c = 0; c < cells.length; c++) {
-			var i = this.cursor.cells[c].i;
-			var j = this.cursor.cells[c].j;
+			var i = cells[c].i;
+			var j = cells[c].j;
 			this.data[i][j] = 0;
 		}
 		this.checkGridCompleted();

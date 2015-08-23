@@ -32,14 +32,14 @@
 		this.inCursor = false;
 
 		// Set the cell position
-		this.x = Math.floor(j*width+app.marginLeft);
-		this.y = Math.floor(i*height+app.marginTop);
+		this.x = Math.floor(j*width+config.marginLeft);
+		this.y = Math.floor(i*height+config.marginTop);
 
 		// Set up the cell background image
-		//this.number = new createjs.Bitmap(app.assets[digit]);
+		//this.number = new createjs.Bitmap(NotebookNumbers.assets[digit]);
 		if (digit == 0)
 			digit = "";
-		this.number = new createjs.Text(digit, "30px "+app.font, app.navy);
+		this.number = new createjs.Text(digit, "30px "+config.font, config.navy);
 		this.number.textAlign = "center";
 		this.number.x = 15;
 		this.number.i = i;
@@ -67,7 +67,7 @@
 				var disableClick = false;
 				var tempCell = new Cell(target.i, target.j,width,height,target.digit, disableClick);
 				// Pass it to the cursor for further evaluation
-				NotebookNumbers.vent.trigger("CURSOR:CHECK", tempCell);
+				eventManager.vent.trigger("CURSOR:CHECK", tempCell);
 
 			}
 			/** 
@@ -84,7 +84,7 @@
 				var disableClick = false;
 				var tempCell = new Cell(target.i, target.j,width,height,target.digit, disableClick);
 				// Pass it to the cursor for further evaluation
-				NotebookNumbers.vent.trigger("CURSOR:ADD", tempCell);
+				eventManager.vent.trigger("CURSOR:ADD", tempCell);
 
 			}
 			
@@ -154,5 +154,4 @@
 	}
 
 	window.Cell = Cell;
-
 })();

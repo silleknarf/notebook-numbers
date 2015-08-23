@@ -8,23 +8,24 @@
 	 *
 	 * @class BackgroundView
 	 **/
-	var BackgroundView = function(width, height) {
-		this.initialize(width, height);
+	var BackgroundView = function(heightProvider, assets) {
+		this.initialize(heightProvider, assets);
 	}
 	var p = BackgroundView.prototype = new createjs.Container();
 	p.Container_initialize = p.initialize;
 
-	p.initialize = function(width, height) {
+	p.initialize = function(heightProvider, assets) {
 		this.Container_initialize();
+	    this.assets = assets;
 
 		this.background = new createjs.Container();
 		this.addChild(this.background);
 
+	    this.heightProvider = heightProvider;
 		this.updateCanvas();
-		this.width = width;
 
 		//this.stage.addChildAt(background,0);
-		NotebookNumbers.vent.on("GRID:HEIGHT_UPDATED", this.updateCanvas, this);
+		eventManager.vent.on("GRID:HEIGHT_UPDATED", this.updateCanvas, this);
 	}
 
 
@@ -38,54 +39,83 @@
 
 		//var blue = "#000066";
 		var navy = "#003266";
-		var minHeight = app.getBottom();
-		cover.graphics.beginFill(navy).drawRoundRect(0, 0, this.width*2+coverMargin*2+20, minHeight, 30);
-		//cover.graphics.beginFill(navy).drawRoundRect(0, 0, this.width, minHeight, 30);
+	    var minHeight = Math.max(800, this.heightProvider());
+		cover.graphics.beginFill(navy).drawRoundRect(0, 0, config.width*2+coverMargin*2+20, minHeight, 30);
+		//cover.graphics.beginFill(navy).drawRoundRect(0, 0, config.width, minHeight, 30);
 		this.background.addChild(cover);
 
 		//var leftPage = new createjs.Bitmap(app.assets['background']);
 		var leftPage = new createjs.Shape();
-		leftPage.graphics.beginBitmapFill(app.assets['background']).drawRect(0, 0, this.width, minHeight-15, 30);
+		leftPage.graphics.beginBitmapFill(this.assets['background']).drawRect(0, 0, config.width, minHeight-15, 30);
 		leftPage.x = coverMargin;
 		leftPage.y = coverMargin;
-		leftPage.sourceRect = new createjs.Rectangle(0,0,this.width, minHeight);
+		leftPage.sourceRect = new createjs.Rectangle(0,0,config.width, minHeight);
 
 		this.background.addChild(leftPage);
 
 		var rightPage = new createjs.Shape();
-		rightPage.graphics.beginBitmapFill(app.assets['background']).drawRect(0, 0, this.width, minHeight-16, 30);
-		rightPage.x = this.width+coverMargin+20;
+		rightPage.graphics.beginBitmapFill(this.assets['background']).drawRect(0, 0, config.width, minHeight-16, 30);
+		rightPage.x = config.width+coverMargin+20;
 		rightPage.y = coverMargin; 
-		rightPage.sourceRect = new createjs.Rectangle(0,0,this.width, minHeight);
+		rightPage.sourceRect = new createjs.Rectangle(0,0,config.width, minHeight);
 		this.background.addChild(rightPage);
 
 		// Draw the banderole on the right hand side
 		var banderole = new createjs.Shape();
-		banderole.graphics.beginFill(navy).drawRect(0, 0, (this.width/2), minHeight-16, 30);
-		banderole.x = rightPage.x + (this.width/2);
+		banderole.graphics.beginFill(navy).drawRect(0, 0, (config.width/2), minHeight-16, 30);
+		banderole.x = rightPage.x + (config.width/2);
 		banderole.y = coverMargin; 
 		this.background.addChild(banderole);
 
 		// Draw the title banderole on the right hand side
-		/*
-		font-family: 'Lovers Quarrel', cursive;
-		font-family: 'Yellowtail', cursive;
-		font-family: 'Londrina Solid', cursive;
-		font-family: 'Mr Dafoe', cursive;
-		font-family: 'Annie Use Your Telescope', cursive;
-		*/
 		var gold = "#FDD017";
-		var title = new createjs.Text("Notebook Numbers", "50px Yellowtail", gold);
-		title.x = banderole.x + (this.width/4);
+	    var titleFontSize = 50;
+		var title = new createjs.Text("Notebook Numbers", titleFontSize+"px Yellowtail", gold);
+		title.x = banderole.x + (config.width/4);
 		title.y = coverMargin+50; 
 		title.textAlign = "center";
 		this.background.addChild(title);
 
+	    var buttonFontSize = 36;
+	    var buttonOffset = 100;
+		var newGame = new createjs.Text("- New Game", buttonFontSize+"px Yellowtail", gold);
+		newGame.x = banderole.x + (config.width/4);
+		newGame.y = coverMargin+titleFontSize+buttonOffset; 
+		newGame.textAlign = "center";
+
+		// Adding collision detection
+		var hit = new createjs.Shape();
+	    hit.graphics
+            .beginFill("#F00")
+		    .drawRect(-newGame.getMeasuredWidth()/2, 0, newGame.getMeasuredWidth(), newGame.getMeasuredHeight()+10);
+		newGame.hitArea = hit;
+	    newGame.onClick = function(evt) {
+	        eventManager.vent.trigger("NOTEBOOKNUMBERS:NEWGAME");
+	    };
+		this.addChild(newGame);
+
+		// Draw the title banderole on the right hand side
+		var tutorial = new createjs.Text("- Tutorial", buttonFontSize+"px Yellowtail", gold);
+	    tutorial.x = banderole.x + (config.width / 4);
+		tutorial.y = coverMargin+titleFontSize+buttonFontSize+buttonOffset+10; 
+		tutorial.textAlign = "center";
+
+		hit = new createjs.Shape();
+	    hit.graphics
+            .beginFill("#F00")
+		    .drawRect(-tutorial.getMeasuredWidth()/2, 0, tutorial.getMeasuredWidth(), tutorial.getMeasuredHeight()+10);
+		tutorial.hitArea = hit;
+	    tutorial.onClick = function() {
+	        eventManager.vent.trigger("NOTEBOOKNUMBERS:TUTORIAL");
+	    };
+		this.addChild(tutorial);
+
+
 		// Draw the bindings in the middle
 		var y = 0;
 		for (var i = 0; y < minHeight; i++) {
-			var bindings = new createjs.Bitmap(app.assets['bindings']);
-			bindings.x = this.width - 20;
+			var bindings = new createjs.Bitmap(this.assets['bindings']);
+			bindings.x = config.width - 20;
 			y = 10+(i*225);
 			bindings.y = y;
 			bindings.scaleX = 0.6;
@@ -95,19 +125,16 @@
 		}
 
 		// Click anywhere evaluate cursor
-		var hit = new createjs.Shape();
+		hit = new createjs.Shape();
 		var canvas = document.getElementById("notebooknumbers");
-		hit.graphics.beginFill("#F00").drawRect(0, 0, canvas.width, minHeight);
+		hit.graphics.beginFill("#F00").drawRect(0, 0, canvas.width/2, minHeight);
 		this.background.hitArea = hit;
 		this.background.onClick = function(evt) {
-			NotebookNumbers.vent.trigger("CURSOR:CHECK");
+			eventManager.vent.trigger("CURSOR:CHECK");
 		}
 
 		// Resize the canvas
-		var canvas = document.getElementById("notebooknumbers");
-		canvas.height = minHeight;
-
-		// TODO: Resize the bindings and the cover
+	    canvas.height = minHeight;
 	}
 
 	window.BackgroundView = BackgroundView;
