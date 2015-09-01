@@ -9,6 +9,26 @@ body {
 	/*border: solid 1px rgba(0,0,0,0.05);*/
 }
 
+#header {
+	margin: 5px;
+}
+
+#sidebar {
+	text-align: center;	
+	margin-top: 75%;
+}
+
+#sidebar-attributions {
+	margin-top: 50%;
+}
+
+.sidebar-content {
+	margin: auto;
+}
+
+.sidebar-row {
+	margin-top: 10px;
+}
 
 canvas {
    display: block;

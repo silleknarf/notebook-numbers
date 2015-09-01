@@ -1,0 +1,6 @@
+C:\Users\silleknarf\Dropbox\Code\NotebookNumbers\NotebookNumbers\bin\NotebookNumbers.dll.config
+C:\Users\silleknarf\Dropbox\Code\NotebookNumbers\NotebookNumbers\bin\NotebookNumbers.dll
+C:\Users\silleknarf\Dropbox\Code\NotebookNumbers\NotebookNumbers\bin\NotebookNumbers.pdb
+C:\Users\silleknarf\Dropbox\Code\NotebookNumbers\NotebookNumbers\obj\Debug\NotebookNumbers.csprojResolveAssemblyReference.cache
+C:\Users\silleknarf\Dropbox\Code\NotebookNumbers\NotebookNumbers\obj\Debug\NotebookNumbers.dll
+C:\Users\silleknarf\Dropbox\Code\NotebookNumbers\NotebookNumbers\obj\Debug\NotebookNumbers.pdb
