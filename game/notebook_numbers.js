@@ -39,64 +39,9 @@
         eventManager.vent.on("GRID:NUMBERS_UPDATED", this.updateCells, this);
 
         // Preload the images
-        this.assets = [];
-        this.loadImages();
+        _.extend(this, preload);
+        this.loadImages(this.initGame);
     }
-
-    /**
-     * Preloads the images that are used for the game
-     *
-     * @method loadImages
-     **/
-    NotebookNumbers.prototype.loadImages = function() {
-        var manifest = [
-            { src: 'game/img/scribble.png', id: 'scribble' },
-            { src: 'game/img/tile.png', id: 'background' },
-            { src: 'game/img/bindings.png', id: 'bindings' },
-        ];
-        for (var i = 1; i <= 9; i++) {
-            var digit = i;
-            var image = 'game/img/' + digit + '.png';
-            manifest.push({ src: image, id: digit });
-        }
-        // Create an image loader with handlers
-        var loader = new createjs.LoadQueue();
-        var that = this;
-        loader.addEventListener("fileload", function(ev) {
-            return that.handleFileLoad.call(that, ev);
-        });
-        loader.addEventListener("complete", function(ev) {
-            return that.handleComplete.call(that, ev);
-        });
-        // Pass the manifest to the image loader
-        loader.loadManifest(manifest);
-        //this.stage.autoClear = false;
-    }
-
-    /**
-     *  Callback function from the preloader to store the images in the app.assets object
-     *
-     *  @method handleFileLoad
-     **/
-    NotebookNumbers.prototype.handleFileLoad = function(event) {
-        this.assets[event.item.id] = event.result;
-    }
-
-    /**
-     *  Callback function for when the images have all been loaded
-     *
-     *  @method handleComplete
-     **/
-    NotebookNumbers.prototype.handleComplete = function() {
-        // Log the preloaded files for now
-        for (var i = 0; i < this.assets.length; i++) 
-        {
-            var item = this.assets[i]; 
-            console.log(item);
-        }
-        // Start the game
-        this.initGame();
-    };
 
     /**
      *  Draws the background and starts the main loop
@@ -115,10 +60,6 @@
         // Add the refill grid button
         this.refillGridButton = new RefillGridButton(config.width, getHeightFunc);
 
-        // Trigger the numbers updated event
-        //eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
-        //eventManager.vent.trigger("GRID:HEIGHT_UPDATED");
-
         // Now we can start the main loop
         createjs.Ticker.setFPS(25);
         createjs.Ticker.addListener(this);
@@ -128,8 +69,6 @@
 
         createjs.EventDispatcher.initialize(NotebookNumbers.prototype);
 
-        //eventManager.vent.trigger("NOTEBOOKNUMBERS:TUTORIAL");
-        //eventManager.vent.trigger("NOTEBOOKNUMBERS:TUTORIAL");
         eventManager.vent.trigger("NOTEBOOKNUMBERS:NEWGAME");
     }
 
@@ -165,51 +104,14 @@
 
     NotebookNumbers.prototype.initTimeTrial = function() {
         this.time = 60;
-        this.score = 0;
-        this.finalScore = 0;
-        this.divider = 1;
         eventManager.vent.on("CURSOR:MAKE_MOVE", this.moveMade, this);
         //eventManager.vent.on("REFILL_GRID", this.refillGrid, this);
-        eventManager.vent.on("STATS:PERCENTAGE_CLEARED", this.percentCleared, this);
 
         config.overview = new createjs.Text("", "22px " + config.font, config.navy);
         this.updateStats();
         eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
     }
 
-    NotebookNumbers.prototype.moveMade = function() {
-        this.score += 100;
-    }
-
-    NotebookNumbers.prototype.percentCleared = function(percentageCleared) {
-        this.divider += percentageCleared;
-    }
-
-    NotebookNumbers.prototype.updateStats = function() {
-
-        var score = (this.score / this.divider).toFixed(0);
-        if (this.time < 0 && this.finalScore == 0) {
-            this.finalScore = score;
-        }
-
-        var time = this.time;
-        var stats;
-        if (this.time < 0) {
-            score = this.finalScore;
-            stats = "TIME UP!\n\n\n";
-            stats += "FINAL SCORE:\n\n " + score;
-        } else {
-            stats = "TIME REMAINING:\n\n " + time + "\n\n\n";
-            stats += "SCORE:\n\n " + score;
-        }
-
-        this.stage.removeChild(this.overview);
-        this.overview = new createjs.Text(stats, "30px " + this.font, this.navy);
-        this.overview.x = this.marginLeft + this.width + 60;
-        this.overview.y = this.marginTop + 20;
-        this.overview.lineWidth = 350;
-        this.stage.addChild(this.overview);
-    }
 
     /**
      * Main Loop
@@ -217,12 +119,7 @@
      * @method tick
      **/
     NotebookNumbers.prototype.tick = function(evt) {
-        // Update all the objects on the easel.js stage
         this.stage.update();
-        if (this.time)
-            this.time -= 1 / 25;
-        //this.time = this.time.toFixed(3);
-        //eventManager.vent.trigger("STATS:UPDATE");
     }
 
     /** 
