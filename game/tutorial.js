@@ -13,42 +13,44 @@
 	p.initialize = function() {
 	    console.log("tutorial:initialize");
 
-        // Setup the display properties of the grid
-        this.stage.removeAllChildren();
-        var gridWidth = 9;
-        this.cells = new createjs.Container();
-        this.grid = new Grid(gridWidth);
-	this.stage.addChild(this.grid);
-        this.stage.addChild(this.cells);
-        this.stage.addChildAt(this.background, 0);
+		// Setup the display properties of the grid
+		this.stage.removeAllChildren();
+		this.dimensions = new Dimensions();
+		var gridWidth = 9;
+		this.cells = new createjs.Container();
+		this.grid = new Grid(gridWidth);
+		this.stage.addChild(this.grid);
+		this.stage.addChild(this.cells);
+		this.stage.addChildAt(this.background, 0);
 
-	// Add text to help
-	var controls = "HIGHLIGHT:\n\n Hover over number\n\n\n";
-	controls += "SELECT MODE OR CROSS OUT:\n\n Click once on the number";
-	var overview = new createjs.Text(controls, "22px "+config.font, config.navy);
-	overview.x = config.marginLeft+config.width+60;
-	overview.y = config.marginTop+20;
-	overview.lineWidth = 350;
-	this.stage.addChild(overview);
+		// Add text to help
+		var controls = "HIGHLIGHT:\n\n Hover over number\n\n\n";
+		controls += "SELECT MODE OR CROSS OUT:\n\n Click once on the number";
+		var overviewFontSize = 22 * this.dimensions.fontScalingFactor;
+		var overview = new createjs.Text(controls, overviewFontSize+"px "+config.font, config.navy);
+		overview.x = config.marginLeft+this.dimensions.pageWidth+60;
+		overview.y = config.marginTop+20;
+		overview.lineWidth = 350;
+		this.stage.addChild(overview);
 
-	// Setup tutorial
-	this.tutorial = [];
-	this.level = 0;
-	this.nextLevel();
+		// Setup tutorial
+		this.tutorialGrid = [];
+		this.level = 0;
+		this.nextLevel();
 
-	// If grid completed do next tutorial level
-	eventManager.vent.on("GRID:COMPLETED", this.nextLevel, this);
+		// If grid completed do next tutorial level
+		eventManager.vent.on("GRID:COMPLETED", this.nextLevel, this);
 
-        // Trigger the numbers updated event
-        eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
-        eventManager.vent.trigger("GRID:HEIGHT_UPDATED");
+		// Trigger the numbers updated event
+		eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
+		eventManager.vent.trigger("GRID:HEIGHT_UPDATED");
 	}
 
 	Tutorial.prototype.cleanUpEvents = function ()
 	{
 		eventManager.vent.off("GRID:COMPLETED", this.nextLevel, this);
 		eventManager.vent.off("CURSOR:MAKE_MOVE", this.refillGridTutorialHelper, this);
-    	}
+	}
 
 	Tutorial.prototype.nextLevel = function() {
 
@@ -105,7 +107,7 @@
 			this.addTutorialLevel(hint, null, 18, 28);
 		}
 		
-		this.grid.data = this.tutorial;
+		this.grid.data = this.tutorialGrid;
 
 		eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
 		eventManager.vent.trigger("GRID:HEIGHT_UPDATED");
@@ -123,14 +125,14 @@
 
 	Tutorial.prototype.addTutorialLevel = function(text, grid, height, fontSize) {
 		var marginLeft = 10;
-		fontSize = typeof fontSize !== 'undefined' ? fontSize : 24;
+		fontSize = typeof fontSize !== 'undefined' ? fontSize*this.dimensions.fontScalingFactor : 24*this.dimensions.fontScalingFactor;
 		
 		var sameNumber = new createjs.Text(text, fontSize+"px "+config.font, config.navy);
 		sameNumber.x = config.marginLeft+marginLeft;
 		sameNumber.y = config.marginTop+config.cellHeight*height;
 		this.stage.addChild(sameNumber);
 		if (grid != null) {
-			this.tutorial = this.tutorial.concat(grid);
+			this.tutorialGrid = this.tutorialGrid.concat(grid);
 		}
 	}
 

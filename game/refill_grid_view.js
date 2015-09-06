@@ -8,22 +8,23 @@
 	 *
 	 * @method drawRefillGridButton
 	 **/
-	var RefillGridButton = function(width, heightProvider) {
-		this.initialize(width, heightProvider);
+	var RefillGridButton = function(heightProvider, dimensions) {
+		this.initialize(heightProvider, dimensions);
 	}
 
 	var p = RefillGridButton.prototype = new createjs.Container();
 	p.Container_initialize = p.initialize;
 
-	p.initialize = function(width, heightProvider) {
+	p.initialize = function(heightProvider, dimensions) {
 	    console.log("refill_grid_button:initialized");
 		this.Container_initialize();
+		this.dimensions = dimensions;
 
 		// Setting up the text properties
 		var refillGrid = new createjs.Text("Refill Grid", "40px "+config.font, config.navy);
 
 		// Setting up the button positioning
-		var middleX = width / 2;
+		var middleX = this.dimensions.pageWidth / 2;
 		refillGrid.x = middleX;
 		refillGrid.textAlign = "center";
 

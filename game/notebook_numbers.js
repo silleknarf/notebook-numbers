@@ -23,24 +23,23 @@
     NotebookNumbers.prototype.init = function() {
         this.selected = [];
         this.stage = new createjs.Stage('notebooknumbers');
+		this.dimensions = new Dimensions();
+		this.stage.canvas.width = this.dimensions.fullWidth;
 
         // Enable touch screen support
         //createjs.Touch.enable(this.stage);
+
+        // Preload the images
+        _.extend(this, preload);
+        this.loadImages(this.initGame);
 
         // Enable fast cursor
         this.stage.enableMouseOver();
 
         this.cells = new createjs.Container();
 
-        // Setup stats update
-        eventManager.vent.on("STATS:UPDATE", this.updateStats, this);
-
         // Drawing Events
         eventManager.vent.on("GRID:NUMBERS_UPDATED", this.updateCells, this);
-
-        // Preload the images
-        _.extend(this, preload);
-        this.loadImages(this.initGame);
     }
 
     /**
@@ -55,10 +54,10 @@
         var getHeightFunc = function() {
             return context.getHeight.call(context);
         }
-        this.background = new BackgroundView(getHeightFunc, this.assets);
+        this.background = new BackgroundView(getHeightFunc, this.assets, this.dimensions);
 
         // Add the refill grid button
-        this.refillGridButton = new RefillGridButton(config.width, getHeightFunc);
+        this.refillGridButton = new RefillGridButton(getHeightFunc, this.dimensions);
 
         // Now we can start the main loop
         createjs.Ticker.setFPS(25);
@@ -80,13 +79,12 @@
         _.extend(this, this.tutorial);
 
         this.tutorial.initialize.call(this, [this.grid]);
-        //Tutorial.apply(this.tutorial, this.grid);
     }
 
     NotebookNumbers.prototype.initNewGame = function() {
-        if (this.grid)
-            this.grid.cleanUpEvents();
-        if (this.tutorial)
+		if (typeof(this.grid) !== 'undefined')
+			this.grid.cleanUpEvents();
+        if (typeof(this.tutorial) !== 'undefined')
             this.tutorial.cleanUpEvents();
 
         this.stage.removeAllChildren();
@@ -101,17 +99,6 @@
         eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
         eventManager.vent.trigger("GRID:HEIGHT_UPDATED");
     }
-
-    NotebookNumbers.prototype.initTimeTrial = function() {
-        this.time = 60;
-        eventManager.vent.on("CURSOR:MAKE_MOVE", this.moveMade, this);
-        //eventManager.vent.on("REFILL_GRID", this.refillGrid, this);
-
-        config.overview = new createjs.Text("", "22px " + config.font, config.navy);
-        this.updateStats();
-        eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
-    }
-
 
     /**
      * Main Loop
@@ -129,7 +116,9 @@
      **/
     NotebookNumbers.prototype.updateCells = function() {
         this.cells.removeAllChildren();
-        var width = config.width / config.numColumns;
+		this.dimensions.update();
+		var bindingWidth = 40;
+        var width = (this.dimensions.pageWidth - bindingWidth) / config.numColumns;
         var height = config.cellHeight;
         var grid = this.grid.data;
         var cursor = this.grid.cursor.cells;

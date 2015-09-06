@@ -39,7 +39,7 @@
 		//this.number = new createjs.Bitmap(NotebookNumbers.assets[digit]);
 		if (digit == 0)
 			digit = "";
-		this.number = new createjs.Text(digit, "30px "+config.font, config.navy);
+		this.number = new createjs.Text(digit, "30px "+config.font, config.backgroundColour);
 		this.number.textAlign = "center";
 		this.number.x = 15;
 		this.number.i = i;
@@ -103,6 +103,7 @@
 
 		// If we are in the cursor we need to draw a circle below
 		if (this.inCursor) {
+
 			// Draw a black circle below the items currently in the cursor
 			var g = new createjs.Graphics();
 			g.beginFill(null);

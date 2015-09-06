@@ -2,12 +2,19 @@
  * @module NotebookNumbers
  **/
 (function () {
+	var colours = {
+        navy: "#003266",
+		gold: "#FDD017",
+	};
+
     var config = {
         navy: "#003266",
+		backgroundColour: colours.navy,
+		titleColour: colours.gold,
+		numbersColour: colours.navy,
         font: "Londrina Solid",
-        //this.font = "Annie Use Your Telescope"
-        width: 700,
         numColumns: 9,
+		coverMargin: 10,
         height: 3000,
         cellHeight: 40,
         marginLeft: 15,
