@@ -6,13 +6,18 @@
         navy: "#003266",
 		gold: "#FDD017",
 	};
+	var fonts = {
+		yellowtail: "Yellowtail",
+        londrinaSolid: "Londrina Solid",
+	};
 
     var config = {
         navy: "#003266",
 		backgroundColour: colours.navy,
 		titleColour: colours.gold,
 		numbersColour: colours.navy,
-        font: "Londrina Solid",
+		titleFont: fonts.yellowtail,
+        font: fonts.londrinaSolid,
         numColumns: 9,
 		coverMargin: 10,
         height: 3000,

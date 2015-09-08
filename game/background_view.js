@@ -38,17 +38,26 @@
 		var coverMargin = 10;
 		var cover = new createjs.Shape();
 
-		//var blue = "#000066";
 	    var minHeight = Math.max(800, this.heightProvider());
 		cover.graphics.beginFill(config.backgroundColour).drawRoundRect(0, 0, this.dimensions.pageWidth*2+coverMargin*2+20, minHeight, 30);
 		this.background.addChild(cover);
 
-		//var leftPage = new createjs.Bitmap(app.assets['background']);
 		var leftPage = new createjs.Shape();
 		leftPage.graphics.beginBitmapFill(this.assets['background']).drawRect(0, 0, this.dimensions.pageWidth, minHeight-15, 30);
 		leftPage.x = coverMargin;
 		leftPage.y = coverMargin;
 		leftPage.sourceRect = new createjs.Rectangle(0,0,this.dimensions.pageWidth, minHeight);
+
+		// Click anywhere evaluate cursor
+		hit = new createjs.Shape();
+		var canvas = document.getElementById("notebooknumbers");
+		hit.graphics
+		   .beginFill("#F00")
+		   .drawRect(0, 0, canvas.width/2, minHeight);
+		leftPage.hitArea = hit;
+		leftPage.onClick = function(evt) {
+			eventManager.vent.trigger("CURSOR:CHECK");
+		}
 
 		this.background.addChild(leftPage);
 
@@ -68,7 +77,7 @@
 
 		// Draw the title banderole on the right hand side
 		var titleFontSize = 45 * this.dimensions.fontScalingFactor;
-		var title = new createjs.Text("Notebook Numbers", titleFontSize+"px Yellowtail", config.titleColour);
+		var title = new createjs.Text("Notebook Numbers", titleFontSize+"px "+config.titleFont, config.titleColour);
 		title.x = banderole.x + (this.dimensions.pageWidth/4);
 		title.y = coverMargin+50; 
 		title.textAlign = "center";
@@ -77,7 +86,7 @@
 		var buttonFontSize = 40 * this.dimensions.fontScalingFactor;
 		//var buttonFontSize = 40;
 		var buttonOffset = 100;
-		var newGame = new createjs.Text("- New Game", buttonFontSize+"px Yellowtail", config.titleColour);
+		var newGame = new createjs.Text("- New Game", buttonFontSize+"px "+config.titleFont, config.titleColour);
 		newGame.x = banderole.x + (this.dimensions.pageWidth/4);
 		newGame.y = coverMargin+titleFontSize+buttonOffset; 
 		newGame.textAlign = "center";
@@ -91,10 +100,10 @@
 		newGame.onClick = function() {
 			eventManager.vent.trigger("NOTEBOOKNUMBERS:NEWGAME");
 	   	};
-		this.addChild(newGame);
+		this.background.addChild(newGame);
 
 		// Draw the title banderole on the right hand side
-		var tutorial = new createjs.Text("- Tutorial", buttonFontSize+"px Yellowtail", config.titleColour);
+		var tutorial = new createjs.Text("- Tutorial", buttonFontSize+"px "+config.titleFont, config.titleColour);
 		tutorial.x = banderole.x + (this.dimensions.pageWidth / 4);
 		tutorial.y = coverMargin+titleFontSize+buttonFontSize+buttonOffset+10; 
 		tutorial.textAlign = "center";
@@ -108,7 +117,7 @@
 		tutorial.onClick = function() {
 			eventManager.vent.trigger("NOTEBOOKNUMBERS:TUTORIAL");
 		};
-		this.addChild(tutorial);
+		this.background.addChild(tutorial);
 
 		// Draw the bindings in the middle
 		var y = 0;
@@ -120,17 +129,6 @@
 			bindings.scaleX = 0.6;
 			bindings.scaleY = 0.6;
 			this.background.addChild(bindings);
-		}
-
-		// Click anywhere evaluate cursor
-		hit = new createjs.Shape();
-		var canvas = document.getElementById("notebooknumbers");
-		hit.graphics
-		   .beginFill("#F00")
-		   .drawRect(0, 0, canvas.width/2, minHeight);
-		this.background.hitArea = hit;
-		this.background.onClick = function(evt) {
-			eventManager.vent.trigger("CURSOR:CHECK");
 		}
 
 		// Resize the canvas
