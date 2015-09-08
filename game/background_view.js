@@ -9,29 +9,31 @@
 	 * @class BackgroundView
 	 **/
 	var BackgroundView = function(heightProvider, assets, dimensions) {
-		this.initialize(heightProvider, assets, dimensions);
-	}
-	var p = BackgroundView.prototype = new createjs.Container();
-	p.Container_initialize = p.initialize;
-
-	p.initialize = function(heightProvider, assets, dimensions) {
-		this.Container_initialize();
+	    this.heightProvider = heightProvider;
 	    this.assets = assets;
 		this.dimensions = dimensions;
+		this.initialize();
+	}
+	var p = BackgroundView.prototype = new createjs.Container();
 
+	p.Container_initialize = p.initialize;
+
+	p.initialize = function() {
+		this.Container_initialize();
 		this.background = new createjs.Container();
+
 		createjs.EventDispatcher.initialize(BackgroundView.prototype);
+
 		this.addChild(this.background);
 
-	    this.heightProvider = heightProvider;
-		this.updateCanvas();
+		this.render();
 
-		eventManager.vent.on("GRID:HEIGHT_UPDATED", this.updateCanvas, this);
+		eventManager.vent.on("GRID:HEIGHT_UPDATED", this.render, this);
 	}
 
 
 	// This should be moved to background_view and be triggered by an event
-	BackgroundView.prototype.updateCanvas = function() {
+	BackgroundView.prototype.render = function() {
 
 		this.background.removeAllChildren();
 		// Draw the outermost cover

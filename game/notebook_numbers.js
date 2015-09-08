@@ -39,7 +39,7 @@
         this.cells = new createjs.Container();
 
         // Drawing Events
-        eventManager.vent.on("GRID:NUMBERS_UPDATED", this.updateCells, this);
+        eventManager.vent.on("GRID:NUMBERS_UPDATED", this.render, this);
     }
 
     /**
@@ -114,7 +114,7 @@
      *
      *  @method updateCells
      **/
-    NotebookNumbers.prototype.updateCells = function() {
+    NotebookNumbers.prototype.render = function() {
         this.cells.removeAllChildren();
 		this.dimensions.update();
 		var bindingWidth = 40;
