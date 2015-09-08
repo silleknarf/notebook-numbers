@@ -28,7 +28,7 @@
 
 		this.render();
 
-		eventManager.vent.on("GRID:HEIGHT_UPDATED", this.render, this);
+		eventManager.vent.on("BACKGROUND:RENDER", this.render, this);
 	}
 
 

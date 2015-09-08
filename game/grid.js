@@ -223,8 +223,8 @@
 		}
 
 		eventManager.vent.trigger("STATS:PERCENTAGE_CLEARED", remainingNumbers.length/allNumbers);
-		eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
-		eventManager.vent.trigger("GRID:HEIGHT_UPDATED");
+		eventManager.vent.trigger("GRID:RENDER");
+		eventManager.vent.trigger("BACKGROUND:RENDER");
 	}
 
 	/** 

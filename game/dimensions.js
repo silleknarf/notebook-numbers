@@ -5,6 +5,12 @@
 
 	function Dimensions() {
 		this.update();
+		$( window ).resize(function() { 
+			setTimeout(function() {
+				eventManager.vent.trigger("GRID:RENDER");
+				eventManager.vent.trigger("BACKGROUND:RENDER");
+			}, 50);
+		});
 	};
 
 	Dimensions.prototype.update = function() {

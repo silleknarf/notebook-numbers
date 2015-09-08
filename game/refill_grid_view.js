@@ -22,10 +22,6 @@
 
 		// Setting up the text properties
 		var refillGrid = new createjs.Text("Refill Grid", "40px "+config.font, config.navy);
-
-		// Setting up the button positioning
-		var middleX = this.dimensions.pageWidth / 2;
-		refillGrid.x = middleX;
 		refillGrid.textAlign = "center";
 
 		// Adding collision detection
@@ -49,11 +45,14 @@
 			eventManager.vent.trigger("REFILL_GRID");
 		}
 		this.addChild(refillGrid);
-		eventManager.vent.on("GRID:HEIGHT_UPDATED", this.updateButtonPosition, this);
+		eventManager.vent.on("BACKGROUND:RENDER", this.updateButtonPosition, this);
+		this.updateButtonPosition;
 	}
 
+	// Setting up the button positioning
 	RefillGridButton.prototype.updateButtonPosition = function() {
-		// Move the button down
+		var middleX = this.dimensions.pageWidth / 2;
+		this.x = middleX;
 		this.y = this.heightProvider();
 	}
 	

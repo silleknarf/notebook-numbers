@@ -42,8 +42,8 @@
 		eventManager.vent.on("GRID:COMPLETED", this.nextLevel, this);
 
 		// Trigger the numbers updated event
-		eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
-		eventManager.vent.trigger("GRID:HEIGHT_UPDATED");
+		eventManager.vent.trigger("GRID:RENDER");
+		eventManager.vent.trigger("BACKGROUND:RENDER");
 	}
 
 	Tutorial.prototype.cleanUpEvents = function ()
@@ -109,8 +109,8 @@
 		
 		this.grid.data = this.tutorialGrid;
 
-		eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
-		eventManager.vent.trigger("GRID:HEIGHT_UPDATED");
+		eventManager.vent.trigger("GRID:RENDER");
+		eventManager.vent.trigger("BACKGROUND:RENDER");
 		// Create achievements that unlock the next board
 	}
 

@@ -24,7 +24,7 @@
         this.selected = [];
         this.stage = new createjs.Stage('notebooknumbers');
 		this.dimensions = new Dimensions();
-		this.stage.canvas.width = this.dimensions.fullWidth;
+		this.stage.canvas.width = Math.floor(this.dimensions.fullWidth);
 
         // Enable touch screen support
         //createjs.Touch.enable(this.stage);
@@ -39,7 +39,7 @@
         this.cells = new createjs.Container();
 
         // Drawing Events
-        eventManager.vent.on("GRID:NUMBERS_UPDATED", this.render, this);
+        eventManager.vent.on("GRID:RENDER", this.render, this);
     }
 
     /**
@@ -96,8 +96,8 @@
         this.stage.addChildAt(this.background, 0);
 
         // Trigger the numbers updated event
-        eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
-        eventManager.vent.trigger("GRID:HEIGHT_UPDATED");
+        eventManager.vent.trigger("GRID:RENDER");
+        eventManager.vent.trigger("BACKGROUND:RENDER");
     }
 
     /**
@@ -117,6 +117,12 @@
     NotebookNumbers.prototype.render = function() {
         this.cells.removeAllChildren();
 		this.dimensions.update();
+
+		var stageWidth = this.stage.canvas.width;
+		var newStageWidth = Math.floor(this.dimensions.fullWidth);
+		if (stageWidth !== newStageWidth)
+			this.stage.canvas.width = newStageWidth;
+
 		var bindingWidth = 40;
         var width = (this.dimensions.pageWidth - bindingWidth) / config.numColumns;
         var height = config.cellHeight;

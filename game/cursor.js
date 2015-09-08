@@ -76,7 +76,7 @@
             }
 
             // Update the view 				
-            eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
+            eventManager.vent.trigger("GRID:RENDER");
         }
     }
 
@@ -123,7 +123,7 @@
         }
 
         // Update the view 				
-        eventManager.vent.trigger("GRID:NUMBERS_UPDATED");
+        eventManager.vent.trigger("GRID:RENDER");
     }
     window.Cursor = Cursor;
 })();
