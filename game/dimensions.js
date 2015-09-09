@@ -20,14 +20,5 @@
 		this.fontScalingFactor = this.fullWidth / largeScreen
 	};
 
-	/*
-	var dimensions = {
-		width: 700,
-		numColumns: 9,
-		height: 3000,
-		cellHeight: 40,
-		marginLeft: 15,
-		marginTop: 15,
-	};*/
     window.Dimensions = Dimensions;
 })();

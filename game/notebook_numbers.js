@@ -26,15 +26,19 @@
 		this.dimensions = new Dimensions();
 		this.stage.canvas.width = Math.floor(this.dimensions.fullWidth);
 
-        // Enable touch screen support
-        //createjs.Touch.enable(this.stage);
 
         // Preload the images
         _.extend(this, preload);
         this.loadImages(this.initGame);
 
-        // Enable fast cursor
-        this.stage.enableMouseOver();
+        // Enable touch screen support
+		if (createjs.Touch.isSupported()) {
+			console.log("Touch enabled version");
+			createjs.Touch.enable(this.stage);
+		} else {
+			console.log("Non-touch enabled version");
+			this.stage.enableMouseOver();
+		}
 
         this.cells = new createjs.Container();
 

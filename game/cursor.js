@@ -88,6 +88,7 @@
      * @event onClick
      **/
     Cursor.prototype.check = function(cell) {
+		this.addToCursor(cell);
             
         // Log that shit!
         console.log("cells:");
