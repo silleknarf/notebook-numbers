@@ -25,6 +25,7 @@
         this.stage = new createjs.Stage('notebooknumbers');
 		this.dimensions = new Dimensions();
 		this.stage.canvas.width = Math.floor(this.dimensions.fullWidth);
+		console.log("Inital width: "+this.stage.canvas.width+"px");
 
 
         // Preload the images
@@ -53,15 +54,9 @@
      **/
     NotebookNumbers.prototype.initGame = function() {
         console.log("notebook_numbers:initGame");
-        // Draw the background
-        var context = this;
-        var getHeightFunc = function() {
-            return context.getHeight.call(context);
-        }
-        this.background = new BackgroundView(getHeightFunc, this.assets, this.dimensions);
 
-        // Add the refill grid button
-        this.refillGridButton = new RefillGridButton(getHeightFunc, this.dimensions);
+        this.background = new BackgroundView(this.assets, this.dimensions);
+        this.refillGridButton = new RefillGridButton(this.dimensions);
 
         // Now we can start the main loop
         createjs.Ticker.setFPS(25);
@@ -104,11 +99,6 @@
         eventManager.vent.trigger("BACKGROUND:RENDER");
     }
 
-    /**
-     * Main Loop
-     *
-     * @method tick
-     **/
     NotebookNumbers.prototype.tick = function(evt) {
         this.stage.update();
     }
@@ -116,10 +106,11 @@
     /** 
      *  Removes all the cells from the grid and readds an updated version, also checks if each of the cells is in the cursor
      *
-     *  @method updateCells
+     *  @method render
      **/
     NotebookNumbers.prototype.render = function() {
         this.cells.removeAllChildren();
+        this.dimensions.gridHeight = this.grid.data.length;
 		this.dimensions.update();
 
 		var stageWidth = this.stage.canvas.width;
@@ -127,7 +118,7 @@
 		if (stageWidth !== newStageWidth)
 			this.stage.canvas.width = newStageWidth;
 
-		var bindingWidth = 40;
+		var bindingWidth = this.dimensions.isVerticalLayout ? 0 : 40;
         var width = (this.dimensions.pageWidth - bindingWidth) / config.numColumns;
         var height = config.cellHeight;
         var grid = this.grid.data;
@@ -137,7 +128,7 @@
             for (var j = 0; j < grid[i].length; j++) {
                 var digit = grid[i][j];
                 var allowClick = true;
-                var cell = new Cell(i, j, width, height, digit, allowClick);
+                var cell = new Cell(i, j, width, height, digit, allowClick, this.dimensions);
                 for (var k = 0; k < cursor.length; k++) {
                     if (cell.equals(cursor[k])) {
                         cell.inCursor = true;
@@ -148,22 +139,6 @@
         }
     }
 
-    NotebookNumbers.prototype.getHeight = function() {
-        var height = config.cellHeight * (this.grid && this.grid.data ? this.grid.data.length : 0) + config.marginTop;
-        return height;
-    }
-
-    NotebookNumbers.prototype.getBottom = function() {
-        var buttonPadding = 65;
-        var bottom = this.getHeight() + buttonPadding;
-        return Math.max(bottom, 820);
-    }
-
-    /**
-     * Application Entry Point 
-     *
-     * @method init
-     **/
     function init() {
         // ReSharper disable once WrongExpressionStatement
         new NotebookNumbers();

@@ -129,11 +129,13 @@
 		
 		var sameNumber = new createjs.Text(text, fontSize+"px "+config.font, config.navy);
 		sameNumber.x = config.marginLeft+marginLeft;
-		sameNumber.y = config.marginTop+config.cellHeight*height;
+		sameNumber.y = this.dimensions.getTop() + config.marginTop+config.cellHeight*height;
 		this.stage.addChild(sameNumber);
 		if (grid != null) {
 			this.tutorialGrid = this.tutorialGrid.concat(grid);
 		}
+	    //this.dimensions.gridHeight = this.tutorialGrid.length+2;
+		//eventManager.vent.trigger("BACKGROUND:RENDER");
 	}
 
 	window.Tutorial = Tutorial;

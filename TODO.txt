@@ -1,0 +1,4 @@
+- Remove free android version of NN
+- Register domain notebooknumbers.com
+- Clean up code
+- Deploy on AWS

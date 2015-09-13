@@ -8,8 +8,7 @@
 	 *
 	 * @class BackgroundView
 	 **/
-	var BackgroundView = function(heightProvider, assets, dimensions) {
-	    this.heightProvider = heightProvider;
+	var BackgroundView = function(assets, dimensions) {
 	    this.assets = assets;
 		this.dimensions = dimensions;
 		this.initialize();
@@ -35,20 +34,31 @@
 	// This should be moved to background_view and be triggered by an event
 	BackgroundView.prototype.render = function() {
 
+	    var isVerticalLayout = this.dimensions.isVerticalLayout;
+	    var firstPageHeight = this.dimensions.getTop();
 		this.background.removeAllChildren();
 		// Draw the outermost cover
 		var coverMargin = 10;
 		var cover = new createjs.Shape();
 
-	    var minHeight = Math.max(800, this.heightProvider());
-		cover.graphics.beginFill(config.backgroundColour).drawRoundRect(0, 0, this.dimensions.pageWidth*2+coverMargin*2+20, minHeight, 30);
+	    var minHeight = Math.max(800, this.dimensions.getBottom());
+	    var coverWidth = isVerticalLayout
+	        ? this.dimensions.fullWidth - (coverMargin * 2)
+	        : this.dimensions.pageWidth * 2 + coverMargin * 2 + 20;
+	    cover.graphics
+            .beginFill(config.backgroundColour)
+            .drawRoundRect(0, 0, coverWidth, minHeight, 30);
+
 		this.background.addChild(cover);
 
-		var leftPage = new createjs.Shape();
-		leftPage.graphics.beginBitmapFill(this.assets['background']).drawRect(0, 0, this.dimensions.pageWidth, minHeight-15, 30);
-		leftPage.x = coverMargin;
-		leftPage.y = coverMargin;
-		leftPage.sourceRect = new createjs.Rectangle(0,0,this.dimensions.pageWidth, minHeight);
+		var notebookNumbersPage = new createjs.Shape();
+		notebookNumbersPage.graphics
+            .beginBitmapFill(this.assets['background'])
+            //.drawRect(0, 0, this.dimensions.pageWidth, minHeight - 15, 30);
+            .drawRect(0, 0, this.dimensions.pageWidth, minHeight - firstPageHeight - 15, 30);
+		notebookNumbersPage.x = coverMargin;
+		notebookNumbersPage.y = coverMargin + firstPageHeight;
+		notebookNumbersPage.sourceRect = new createjs.Rectangle(0,0,this.dimensions.pageWidth, minHeight+this.dimensions.getBottom());
 
 		// Click anywhere evaluate cursor
 		hit = new createjs.Shape();
@@ -56,40 +66,48 @@
 		hit.graphics
 		   .beginFill("#F00")
 		   .drawRect(0, 0, canvas.width/2, minHeight);
-		leftPage.hitArea = hit;
-		leftPage.onClick = function(evt) {
+		notebookNumbersPage.hitArea = hit;
+		notebookNumbersPage.onClick = function(evt) {
 			eventManager.vent.trigger("CURSOR:CHECK");
 		}
 
-		this.background.addChild(leftPage);
+		this.background.addChild(notebookNumbersPage);
 
-		var rightPage = new createjs.Shape();
-		rightPage.graphics.beginBitmapFill(this.assets['background']).drawRect(0, 0, this.dimensions.pageWidth, minHeight-16, 30);
-		rightPage.x = this.dimensions.pageWidth+coverMargin+20;
-		rightPage.y = coverMargin; 
-		rightPage.sourceRect = new createjs.Rectangle(0,0,this.dimensions.pageWidth, minHeight);
-		this.background.addChild(rightPage);
+        if (!isVerticalLayout) {
+            var titlePage = new createjs.Shape();
+            titlePage.graphics
+                .beginBitmapFill(this.assets['background'])
+                .drawRect(0, 0, this.dimensions.pageWidth, minHeight - 16);
+            titlePage.x = this.dimensions.pageWidth+coverMargin+20;
+            titlePage.y = coverMargin; 
+            titlePage.sourceRect = new createjs.Rectangle(0,0,this.dimensions.pageWidth, minHeight, 30);
+            this.background.addChild(titlePage);
+        }
 
 		// Draw the banderole on the right hand side
 		var banderole = new createjs.Shape();
-		banderole.graphics.beginFill(config.backgroundColour).drawRect(0, 0, (this.dimensions.pageWidth/2), minHeight-16, 30);
-		banderole.x = rightPage.x + (this.dimensions.pageWidth/2);
+	    var divisor = isVerticalLayout ? 1 : 2;
+	    banderole.graphics
+            .beginFill(config.backgroundColour)
+            .drawRect(0, 0, (this.dimensions.pageWidth / divisor), isVerticalLayout ? firstPageHeight : minHeight - 16, isVerticalLayout ? 0 : 30);
+	    banderole.x = (isVerticalLayout ? coverMargin : titlePage.x + (this.dimensions.pageWidth/2));
 		banderole.y = coverMargin; 
 		this.background.addChild(banderole);
 
 		// Draw the title banderole on the right hand side
-		var titleFontSize = 45 * this.dimensions.fontScalingFactor;
+	    var titleTextPosition = isVerticalLayout ? 2 : 4;
+		var titleFontSize = 45 * this.dimensions.fontScalingFactor * (isVerticalLayout ? 3 : 1);
 		var title = new createjs.Text("Notebook Numbers", titleFontSize+"px "+config.titleFont, config.titleColour);
-		title.x = banderole.x + (this.dimensions.pageWidth/4);
+		title.x = banderole.x + (this.dimensions.pageWidth / titleTextPosition);
 		title.y = coverMargin+50; 
 		title.textAlign = "center";
 		this.background.addChild(title);
 
-		var buttonFontSize = 40 * this.dimensions.fontScalingFactor;
+		var buttonFontSize = 40 * this.dimensions.fontScalingFactor * (isVerticalLayout ? 3 : 1);
 		//var buttonFontSize = 40;
 		var buttonOffset = 100;
 		var newGame = new createjs.Text("- New Game", buttonFontSize+"px "+config.titleFont, config.titleColour);
-		newGame.x = banderole.x + (this.dimensions.pageWidth/4);
+		newGame.x = banderole.x + (this.dimensions.pageWidth / titleTextPosition);
 		newGame.y = coverMargin+titleFontSize+buttonOffset; 
 		newGame.textAlign = "center";
 
@@ -106,7 +124,7 @@
 
 		// Draw the title banderole on the right hand side
 		var tutorial = new createjs.Text("- Tutorial", buttonFontSize+"px "+config.titleFont, config.titleColour);
-		tutorial.x = banderole.x + (this.dimensions.pageWidth / 4);
+		tutorial.x = banderole.x + (this.dimensions.pageWidth / titleTextPosition);
 		tutorial.y = coverMargin+titleFontSize+buttonFontSize+buttonOffset+10; 
 		tutorial.textAlign = "center";
 
@@ -122,16 +140,18 @@
 		this.background.addChild(tutorial);
 
 		// Draw the bindings in the middle
-		var y = 0;
-		for (var i = 0; y < minHeight; i++) {
-			var bindings = new createjs.Bitmap(this.assets['bindings']);
-			bindings.x = this.dimensions.pageWidth - 20;
-			y = 10+(i*225);
-			bindings.y = y;
-			bindings.scaleX = 0.6;
-			bindings.scaleY = 0.6;
-			this.background.addChild(bindings);
-		}
+        if (!isVerticalLayout) {
+            var y = 0;
+            for (var i = 0; y < minHeight; i++) {
+                var bindings = new createjs.Bitmap(this.assets['bindings']);
+                bindings.x = this.dimensions.pageWidth - 20;
+                y = 10+(i*225);
+                bindings.y = y;
+                bindings.scaleX = 0.6;
+                bindings.scaleY = 0.6;
+                this.background.addChild(bindings);
+            }
+        }
 
 		// Resize the canvas
 		canvas.height = minHeight;

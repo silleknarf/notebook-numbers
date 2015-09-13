@@ -8,20 +8,20 @@
 	 *
 	 * @method drawRefillGridButton
 	 **/
-	var RefillGridButton = function(heightProvider, dimensions) {
-		this.initialize(heightProvider, dimensions);
+	var RefillGridButton = function(dimensions) {
+		this.initialize(dimensions);
 	}
 
 	var p = RefillGridButton.prototype = new createjs.Container();
 	p.Container_initialize = p.initialize;
 
-	p.initialize = function(heightProvider, dimensions) {
+	p.initialize = function(dimensions) {
 	    console.log("refill_grid_button:initialized");
 		this.Container_initialize();
 		this.dimensions = dimensions;
 
 		// Setting up the text properties
-		var refillGrid = new createjs.Text("Refill Grid", "40px "+config.font, config.navy);
+		var refillGrid = new createjs.Text("Refill Grid", "40px "+config.font, config.numbersColour);
 		refillGrid.textAlign = "center";
 
 		// Adding collision detection
@@ -34,7 +34,6 @@
 
 		// Set the height of the button as a property
 	    this.height = refillGrid.getMeasuredHeight();
-	    this.heightProvider = heightProvider;
 
 		/**
 		 *  Refill Grid Click Event - updates the cells and move the button down
@@ -46,14 +45,14 @@
 		}
 		this.addChild(refillGrid);
 		eventManager.vent.on("BACKGROUND:RENDER", this.updateButtonPosition, this);
-		this.updateButtonPosition;
+		this.updateButtonPosition();
 	}
 
 	// Setting up the button positioning
 	RefillGridButton.prototype.updateButtonPosition = function() {
 		var middleX = this.dimensions.pageWidth / 2;
 		this.x = middleX;
-		this.y = this.heightProvider();
+		this.y = this.dimensions.getHeight();
 	}
 	
 	window.RefillGridButton = RefillGridButton;

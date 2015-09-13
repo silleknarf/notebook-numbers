@@ -17,12 +17,12 @@
 	 * @class Cell
 	 * @contructor
 	 **/
-	var Cell = function(i, j, width, height, digit, allowClick) {
-		this.initialize(i, j, width, height, digit, allowClick);
+	var Cell = function(i, j, width, height, digit, allowClick, dimensions) {
+		this.initialize(i, j, width, height, digit, allowClick, dimensions);
 	}
 	var p = Cell.prototype = new createjs.Container();
 	p.Container_initialize = p.initialize;
-	p.initialize = function(i, j, width, height, digit, allowClick) {
+	p.initialize = function(i, j, width, height, digit, allowClick, dimensions) {
 		this.Container_initialize();
 
 		// Set up the cell properties
@@ -33,7 +33,7 @@
 
 		// Set the cell position
 		this.x = Math.floor(j*width+config.marginLeft);
-		this.y = Math.floor(i*height+config.marginTop);
+		this.y = Math.floor(i*height+config.marginTop+dimensions.getTop());
 
 		// Set up the cell background image
 		//this.number = new createjs.Bitmap(NotebookNumbers.assets[digit]);
@@ -65,7 +65,7 @@
 
 				// Create a dummy test cell for evaluation
 				var disableClick = false;
-				var tempCell = new Cell(target.i, target.j,width,height,target.digit, disableClick);
+				var tempCell = new Cell(target.i, target.j,width,height,target.digit, disableClick, dimensions);
 				// Pass it to the cursor for further evaluation
 				eventManager.vent.trigger("CURSOR:CHECK", tempCell);
 
@@ -82,7 +82,7 @@
 
 				// Create a dummy test cell for evaluation
 				var disableClick = false;
-				var tempCell = new Cell(target.i, target.j,width,height,target.digit, disableClick);
+				var tempCell = new Cell(target.i, target.j,width,height,target.digit, disableClick, dimensions);
 				// Pass it to the cursor for further evaluation
 				eventManager.vent.trigger("CURSOR:ADD", tempCell);
 
