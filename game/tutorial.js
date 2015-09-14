@@ -3,7 +3,8 @@
  **/
 (function() {
 
-	var Tutorial = function() {
+	var Tutorial = function(dimensions) {
+	    this.dimensions = dimensions;
 		this.initialize();
 	}
 
@@ -15,10 +16,9 @@
 
 		// Setup the display properties of the grid
 		this.stage.removeAllChildren();
-		this.dimensions = new Dimensions();
 		var gridWidth = 9;
 		this.cells = new createjs.Container();
-		this.grid = new Grid(gridWidth);
+		this.grid = new Grid(gridWidth, this.dimensions);
 		this.stage.addChild(this.grid);
 		this.stage.addChild(this.cells);
 		this.stage.addChildAt(this.background, 0);
@@ -26,7 +26,7 @@
 		// Add text to help
 		var controls = "HIGHLIGHT:\n\n Hover over number\n\n\n";
 		controls += "SELECT MODE OR CROSS OUT:\n\n Click once on the number";
-		var overviewFontSize = 22 * this.dimensions.fontScalingFactor;
+	    var overviewFontSize = 22 * this.dimensions.fontScalingFactor;
 		var overview = new createjs.Text(controls, overviewFontSize+"px "+config.font, config.navy);
 		overview.x = config.marginLeft+this.dimensions.pageWidth+60;
 		overview.y = config.marginTop+20;
@@ -55,6 +55,8 @@
 	Tutorial.prototype.nextLevel = function() {
 
 		this.level += 1;
+
+	    var extendGridByRows = 0;
 
 		// Horizontal Same 
 		if (this.level == 1)
@@ -90,13 +92,15 @@
 		if (this.level == 7) {
 			this.addTutorialLevel("When there are no more moves to play, you click:", [[]], 15);
 			this.stage.addChild(this.refillGridButton);
-			this.refillGridButton.y = 30 + this.getHeight();
+			this.refillGridButton.y = 30 + this.dimensions.getHeight();
 			eventManager.vent.on("REFILL_GRID", this.nextLevel, this);
 		}
 
 		if (this.level == 8)
 		{
 			eventManager.vent.off("REFILL_GRID", this.nextLevel, this);
+		    this.stage.removeChild(this.refillGridButton);
+		    extendGridByRows = 2;
 			this.addTutorialLevel("Now you can complete the grid above", null, 17);
 		}
 
@@ -104,14 +108,19 @@
 		// Congratulate user, they can now play Notebook Numbers!	
 		if (this.level == 9) {
 			var hint = "Congratulations, you can now play Notebook Numbers!";
+		    extendGridByRows = 3;
 			this.addTutorialLevel(hint, null, 18, 28);
 		}
-		
+
 		this.grid.data = this.tutorialGrid;
 
 		eventManager.vent.trigger("GRID:RENDER");
+
+		this.dimensions.gridHeight = this.dimensions.isVerticalLayout 
+            ? this.tutorialGrid.length + extendGridByRows
+            : this.tutorialGrid.length;
+
 		eventManager.vent.trigger("BACKGROUND:RENDER");
-		// Create achievements that unlock the next board
 	}
 
 	Tutorial.prototype.refillGridTutorialHelper = function() {
@@ -125,7 +134,10 @@
 
 	Tutorial.prototype.addTutorialLevel = function(text, grid, height, fontSize) {
 		var marginLeft = 10;
-		fontSize = typeof fontSize !== 'undefined' ? fontSize*this.dimensions.fontScalingFactor : 24*this.dimensions.fontScalingFactor;
+	    var multiplier = this.dimensions.isVerticalLayout ? 2 : 1;
+	    fontSize = typeof fontSize !== 'undefined'
+            ? fontSize * this.dimensions.fontScalingFactor * multiplier
+            : 24 * this.dimensions.fontScalingFactor * multiplier;
 		
 		var sameNumber = new createjs.Text(text, fontSize+"px "+config.font, config.navy);
 		sameNumber.x = config.marginLeft+marginLeft;

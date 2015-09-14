@@ -5,7 +5,8 @@
 	 * @class Grid
 	 * @constructor
 	 **/
-	var Grid = function(width) {
+	var Grid = function(width, dimensions) {
+	    this.dimensions = dimensions;
 		this.initialize(width);
 	}
 
@@ -222,7 +223,7 @@
 			lastJ += 1;
 		}
 
-		eventManager.vent.trigger("STATS:PERCENTAGE_CLEARED", remainingNumbers.length/allNumbers);
+	    this.dimensions.gridHeight = this.data.length;
 		eventManager.vent.trigger("GRID:RENDER");
 		eventManager.vent.trigger("BACKGROUND:RENDER");
 	}

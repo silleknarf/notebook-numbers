@@ -45,6 +45,7 @@
 	    var coverWidth = isVerticalLayout
 	        ? this.dimensions.fullWidth - (coverMargin * 2)
 	        : this.dimensions.pageWidth * 2 + coverMargin * 2 + 20;
+
 	    cover.graphics
             .beginFill(config.backgroundColour)
             .drawRoundRect(0, 0, coverWidth, minHeight, 30);
@@ -54,11 +55,14 @@
 		var notebookNumbersPage = new createjs.Shape();
 		notebookNumbersPage.graphics
             .beginBitmapFill(this.assets['background'])
-            //.drawRect(0, 0, this.dimensions.pageWidth, minHeight - 15, 30);
             .drawRect(0, 0, this.dimensions.pageWidth, minHeight - firstPageHeight - 15, 30);
 		notebookNumbersPage.x = coverMargin;
 		notebookNumbersPage.y = coverMargin + firstPageHeight;
-		notebookNumbersPage.sourceRect = new createjs.Rectangle(0,0,this.dimensions.pageWidth, minHeight+this.dimensions.getBottom());
+		notebookNumbersPage.sourceRect = new createjs.Rectangle(
+            0,
+            0,
+            this.dimensions.pageWidth,
+            minHeight + this.dimensions.getBottom());
 
 		// Click anywhere evaluate cursor
 		hit = new createjs.Shape();
@@ -99,13 +103,13 @@
 		var titleFontSize = 45 * this.dimensions.fontScalingFactor * (isVerticalLayout ? 3 : 1);
 		var title = new createjs.Text("Notebook Numbers", titleFontSize+"px "+config.titleFont, config.titleColour);
 		title.x = banderole.x + (this.dimensions.pageWidth / titleTextPosition);
-		title.y = coverMargin+50; 
+		title.y = isVerticalLayout ? coverMargin+firstPageHeight/20 : coverMargin+50; 
 		title.textAlign = "center";
 		this.background.addChild(title);
 
 		var buttonFontSize = 40 * this.dimensions.fontScalingFactor * (isVerticalLayout ? 3 : 1);
 		//var buttonFontSize = 40;
-		var buttonOffset = 100;
+		var buttonOffset = isVerticalLayout ? firstPageHeight / 8 : 100;
 		var newGame = new createjs.Text("- New Game", buttonFontSize+"px "+config.titleFont, config.titleColour);
 		newGame.x = banderole.x + (this.dimensions.pageWidth / titleTextPosition);
 		newGame.y = coverMargin+titleFontSize+buttonOffset; 

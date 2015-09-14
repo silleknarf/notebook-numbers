@@ -22,7 +22,7 @@
 	};
 
     Dimensions.prototype.getTop = function() {
-        return this.isVerticalLayout ? 400 : 0;
+        return this.isVerticalLayout ? this.fullWidth * 0.45 : 0;
     }
 
     Dimensions.prototype.getHeight = function() {

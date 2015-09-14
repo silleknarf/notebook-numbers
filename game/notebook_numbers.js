@@ -77,7 +77,7 @@
         this.tutorial.__proto__ = Tutorial.prototype;
         _.extend(this, this.tutorial);
 
-        this.tutorial.initialize.call(this, [this.grid]);
+        this.tutorial.initialize.call(this, [this.dimensions]);
     }
 
     NotebookNumbers.prototype.initNewGame = function() {
@@ -88,7 +88,8 @@
 
         this.stage.removeAllChildren();
         var gridWidth = 9;
-        this.grid = new Grid(gridWidth);
+        this.grid = new Grid(gridWidth, this.dimensions);
+        this.dimensions.gridHeight = this.grid.length;
         this.stage.addChild(this.grid);
         this.stage.addChild(this.refillGridButton);
         this.stage.addChild(this.cells);
