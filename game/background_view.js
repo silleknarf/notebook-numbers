@@ -71,9 +71,15 @@
 		   .beginFill("#F00")
 		   .drawRect(0, 0, canvas.width/2, minHeight);
 		notebookNumbersPage.hitArea = hit;
+        /*
 		notebookNumbersPage.onClick = function(evt) {
 			eventManager.vent.trigger("CURSOR:CHECK");
 		}
+        */
+
+	    notebookNumbersPage.onClick = function(evt) {
+	        eventManager.vent.trigger("CURSOR:CHECK");
+	    };
 
 		this.background.addChild(notebookNumbersPage);
 
@@ -101,7 +107,9 @@
 		// Draw the title banderole on the right hand side
 	    var titleTextPosition = isVerticalLayout ? 2 : 4;
 		var titleFontSize = 45 * this.dimensions.fontScalingFactor * (isVerticalLayout ? 3 : 1);
-		var title = new createjs.Text("Notebook Numbers", titleFontSize+"px "+config.titleFont, config.titleColour);
+		var title = new createjs.Text("Notebook Numbers");
+	    title.font = Math.ceil(titleFontSize)+"px "+config.titleFont;
+	    title.color = config.titleColour;
 		title.x = banderole.x + (this.dimensions.pageWidth / titleTextPosition);
 		title.y = isVerticalLayout ? coverMargin+firstPageHeight/20 : coverMargin+50; 
 		title.textAlign = "center";
@@ -110,7 +118,9 @@
 		var buttonFontSize = 40 * this.dimensions.fontScalingFactor * (isVerticalLayout ? 3 : 1);
 		//var buttonFontSize = 40;
 		var buttonOffset = isVerticalLayout ? firstPageHeight / 8 : 100;
-		var newGame = new createjs.Text("- New Game", buttonFontSize+"px "+config.titleFont, config.titleColour);
+		var newGame = new createjs.Text("- New Game");
+	    newGame.font = Math.ceil(buttonFontSize)+"px "+config.titleFont;
+	    newGame.color = config.titleColour;
 		newGame.x = banderole.x + (this.dimensions.pageWidth / titleTextPosition);
 		newGame.y = coverMargin+titleFontSize+buttonOffset; 
 		newGame.textAlign = "center";
@@ -127,7 +137,9 @@
 		this.background.addChild(newGame);
 
 		// Draw the title banderole on the right hand side
-		var tutorial = new createjs.Text("- Tutorial", buttonFontSize+"px "+config.titleFont, config.titleColour);
+		var tutorial = new createjs.Text("- Tutorial");
+	    tutorial.font = Math.ceil(buttonFontSize)+"px "+config.titleFont;
+	    tutorial.color = config.titleColour;
 		tutorial.x = banderole.x + (this.dimensions.pageWidth / titleTextPosition);
 		tutorial.y = coverMargin+titleFontSize+buttonFontSize+buttonOffset+10; 
 		tutorial.textAlign = "center";
@@ -138,9 +150,9 @@
 		   .drawRect(-tutorial.getMeasuredWidth()/2, 0, tutorial.getMeasuredWidth(), tutorial.getMeasuredHeight());
 
 		tutorial.hitArea = hit;
-		tutorial.onClick = function() {
+		tutorial.addEventListener("click", function() {
 			eventManager.vent.trigger("NOTEBOOKNUMBERS:TUTORIAL");
-		};
+		});
 		this.background.addChild(tutorial);
 
 		// Draw the bindings in the middle

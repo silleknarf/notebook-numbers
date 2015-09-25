@@ -57,8 +57,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="game\css\bootstrap-theme.css" />
+    <Content Include="game\css\bootstrap-theme.min.css" />
+    <Content Include="game\css\bootstrap.css" />
+    <Content Include="game\css\bootstrap.min.css" />
     <Content Include="game\dimensions.js" />
     <Content Include="game\event_manager.js" />
+    <Content Include="game\lib\easeljs-0.8.1.min.js" />
     <Content Include="README.md" />
     <Content Include="game\docs\assets\vendor\prettify\COPYING" />
     <Content Include="game\docs\data.json" />
@@ -98,11 +103,11 @@
     <Content Include="game\doc\easeljs\tutorials\Animation and Ticker\.onTick.html.swp" />
     <Content Include="game\doc\easeljs\tutorials\shared\SyntaxHighlighter\MIT-LICENSE" />
     <Content Include="game\doc\intro.md" />
-    <Content Include="game\fonts\AlphaMacAOE.ttf" />
-    <Content Include="game\fonts\AnnieUseYourTelescope.woff" />
-    <Content Include="game\fonts\Yellowtail.woff" />
-    <Content Include="game\fonts\LondrinaSolid-Regular.woff" />
-    <Content Include="game\fonts\LoversQuarrel-Regular.woff" />
+    <Content Include="fonts\Londrina Solid.woff" />
+    <Content Include="fonts\Yellowtail.woff" />
+    <Content Include="game\css\bootstrap_config.json" />
+    <Content Include="fonts\Londrina Solid.ttf" />
+    <Content Include="fonts\Yellowtail.ttf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -117,7 +122,7 @@
     <Content Include="game\background_view.js" />
     <Content Include="game\cell.js" />
     <Content Include="game\config.js" />
-    <Content Include="game\css\fonts.css" />
+    <Content Include="fonts\fonts.css" />
     <Content Include="game\css\notebook_numbers.css" />
     <Content Include="game\cursor.js" />
     <Content Include="game\docs\api.js" />
@@ -447,15 +452,6 @@
     <Content Include="game\res\page_flip\page_flip.html" />
     <Content Include="game\res\page_flip\page_flip.js" />
     <Content Include="game\tutorial.js" />
-    <Content Include="signups\cgi-bin\holdingpage.py" />
-    <Content Include="signups\css\style.css" />
-    <Content Include="signups\emails.txt" />
-    <Content Include="signups\images\background.jpg" />
-    <Content Include="signups\images\screen.jpg" />
-    <Content Include="signups\images\screen.png" />
-    <Content Include="signups\index.html" />
-    <Content Include="signups\js\jquery.min.js" />
-    <Content Include="signups\signups.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
