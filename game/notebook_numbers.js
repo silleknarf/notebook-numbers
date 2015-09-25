@@ -58,14 +58,6 @@
         this.background = new BackgroundView(this.assets, this.dimensions);
         this.refillGridButton = new RefillGridButton(this.dimensions);
 
-        var context = this;
-        this.stage.onPress = function(evt) {
-            context.dimensions.mousedown(evt);
-            evt.onMouseUp = function(evt) {
-                context.dimensions.mouseup(evt);
-            };
-        };
-
         // Now we can start the main loop
         createjs.Ticker.setFPS(25);
         createjs.Ticker.addListener(this);
