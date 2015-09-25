@@ -10,6 +10,12 @@
 		this.initialize(width);
 	}
 
+    Grid.events = {
+        render: "GRID:RENDER",
+        refill: "GRID:REFILL",
+        completed: "GRID:COMPLETED"
+    };
+
 	var p = Grid.prototype = new createjs.Container();
 	p.Container_initialize = p.initialize;
 
@@ -20,8 +26,8 @@
 	 **/
 	p.initialize = function(width) {
 		console.log("Grid initialized");
-		eventManager.vent.on("REFILL_GRID", this.refillGrid, this);
-		eventManager.vent.on("CURSOR:MAKE_MOVE", this.makeMove, this);
+		eventManager.vent.on(Grid.events.refill, this.refillGrid, this);
+		eventManager.vent.on(Cursor.events.makeMove, this.makeMove, this);
 		this.width = width;
 	    var gridContext = this; 
 		this.cursor = new Cursor(function() { return gridContext.check.call(gridContext); });
@@ -55,8 +61,8 @@
 
     Grid.prototype.cleanUpEvents = function()
     {
-		eventManager.vent.off("REFILL_GRID", this.refillGrid, this);
-		eventManager.vent.off("CURSOR:MAKE_MOVE", this.makeMove, this);
+		eventManager.vent.off(Grid.events.refill, this.refillGrid, this);
+		eventManager.vent.off(Cursor.events.makeMove, this.makeMove, this);
         this.cursor.cleanUpEvents();
     };
 
@@ -224,8 +230,8 @@
 		}
 
 	    this.dimensions.gridHeight = this.data.length;
-		eventManager.vent.trigger("GRID:RENDER");
-		eventManager.vent.trigger("BACKGROUND:RENDER");
+		eventManager.vent.trigger(Grid.events.render);
+		eventManager.vent.trigger(BackgroundView.events.render);
 	}
 
 	/** 
@@ -244,7 +250,7 @@
 				}
 			}
 		}
-		eventManager.vent.trigger("GRID:COMPLETED");
+		eventManager.vent.trigger(Grid.events.completed);
 		return true;
 	}
 

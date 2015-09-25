@@ -13,6 +13,11 @@
 		this.dimensions = dimensions;
 		this.initialize();
 	}
+
+    BackgroundView.events = {
+        render: "BACKGROUND:RENDER"
+    };
+
 	var p = BackgroundView.prototype = new createjs.Container();
 
 	p.Container_initialize = p.initialize;
@@ -27,7 +32,7 @@
 
 		this.render();
 
-		eventManager.vent.on("BACKGROUND:RENDER", this.render, this);
+		eventManager.vent.on(BackgroundView.events.render, this.render, this);
 	}
 
 
@@ -71,15 +76,10 @@
 		   .beginFill("#F00")
 		   .drawRect(0, 0, canvas.width/2, minHeight);
 		notebookNumbersPage.hitArea = hit;
-        /*
-		notebookNumbersPage.onClick = function(evt) {
-			eventManager.vent.trigger("CURSOR:CHECK");
-		}
-        */
 
-	    notebookNumbersPage.onClick = function(evt) {
+	    notebookNumbersPage.on("click", function(evt) {
 	        eventManager.vent.trigger("CURSOR:CHECK");
-	    };
+	    });
 
 		this.background.addChild(notebookNumbersPage);
 
@@ -131,9 +131,9 @@
 		    .beginFill("#F00")
 		    .drawRect(-newGame.getMeasuredWidth()/2, 0, newGame.getMeasuredWidth(), newGame.getMeasuredHeight());
 		newGame.hitArea = hit;
-		newGame.onClick = function() {
-			eventManager.vent.trigger("NOTEBOOKNUMBERS:NEWGAME");
-	   	};
+		newGame.on("click", function() {
+			eventManager.vent.trigger(events.newGame);
+	   	});
 		this.background.addChild(newGame);
 
 		// Draw the title banderole on the right hand side
@@ -150,8 +150,8 @@
 		   .drawRect(-tutorial.getMeasuredWidth()/2, 0, tutorial.getMeasuredWidth(), tutorial.getMeasuredHeight());
 
 		tutorial.hitArea = hit;
-		tutorial.addEventListener("click", function() {
-			eventManager.vent.trigger("NOTEBOOKNUMBERS:TUTORIAL");
+		tutorial.on("click", function() {
+			eventManager.vent.trigger(events.tutorial);
 		});
 		this.background.addChild(tutorial);
 

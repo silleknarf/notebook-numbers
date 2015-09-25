@@ -27,7 +27,6 @@
 		this.stage.canvas.width = Math.floor(this.dimensions.fullWidth);
 		console.log("Inital width: "+this.stage.canvas.width+"px");
 
-
         // Preload the images
         _.extend(this, preload);
         this.loadImages(this.initGame);
@@ -44,7 +43,7 @@
         this.cells = new createjs.Container();
 
         // Drawing Events
-        eventManager.vent.on("GRID:RENDER", this.render, this);
+        eventManager.vent.on(Grid.events.render, this.render, this);
     }
 
     /**
@@ -60,19 +59,20 @@
 
         // Now we can start the main loop
         createjs.Ticker.setFPS(25);
-        createjs.Ticker.addListener(this);
+        createjs.Ticker.on("tick", this.tick, this);
 
-        eventManager.vent.on("NOTEBOOKNUMBERS:TUTORIAL", this.initTutorial, this);
-        eventManager.vent.on("NOTEBOOKNUMBERS:NEWGAME", this.initNewGame, this);
+        eventManager.vent.on(events.tutorial, this.initTutorial, this);
+        eventManager.vent.on(events.newGame, this.initNewGame, this);
 
         createjs.EventDispatcher.initialize(NotebookNumbers.prototype);
 
-        eventManager.vent.trigger("NOTEBOOKNUMBERS:NEWGAME");
+        eventManager.vent.trigger(events.newGame);
     }
 
     NotebookNumbers.prototype.initTutorial = function() {
         if (this.grid)
             this.grid.cleanUpEvents();
+
         this.tutorial = {};
         this.tutorial.__proto__ = Tutorial.prototype;
         _.extend(this, this.tutorial);
@@ -96,8 +96,8 @@
         this.stage.addChildAt(this.background, 0);
 
         // Trigger the numbers updated event
-        eventManager.vent.trigger("GRID:RENDER");
-        eventManager.vent.trigger("BACKGROUND:RENDER");
+        eventManager.vent.trigger(Grid.events.render);
+        eventManager.vent.trigger(BackgroundView.events.render);
     }
 
     NotebookNumbers.prototype.tick = function(evt) {

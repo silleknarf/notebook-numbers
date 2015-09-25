@@ -24,6 +24,7 @@
 	p.Container_initialize = p.initialize;
 	p.initialize = function(i, j, width, height, digit, allowClick, dimensions) {
 		this.Container_initialize();
+	    this.on("tick", this.tick, this);
 
 		// Set up the cell properties
 		this.digit = digit;
@@ -59,34 +60,32 @@
 			 *
 			 * @event onClick
 			 **/
-			this.number.onClick = function(evt) {
-				// Get the cell context
-				var target = evt.target;
+		    this.number.on("click", function(evt) {
+		        // Get the cell context
+		        var target = evt.target;
 
-				// Create a dummy test cell for evaluation
-				var disableClick = false;
-				var tempCell = new Cell(target.i, target.j,width,height,target.digit, disableClick, dimensions);
-				// Pass it to the cursor for further evaluation
-				eventManager.vent.trigger("CURSOR:CHECK", tempCell);
-
-			}
+		        // Create a dummy test cell for evaluation
+		        var disableClick = false;
+		        var tempCell = new Cell(target.i, target.j, width, height, target.digit, disableClick, dimensions);
+		        // Pass it to the cursor for further evaluation
+		        eventManager.vent.trigger(Cursor.events.check, tempCell);
+		    });
 			/** 
 			 * Event that is triggered when a cell is being hovered over, passes a copy of the current grid item
 			 * to the cursor to be evaluated.  
 			 * 
 			 * @event onMouseOver
 			 **/
-			this.number.onMouseOver = function(evt) {
-				// Get the cell context
-				var target = evt.target;
+		    this.number.on("mouseover", function(evt) {
+		        // Get the cell context
+		        var target = evt.target;
 
-				// Create a dummy test cell for evaluation
-				var disableClick = false;
-				var tempCell = new Cell(target.i, target.j,width,height,target.digit, disableClick, dimensions);
-				// Pass it to the cursor for further evaluation
-				eventManager.vent.trigger("CURSOR:ADD", tempCell);
-
-			}
+		        // Create a dummy test cell for evaluation
+		        var disableClick = false;
+		        var tempCell = new Cell(target.i, target.j, width, height, target.digit, disableClick, dimensions);
+		        // Pass it to the cursor for further evaluation
+		        eventManager.vent.trigger(Cursor.events.add, tempCell);
+		    });
 			
 			// Add the graphics to the easel.js canvas 
 			this.addChild(this.number);
@@ -99,7 +98,7 @@
 	 *
 	 * @event onTick
 	 */
-	Cell.prototype.onTick = function() {
+	Cell.prototype.tick = function() {
 
 		// If we are in the cursor we need to draw a circle below
 		if (this.inCursor) {
@@ -111,7 +110,6 @@
 			var navy = createjs.Graphics.getRGB(0,50,102);
 			g.beginStroke(navy);
 			g.beginFill(null);
-			//g.beginFill(createjs.Graphics.getRGB(255,255,255));
 			g.drawCircle(0,0,18);
 			var s = new createjs.Shape(g);
 			s.x = 16;

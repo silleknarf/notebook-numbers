@@ -39,17 +39,17 @@
 		this.nextLevel();
 
 		// If grid completed do next tutorial level
-		eventManager.vent.on("GRID:COMPLETED", this.nextLevel, this);
+		eventManager.vent.on(Grid.events.completed, this.nextLevel, this);
 
 		// Trigger the numbers updated event
-		eventManager.vent.trigger("GRID:RENDER");
-		eventManager.vent.trigger("BACKGROUND:RENDER");
+		eventManager.vent.trigger(Grid.events.render);
+		eventManager.vent.trigger(BackgroundView.events.render);
 	}
 
 	Tutorial.prototype.cleanUpEvents = function ()
 	{
-		eventManager.vent.off("GRID:COMPLETED", this.nextLevel, this);
-		eventManager.vent.off("CURSOR:MAKE_MOVE", this.refillGridTutorialHelper, this);
+		eventManager.vent.off(Grid.events.completed, this.nextLevel, this);
+		eventManager.vent.off(Cursor.events.makeMove, this.refillGridTutorialHelper, this);
 	}
 
 	Tutorial.prototype.nextLevel = function() {
@@ -85,7 +85,7 @@
 		if (this.level == 6) {
 			var grid = [[0], [5,4,3,2,1,9,8,7,6]];
 			this.addTutorialLevel("The aim of the game is to clear the grid", grid, 13);
-			eventManager.vent.on("CURSOR:MAKE_MOVE", this.refillGridTutorialHelper, this);
+			eventManager.vent.on(Cursor.events.makeMove, this.refillGridTutorialHelper, this);
 		}
 
 		// Refill grid
@@ -93,12 +93,11 @@
 			this.addTutorialLevel("When there are no more moves to play, you click:", [[]], 15);
 			this.stage.addChild(this.refillGridButton);
 			this.refillGridButton.y = 30 + this.dimensions.getHeight();
-			eventManager.vent.on("REFILL_GRID", this.nextLevel, this);
 		}
 
 		if (this.level == 8)
 		{
-			eventManager.vent.off("REFILL_GRID", this.nextLevel, this);
+			eventManager.vent.off(Grid.events.refill, this.nextLevel, this);
 		    this.stage.removeChild(this.refillGridButton);
 		    extendGridByRows = 2;
 			this.addTutorialLevel("Now you can complete the grid above", null, 17);
@@ -114,13 +113,13 @@
 
 		this.grid.data = this.tutorialGrid;
 
-		eventManager.vent.trigger("GRID:RENDER");
+		eventManager.vent.trigger(Grid.events.render);
 
 		this.dimensions.gridHeight = this.dimensions.isVerticalLayout 
             ? this.tutorialGrid.length + extendGridByRows
             : this.tutorialGrid.length;
 
-		eventManager.vent.trigger("BACKGROUND:RENDER");
+		eventManager.vent.trigger(BackgroundView.events.render);
 	}
 
 	Tutorial.prototype.refillGridTutorialHelper = function() {
@@ -128,7 +127,7 @@
 		var bottomRow = this.grid.data[this.grid.data.length-1];
 		if (_.isEqual(bottomRow, [5,0,0,0,0,0,0,0,0])) {
 			this.nextLevel();
-			eventManager.vent.off("CURSOR:MAKE_MOVE", this.refillGridTutorialHelper, this);
+			eventManager.vent.off(Cursor.events.makeMove, this.refillGridTutorialHelper, this);
 		}
 	}
 
@@ -146,8 +145,6 @@
 		if (grid != null) {
 			this.tutorialGrid = this.tutorialGrid.concat(grid);
 		}
-	    //this.dimensions.gridHeight = this.tutorialGrid.length+2;
-		//eventManager.vent.trigger("BACKGROUND:RENDER");
 	}
 
 	window.Tutorial = Tutorial;

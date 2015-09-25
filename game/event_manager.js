@@ -12,3 +12,11 @@
     eventManager.vent = Backbone.Events;
     window.eventManager = eventManager;
 })();
+
+// Top-level events
+var events = {
+    newGame: "NOTEBOOKNUMBERS:NEWGAME",
+    tutorial: "NOTEBOOKNUMBERS:TUTORIAL"
+};
+
+

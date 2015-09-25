@@ -12,19 +12,30 @@
      **/
     var Cursor = function(checkCursorFunc) {
         this.cells = [];
-        this.state = "SPEED";
+        this.state = Cursor.states.speed;
         this.max_length = 2;
         this.checkCursorFunc = checkCursorFunc;
-        eventManager.vent.on("CURSOR:CHECK", this.check, this);
-        eventManager.vent.on("CURSOR:ADD", this.addToCursor, this);
+        eventManager.vent.on(Cursor.events.check, this.check, this);
+        eventManager.vent.on(Cursor.events.add, this.addToCursor, this);
 
         // Check the cursor when the spaceBar is pressed
-        key('space', function() { eventManager.vent.trigger("CURSOR:CHECK"); });
+        key('space', function() { eventManager.vent.trigger(Cursor.events.check); });
+    }
+
+    Cursor.events = {
+        check: "CURSOR:CHECK",
+        add: "CURSOR:ADD",
+        makeMove: "CURSOR:MAKE_MOVE"
+    };
+
+    Cursor.states = {
+        speed: "SPEED", 
+        select: "SELECT"
     }
 
     Cursor.prototype.cleanUpEvents = function () {
-        eventManager.vent.off("CURSOR:CHECK", this.check, this);
-        eventManager.vent.off("CURSOR:ADD", this.addToCursor, this);
+        eventManager.vent.off(Cursor.events.check, this.check, this);
+        eventManager.vent.off(Cursor.events.add, this.addToCursor, this);
     }
 
     /**
@@ -66,7 +77,7 @@
         if (this.allowedInCursor(cell)) {
 
             // Cursor state machine
-            if (this.state == "SPEED") {
+            if (this.state == Cursor.states.speed) {
                 this.cells.push(cell);
                 if (this.cells.length>this.max_length) {
                     this.cells.shift();
@@ -76,7 +87,7 @@
             }
 
             // Update the view 				
-            eventManager.vent.trigger("GRID:RENDER");
+            eventManager.vent.trigger(Grid.events.render);
         }
     }
 
@@ -107,25 +118,25 @@
 
         // Cursor state machine
         if (valid) {
-            eventManager.vent.trigger("CURSOR:MAKE_MOVE", this.cells);
+            eventManager.vent.trigger(Cursor.events.makeMove, this.cells);
             this.cells = [];
-            this.state = "SPEED";
+            this.state = Cursor.states.speed;
 
         } else {
             if (cell) {
-                if (this.state == "SPEED" && cell.digit != 0) {
+                if (this.state == Cursor.states.speed && cell.digit != 0) {
                     this.cells = [cell];
-                    this.state = "SELECT";
+                    this.state = Cursor.states.select;
                 } else { 
-                    this.state = "SPEED";
+                    this.state = Cursor.states.speed;
                 }
             } else {
-                this.state = "SPEED";
+                this.state = Cursor.states.speed;
             }
         }
 
         // Update the view 				
-        eventManager.vent.trigger("GRID:RENDER");
+        eventManager.vent.trigger(Grid.events.render);
     }
     window.Cursor = Cursor;
 })();

@@ -7,8 +7,8 @@
 		this.update();
 		$( window ).resize(function() { 
 			setTimeout(function() {
-				eventManager.vent.trigger("GRID:RENDER");
-				eventManager.vent.trigger("BACKGROUND:RENDER");
+				eventManager.vent.trigger(Grid.events.render);
+				eventManager.vent.trigger(BackgroundView.events.render);
 			}, 50);
 		});
 	    this.yScrollPosition = 0;

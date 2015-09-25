@@ -39,12 +39,12 @@
 		 *  Refill Grid Click Event - updates the cells and move the button down
 		 *  @event onClick
 		 **/
-		refillGrid.onClick = function(evt) {
-			// Refill grid event 
-			eventManager.vent.trigger("REFILL_GRID");
-		}
+	    refillGrid.on("click", function(evt) {
+	        // Refill grid event 
+	        eventManager.vent.trigger(Grid.events.refill);
+	    });
 		this.addChild(refillGrid);
-		eventManager.vent.on("BACKGROUND:RENDER", this.updateButtonPosition, this);
+		eventManager.vent.on(BackgroundView.events.render, this.updateButtonPosition, this);
 		this.updateButtonPosition();
 	}
 
