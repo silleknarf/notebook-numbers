@@ -28,7 +28,8 @@
 		console.log("Inital width: "+this.stage.canvas.width+"px");
 
         // Preload the images
-        _.extend(this, preload);
+        var preloader = Preloader();
+        _.extend(this, preloader);
         this.loadImages(this.initGame);
 
         // Enable touch screen support
