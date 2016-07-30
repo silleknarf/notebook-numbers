@@ -9,18 +9,18 @@ var backgroundViewComponent = function() {
 
 	};
 
-	var render = function(entity) {
+	var render = function(entity, eventManager) {
 		my.background.removeAllChildren();
 		var bounds = entity.components[componentTypeEnum.BOUNDS];
 	    var isVerticalLayout = false; // work out from dimensions if we're on a small screen
 	    ///var firstPageHeight = this.dimensions.getTop();
 		//this.background.removeAllChildren();
 		// Draw the outermost cover
-		var coverMargin = bounds.dimensions.absolute.width / 10;
+		var coverMargin = bounds.absolute.width / 10;
 		var cover = new createjs.Shape();
 	    var coverWidth = isVerticalLayout
 	        ? bounds.absolute.width - (coverMargin * 2)
-	        : this.dimensions.pageWidth * 2 + coverMargin * 2 + 20;
+	        : bounds.absolute.width * 2 + coverMargin * 2 + 20;
 
 		// TODO: scale this appropriately
 	    var cornerRadius = 30;
@@ -51,6 +51,7 @@ var backgroundViewComponent = function() {
 		hit.graphics
 		   .beginFill("#F00")
 		   .drawRect(0, 0, bounds.absolute.width/2, bounds.absolute.height);
+		   // .hugs(laura, "frank"), happiness[twilightStruggle];
 		notebookNumbersPage.hitArea = hit;
 
 	    notebookNumbersPage.on("click", function(evt) {
@@ -68,7 +69,7 @@ var backgroundViewComponent = function() {
             titlePage.x = bounds.absolute.width+coverMargin+20;
             titlePage.y = coverMargin; 
             titlePage.sourceRect = new createjs.Rectangle(0,0,bounds.absolute.width, bounds.absolute.height, 30);
-            this.background.addChild(titlePage);
+            my.background.addChild(titlePage);
         }
 
 		// Draw the banderole on the right hand side
@@ -76,29 +77,31 @@ var backgroundViewComponent = function() {
 	    var divisor = isVerticalLayout ? 1 : 2;
 	    banderole.graphics
             .beginFill(config.backgroundColour)
-            .drawRect(0, 0, (this.dimensions.pageWidth / divisor), isVerticalLayout ? firstPageHeight : minHeight - 16, isVerticalLayout ? 0 : 30);
-	    banderole.x = (isVerticalLayout ? coverMargin : titlePage.x + (this.dimensions.pageWidth/2));
+            .drawRect(0, 0, (bounds.absolute.width / divisor), isVerticalLayout ? bounds.absolute.height : minHeight - 16, isVerticalLayout ? 0 : 30);
+	    banderole.x = (isVerticalLayout ? coverMargin : titlePage.x + (bounds.absolute.width/2));
 		banderole.y = coverMargin; 
-		this.background.addChild(banderole);
+		my.background.addChild(banderole);
 
 		// Draw the title banderole on the right hand side
+		// TODO: Scale the font based on absolute height
+		var fontScalingFactor = 1;
 	    var titleTextPosition = isVerticalLayout ? 2 : 4;
-		var titleFontSize = 45 * this.dimensions.fontScalingFactor * (isVerticalLayout ? 3 : 1);
+		var titleFontSize = 45 * fontScalingFactor * (isVerticalLayout ? 3 : 1);
 		var title = new createjs.Text("Notebook Numbers");
 	    title.font = Math.ceil(titleFontSize)+"px "+config.titleFont;
 	    title.color = config.titleColour;
-		title.x = banderole.x + (this.dimensions.pageWidth / titleTextPosition);
+		title.x = banderole.x + (bounds.absolute.width / titleTextPosition);
 		title.y = isVerticalLayout ? coverMargin+firstPageHeight/20 : coverMargin+50; 
 		title.textAlign = "center";
-		this.background.addChild(title);
+		my.background.addChild(title);
 
-		var buttonFontSize = 40 * this.dimensions.fontScalingFactor * (isVerticalLayout ? 3 : 1);
+		var buttonFontSize = 40 * fontScalingFactor * (isVerticalLayout ? 3 : 1);
 		//var buttonFontSize = 40;
 		var buttonOffset = isVerticalLayout ? firstPageHeight / 8 : 100;
 		var newGame = new createjs.Text("- New Game");
 	    newGame.font = Math.ceil(buttonFontSize)+"px "+config.titleFont;
 	    newGame.color = config.titleColour;
-		newGame.x = banderole.x + (this.dimensions.pageWidth / titleTextPosition);
+		newGame.x = banderole.x + (bounds.absolute.width / titleTextPosition);
 		newGame.y = coverMargin+titleFontSize+buttonOffset; 
 		newGame.textAlign = "center";
 
@@ -111,13 +114,13 @@ var backgroundViewComponent = function() {
 		newGame.on("click", function() {
 			eventManager.vent.trigger(events.newGame);
 	   	});
-		this.background.addChild(newGame);
+		my.background.addChild(newGame);
 
 		// Draw the title banderole on the right hand side
 		var tutorial = new createjs.Text("- Tutorial");
 	    tutorial.font = Math.ceil(buttonFontSize)+"px "+config.titleFont;
 	    tutorial.color = config.titleColour;
-		tutorial.x = banderole.x + (this.dimensions.pageWidth / titleTextPosition);
+		tutorial.x = banderole.x + (bounds.absolute.width / titleTextPosition);
 		tutorial.y = coverMargin+titleFontSize+buttonFontSize+buttonOffset+10; 
 		tutorial.textAlign = "center";
 
@@ -130,19 +133,19 @@ var backgroundViewComponent = function() {
 		tutorial.on("click", function() {
 			eventManager.vent.trigger(events.tutorial);
 		});
-		this.background.addChild(tutorial);
+		my.background.addChild(tutorial);
 
 		// Draw the bindings in the middle
         if (!isVerticalLayout) {
             var y = 0;
             for (var i = 0; y < minHeight; i++) {
-                var bindings = new createjs.Bitmap(this.assets['bindings']);
-                bindings.x = this.dimensions.pageWidth - 20;
+                var bindings = new createjs.Bitmap(my.assets['bindings']);
+                bindings.x = bounds.absolute.width - 20;
                 y = 10+(i*225);
                 bindings.y = y;
                 bindings.scaleX = 0.6;
                 bindings.scaleY = 0.6;
-                this.background.addChild(bindings);
+                my.background.addChild(bindings);
             }
         }
 	}
