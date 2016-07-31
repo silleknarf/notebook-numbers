@@ -17,12 +17,8 @@ var entityComponentSystem = function() {
 	var runSystem = function(requiredComponents, systemFunction) {
 		// Walk the tree
 		walkEntities(function(entity) {
-			// get entity components
-			var components = entity.getComponentNames();
 			if (entity.hasRequiredComponents(requiredComponents))
-			{
 				systemFunction(entity);
-			}
 		});
 	};
 

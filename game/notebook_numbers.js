@@ -1,11 +1,13 @@
 var ecs = entityComponentSystem();
 
-renderSystem(ecs, eventManager, preloader);
+renderSystem(ecs, eventManager, preloaderMixin);
 boundsSystem(ecs, eventManager)
 
-var backgroundEntityComponents = [backgroundViewComponent()];
-var backgroundEntity = entity(backgroundEntityComponents)
+var backgroundEntityComponents = [backgroundViewComponent(), boundsComponent()];
+var backgroundEntity = entity("background_view", backgroundEntityComponents)
 ecs.entities.push(backgroundEntity);
 
-eventManager.vent.trigger("SYSTEM:BOUNDS:START");
-eventManager.vent.trigger("SYSTEM:RENDER:START");
+var init = function() {
+	eventManager.vent.trigger("SYSTEM:BOUNDS:START");
+	eventManager.vent.trigger("SYSTEM:RENDER:START");
+};

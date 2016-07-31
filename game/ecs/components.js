@@ -6,8 +6,9 @@ var component = function(componentType) {
 
 var componentTypeEnum = Object.freeze({
 	VIEW: "view",
-	BOUNDS: "bounds"
-}V);
+	BOUNDS: "bounds",
+	GRID: "grid"
+});
 
 var viewComponent = function(initFunction, renderFunction) {
 	var my = component(componentTypeEnum.VIEW);
@@ -35,3 +36,9 @@ var boundsComponent = function() {
 	my.absolute = absolute;
 	return my;
 }
+
+var gridComponent = function(grid) {
+	var my = component(componentTypeEnum.GRID);
+	my.grid = grid;
+	return my;
+};

@@ -20,11 +20,7 @@ var preloaderMixin = function(target) {
 	**/
 	var handleComplete = function() {
 		// Log the preloaded files for now
-		for (var i = 0; i < preload.assets.length; i++) 
-		{
-		    var item = preload.assets[i]; 
-		    console.log(item);
-		}
+		console.log(self.assets);
 		self.onComplete();
 	};
 
@@ -56,9 +52,6 @@ var preloaderMixin = function(target) {
 		// Pass the manifest to the image loader
 		loader.loadManifest(manifest);
 	};
-
-
-	return {
-		loadImages: loadImages,
-	};
+	self.loadImages = loadImages;
+	return self;
 };

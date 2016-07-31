@@ -10,20 +10,15 @@ var entity = function(name, components, subEntities) {
 
 	_.forEach(my.subEntities, function(subEntity) {
 		subEntity.parent = my;
-	})
+	});
 
 	var getComponentNames = function() {
-		return _.forOwn(my.components, function(value, key) {
-			return key;
-		});
-	}
+		return _.keys(my.components);
+	};
 
 	var hasRequiredComponents = function (requiredComponents) {
-		var componentNames = _.map(
-			getComponents(), 
-			function(component) { return component.name; });
-		return _.intersect([requiredComponents, componentNames]).length === requiredComponents.length;
-	}
+		return _.intersection(requiredComponents, getComponentNames()).length === requiredComponents.length;
+	};
 
 	my.getComponentNames = getComponentNames;
 	my.hasRequiredComponents = hasRequiredComponents;

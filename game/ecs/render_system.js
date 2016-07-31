@@ -3,10 +3,10 @@ var renderSystem = function(ecs, eventManager, preloader) {
 
 	var render = function() {
 		ecs.runSystem(
-			[componentTypeEnum.ABSOLUTE_BOUNDS, componentTypeEnum.VIEW],
+			[componentTypeEnum.BOUNDS, componentTypeEnum.VIEW],
 			function(entity) { 
 				var view = entity.components[componentTypeEnum.VIEW];
-				view.render(entity);
+				view.render(my, entity, eventManager);
 			});
 		my.stage.update();
 	};
@@ -29,10 +29,10 @@ var renderSystem = function(ecs, eventManager, preloader) {
 		preloader(my);
 		my.loadImages(function() {
 			ecs.runSystem(
-				[componentTypeEnum.ABSOLUTE_BOUNDS, componentTypeEnum.VIEW],
+				[componentTypeEnum.BOUNDS, componentTypeEnum.VIEW],
 				function(entity) { 
 					var view = entity.components[componentTypeEnum.VIEW];
-					view.init(entity);
+					view.init(my, entity);
 				});
 
 		    createjs.Ticker.setFPS(25);
@@ -41,6 +41,7 @@ var renderSystem = function(ecs, eventManager, preloader) {
 	};
 
 	var initialiseEvents = function() {
-		eventManager.vent.on("SYSTEM:RENDER:START");
+		eventManager.vent.on("SYSTEM:RENDER:START", start);
 	};
+	initialiseEvents();
 };
