@@ -6,9 +6,14 @@ var component = function(componentType) {
 
 var componentTypeEnum = Object.freeze({
 	VIEW: "view",
+<<<<<<< HEAD
 	BOUNDS: "bounds",
 	GRID: "grid"
 });
+=======
+	BOUNDS: "bounds"
+}V);
+>>>>>>> fe8d1f25a422bf780a9a5e28c7513ef65933b0fa
 
 var viewComponent = function(initFunction, renderFunction) {
 	var my = component(componentTypeEnum.VIEW);
@@ -36,9 +41,12 @@ var boundsComponent = function() {
 	my.absolute = absolute;
 	return my;
 }
+<<<<<<< HEAD
 
 var gridComponent = function(grid) {
 	var my = component(componentTypeEnum.GRID);
 	my.grid = grid;
 	return my;
 };
+=======
+>>>>>>> fe8d1f25a422bf780a9a5e28c7513ef65933b0fa
