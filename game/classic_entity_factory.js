@@ -29,7 +29,10 @@ var classicEntityFactory = function() {
 	};
 
 	var classicGridComponent = gridComponent(generateClassicGrid());
+	// TODO: implement gridViewComponent
+	var gridViewComponent = gridViewComponent();
+	// TODO: call with the right parameters
+	var gridBoundsComponent = boundsComponent();
 
-	var classicComponents = [classicGridComponent]
-	return entity("classic", classicComponents);
+	return entity("classic", classicComponents, gridEntity);
 };

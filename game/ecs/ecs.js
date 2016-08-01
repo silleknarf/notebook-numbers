@@ -22,6 +22,26 @@ var entityComponentSystem = function() {
 		});
 	};
 
+	var addEntity = function(parentEntityName, entityToAdd) {
+		walkEntities(function(entity) {
+			if (entity.name === parentEntityName) {
+				entity.subEntities.push(entityToAdd);
+			}
+		});
+	};
+
+	var removeEntity = function(entityName) {
+		walkEntities(function(entity) {
+			_.remove(
+				entity.subEntities,
+				function(subEntity) {
+					return subEntity.name === entityName;
+				});
+		});
+	};
+
 	my.runSystem = runSystem;
+	my.addEntity = addEntity;
+	my.removeEntity = removeEntity;
 	return my;
 };
