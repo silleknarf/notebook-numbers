@@ -1,5 +1,4 @@
-var classicFactory = function() {
-	
+var classicEntityFactory = function() {
 	var generateClassicGrid = function() {
 	    var data = [[], [], []];
 	    var firstRow = data[0];
@@ -32,5 +31,5 @@ var classicFactory = function() {
 	var classicGridComponent = gridComponent(generateClassicGrid());
 
 	var classicComponents = [classicGridComponent]
-	return entity("classic", )
+	return entity("classic", classicComponents);
 };

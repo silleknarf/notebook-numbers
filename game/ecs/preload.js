@@ -20,15 +20,7 @@ var preloaderMixin = function(target) {
 	**/
 	var handleComplete = function() {
 		// Log the preloaded files for now
-<<<<<<< HEAD:game/ecs/preload.js
 		console.log(self.assets);
-=======
-		for (var i = 0; i < preload.assets.length; i++) 
-		{
-		    var item = preload.assets[i]; 
-		    console.log(item);
-		}
->>>>>>> fe8d1f25a422bf780a9a5e28c7513ef65933b0fa:game/ecs/preload.js
 		self.onComplete();
 	};
 
@@ -60,14 +52,6 @@ var preloaderMixin = function(target) {
 		// Pass the manifest to the image loader
 		loader.loadManifest(manifest);
 	};
-<<<<<<< HEAD:game/ecs/preload.js
 	self.loadImages = loadImages;
 	return self;
-=======
-
-
-	return {
-		loadImages: loadImages,
-	};
->>>>>>> fe8d1f25a422bf780a9a5e28c7513ef65933b0fa:game/ecs/preload.js
 };
