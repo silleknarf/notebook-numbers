@@ -157,4 +157,24 @@ Menu System - Events
 TUTORIAL:START
 GAME:START
 
+GRID VIEW
+=========
+
+Option 1 - Grid has no sub entities
+- Render the all the numbers in the grid up front
+- If we're in "web" mode, notify the bounds system when we need 
+  more space
+- If we're in mobile mode, we can respond to changes in the scroll in order to render in the correct place
+- How do we place the cursor?
+
+Option 2 - Grid has an entity per cell and a cursor entity
+- No view component for the grid itself
+- Logic component adds new cell entities
+- Cell entities have view component
+- Cursor system interacts with cell entities
+- If we're in "web" mode, logic system notifies the bounds system when we need more space, which is not ideal
+- If we're in mobile mode, how can we can respond to changes in the scroll in order to render the cells in the correct place
+
+
+
 

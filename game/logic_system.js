@@ -69,8 +69,7 @@ var logicSystem = function(ecs, eventManager) {
 			secondCell = p1;
 		}
 
-		var checkCell = {};
-		$.extend(checkCell, firstCell);
+		var checkCell = _.clone(firstCell);
 		if (checkCell.equals(secondCell)) {
 			return false;
 		}

@@ -32,7 +32,8 @@ var renderSystem = function(ecs, eventManager, preloader) {
 				[componentTypeEnum.BOUNDS, componentTypeEnum.VIEW],
 				function(entity) { 
 					var view = entity.components[componentTypeEnum.VIEW];
-					view.init(my, entity);
+					if (view.init)
+						view.init(my, entity);
 				});
 
 		    createjs.Ticker.setFPS(25);
