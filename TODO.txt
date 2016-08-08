@@ -1,3 +1,9 @@
++ Write ecs
++ Write bounds system
+- Set up events
+-
+
+
 - Remove free android version of NN
 - Register domain notebooknumbers.com
 - Clean up code

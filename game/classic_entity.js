@@ -1,4 +1,4 @@
-var classicEntityFactory = function() {
+var classicEntity = function() {
 	var generateClassicGrid = function() {
 	    var data = [[], [], []];
 	    var firstRow = data[0];
@@ -29,10 +29,15 @@ var classicEntityFactory = function() {
 	};
 
 	var classicGridComponent = gridComponent(generateClassicGrid());
-	// TODO: implement gridViewComponent
-	var gridViewComponent = gridViewComponent();
-	// TODO: call with the right parameters
 	var gridBoundsComponent = boundsComponent();
+	gridBoundsComponent.relative = {
+		x: 5,
+		y: 5,
+		width: 50,
+		height: 90
+	};
 
-	return entity("classic", classicComponents, gridEntity);
+	var classicComponents = [classicGridComponent, gridBoundsComponent];
+
+	return entity("classic", classicComponents);
 };

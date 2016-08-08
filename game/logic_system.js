@@ -203,6 +203,7 @@ var logicSystem = function(ecs, eventManager) {
 			function(entity) {
 				var grid = entity.components[componentEnumType.GRID];
 				refillGrid(grid);
+				eventManager.vent.trigger("SYSTEM:LOGIC:GRID_CHANGED");
 			});
 	}
 
@@ -214,6 +215,7 @@ var logicSystem = function(ecs, eventManager) {
 				var isMovePossible = check(grid, firstCell, secondCell);
 				if (isMovePossible) {
 					makeMove(grid, firstCell, secondCell);
+				eventManager.vent.trigger("SYSTEM:LOGIC:GRID_CHANGED");
 				}
 			});
 	};

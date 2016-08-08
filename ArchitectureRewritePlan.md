@@ -92,7 +92,7 @@ Components - this contains the data used by a component of the system
 System - these are applied in turn to each of the entities
 
 Entities
-Game - [Grid, Cursor, Bounds, Renderable] 
+Game - [Grid, Cell, Cursor, Bounds, Renderable] 
 Background - [Bounds, Renderable]
 Menu - [Bounds, Renderable]
 Overlay Text  - [Bounds, Renderable, TextInfo]
@@ -126,6 +126,7 @@ Startup
 - GAME:START
 - CURSOR:START
 - CLASSIC:START
+- CELL:START
 - Start Game loop
 
 Game System 
@@ -157,6 +158,8 @@ Menu System - Events
 TUTORIAL:START
 GAME:START
 
+Cell System
+
 GRID VIEW
 =========
 
@@ -167,13 +170,15 @@ Option 1 - Grid has no sub entities
 - If we're in mobile mode, we can respond to changes in the scroll in order to render in the correct place
 - How do we place the cursor?
 
-Option 2 - Grid has an entity per cell and a cursor entity
+[SELECTED] Option 2 - Grid has an entity per cell and a cursor entity
 - No view component for the grid itself
 - Logic component adds new cell entities
 - Cell entities have view component
 - Cursor system interacts with cell entities
 - If we're in "web" mode, logic system notifies the bounds system when we need more space, which is not ideal
 - If we're in mobile mode, how can we can respond to changes in the scroll in order to render the cells in the correct place
+- Logic system to create entities? Yes
+- Game system has bounds which are passed in to the render system
 
 
 

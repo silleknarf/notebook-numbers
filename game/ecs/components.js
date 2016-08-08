@@ -7,7 +7,8 @@ var component = function(componentType) {
 var componentTypeEnum = Object.freeze({
 	VIEW: "view",
 	BOUNDS: "bounds",
-	GRID: "grid"
+	GRID: "grid",
+	NUMBER: "number",
 });
 
 var viewComponent = function(initFunction, renderFunction) {
@@ -40,5 +41,11 @@ var boundsComponent = function() {
 var gridComponent = function(grid) {
 	var my = component(componentTypeEnum.GRID);
 	my.grid = grid;
+	return my;
+};
+
+var numberComponent = function(digit) {
+	var my = component(componentTypeEnum.NUMBER);
+	my.digit = digit;
 	return my;
 };
