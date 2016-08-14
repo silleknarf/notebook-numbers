@@ -8,12 +8,13 @@ var cellViewComponent = function() {
 			number.digit, 
 			"30px "+config.font, 
 			config.backgroundColour);
-		numberView.textAlign = "center";
+		//numberView.textAlign = "center";
 		numberView.x = absolute.x;
 		numberView.y = absolute.y;
 		numberView.digit = number.digit;
 		my.numberView = numberView;
 		renderSystem.stage.addChild(numberView);
+		renderSystem.stage.setChildIndex(numberView, renderSystem.stage.getNumChildren()-1);	
 	};
 
 	var render = function(renderSystem, entity, eventManager) {

@@ -30,6 +30,13 @@ var entityComponentSystem = function() {
 		});
 	};
 
+	var addEntities = function(parentEntityName, entitiesToAdd) {
+		_.forEach(entitiesToAdd, function(entity) {
+			addEntity(parentEntityName, entity);
+		});
+		eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
+	};
+
 	var removeEntity = function(entityName) {
 		walkEntities(function(entity) {
 			_.remove(
@@ -41,7 +48,7 @@ var entityComponentSystem = function() {
 	};
 
 	my.runSystem = runSystem;
-	my.addEntity = addEntity;
+	my.addEntities = addEntities;
 	my.removeEntity = removeEntity;
 	return my;
 };

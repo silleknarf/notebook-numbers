@@ -1,4 +1,5 @@
-var logicSystem = function(ecs, eventManager) {
+var gridProxy = function() {
+	var my = this;
 
 	/** 
 	 * Takes a pair of co-ords and returns true if they add to the given total
@@ -102,9 +103,6 @@ var logicSystem = function(ecs, eventManager) {
 	 * @return {Boolean} True if the move is valid
 	 **/
 	var check = function(grid, firstCell, secondCell) {
-		if (!cursor.hasEnoughCells()) {
-			return false;
-		}	
 		var validTotal = checkTotal(grid, firstCell, secondCell);
 		var validVertical = checkVerticalMove(grid, firstCell, secondCell)
 		var validHorizontal = checkHorizontalMove(grid, firstCell, secondCell);
@@ -178,7 +176,6 @@ var logicSystem = function(ecs, eventManager) {
 				}
 			}
 		}
-		eventManager.vent.trigger("SYSTEM:LOGIC:COMPLETED");
 		return true;
 	}
 
@@ -194,14 +191,21 @@ var logicSystem = function(ecs, eventManager) {
 			var j = cells[c].j;
 			grid[i][j] = 0;
 		}
-		checkCompleted();
 	}
+	my.makeMove = makeMove;
+	my.checkCompleted = checkCompleted;
+	my.refillGrid = refillGrid;
+	return my;
+};
+
+var logicSystem = function(ecs, eventManager) {
+
 
 	var refillGridEvent = function() {
 		ecs.runSystem(
-			[componentEnumType.GRID],
+			[componentTypeEnum.GRID],
 			function(entity) {
-				var grid = entity.components[componentEnumType.GRID];
+				var grid = entity.components[componentTypeEnum.GRID].grid;
 				refillGrid(grid);
 				eventManager.vent.trigger("SYSTEM:LOGIC:GRID_CHANGED");
 			});
@@ -211,11 +215,11 @@ var logicSystem = function(ecs, eventManager) {
 		ecs.runSystem(
 			[componentEnumType.GRID],
 			function(entity) {
-				var grid = entity.components[componentEnumType.GRID];
+				var grid = entity.components[componentTypeEnum.GRID].grid;
 				var isMovePossible = check(grid, firstCell, secondCell);
 				if (isMovePossible) {
 					makeMove(grid, firstCell, secondCell);
-				eventManager.vent.trigger("SYSTEM:LOGIC:GRID_CHANGED");
+					eventManager.vent.trigger("SYSTEM:LOGIC:GRID_CHANGED");
 				}
 			});
 	};

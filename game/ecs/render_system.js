@@ -6,6 +6,11 @@ var renderSystem = function(ecs, eventManager, preloader) {
 			[componentTypeEnum.BOUNDS, componentTypeEnum.VIEW],
 			function(entity) { 
 				var view = entity.components[componentTypeEnum.VIEW];
+				if (view.init && !view.hasInit)
+				{
+					view.init(my, entity, eventManager);
+					view.hasInit = true;
+				}
 				view.render(my, entity, eventManager);
 			});
 		my.stage.update();
@@ -28,14 +33,6 @@ var renderSystem = function(ecs, eventManager, preloader) {
 		// preload assets
 		preloader(my);
 		my.loadImages(function() {
-			ecs.runSystem(
-				[componentTypeEnum.BOUNDS, componentTypeEnum.VIEW],
-				function(entity) { 
-					var view = entity.components[componentTypeEnum.VIEW];
-					if (view.init)
-						view.init(my, entity);
-				});
-
 		    createjs.Ticker.setFPS(25);
 		    createjs.Ticker.on("tick", render);
 		});
