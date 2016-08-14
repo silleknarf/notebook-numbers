@@ -1,4 +1,4 @@
-var gridProxy = function() {
+var gridRepositoryFactory = function() {
 	var my = this;
 
 	/** 
@@ -196,38 +196,4 @@ var gridProxy = function() {
 	my.checkCompleted = checkCompleted;
 	my.refillGrid = refillGrid;
 	return my;
-};
-
-var logicSystem = function(ecs, eventManager) {
-
-
-	var refillGridEvent = function() {
-		ecs.runSystem(
-			[componentTypeEnum.GRID],
-			function(entity) {
-				var grid = entity.components[componentTypeEnum.GRID].grid;
-				refillGrid(grid);
-				eventManager.vent.trigger("SYSTEM:LOGIC:GRID_CHANGED");
-			});
-	}
-
-	var makeMoveEvent = function(firstCell, secondCell) {
-		ecs.runSystem(
-			[componentEnumType.GRID],
-			function(entity) {
-				var grid = entity.components[componentTypeEnum.GRID].grid;
-				var isMovePossible = check(grid, firstCell, secondCell);
-				if (isMovePossible) {
-					makeMove(grid, firstCell, secondCell);
-					eventManager.vent.trigger("SYSTEM:LOGIC:GRID_CHANGED");
-				}
-			});
-	};
-
-	var initialiseEvents = function() {
-		eventManager.vent.on("SYSTEM:LOGIC:REFILL_GRID", refillGridEvent);
-		eventManager.vent.on("SYSTEM:LOGIC:MAKE_MOVE", makeMoveEvent);
-	};
-
-	initialiseEvents();
 };

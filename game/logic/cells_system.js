@@ -5,7 +5,7 @@ var cellsSystem = function(ecs, eventManager) {
 			function(gridEntity) {
 				var gridComponent = gridEntity.components[componentTypeEnum.GRID];
 				var grid = gridComponent.grid;
-				ecs.removeEntity("cells");
+				ecs.removeEntities("cell");
 			    // Create each cell and add it to the grid
 			    var cells = [];
 			    for (var i = 0; i < grid.length; i++) {
@@ -20,9 +20,9 @@ var cellsSystem = function(ecs, eventManager) {
 			        		width: cellWidth, 
 			        		height: cellWidth
 			        	};
-			        	var number = numberComponent(grid[i][j]);
+			        	var cell = cellComponent(i, j, grid[i][j]);
 			        	var cellView = cellViewComponent();
-			        	var cellEntity = entity("cells", [bounds, number, cellView])
+			        	var cellEntity = entity("cell", [bounds, cell, cellView])
 			        	cells.push(cellEntity);
 			        }
 			    }

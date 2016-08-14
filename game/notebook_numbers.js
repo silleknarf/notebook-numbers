@@ -1,9 +1,12 @@
 var ecs = entityComponentSystem();
 
+var gridRepository = gridRepositoryFactory();
+
 renderSystem(ecs, eventManager, preloaderMixin);
 boundsSystem(ecs, eventManager);
-logicSystem(ecs, eventManager);
+logicSystem(ecs, eventManager, gridRepository);
 cellsSystem(ecs, eventManager);
+cursorSystem(ecs, eventManager, gridRepository);
 
 var backgroundEntityComponents = [backgroundViewComponent(), boundsComponent()];
 var backgroundEntity = entity("background_view", backgroundEntityComponents);
