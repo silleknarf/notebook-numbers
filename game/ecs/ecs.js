@@ -37,7 +37,7 @@ var entityComponentSystem = function() {
 		eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
 	};
 
-	var removeEntity = function(entityName) {
+	var removeEntities = function(entityName) {
 		walkEntities(function(entity) {
 			_.remove(
 				entity.subEntities,
@@ -49,6 +49,6 @@ var entityComponentSystem = function() {
 
 	my.runSystem = runSystem;
 	my.addEntities = addEntities;
-	my.removeEntity = removeEntity;
+	my.removeEntities = removeEntities;
 	return my;
 };

@@ -56,8 +56,8 @@ var cursorSystem = function(ecs, eventManager, gridRepository) {
                 cursor.cells[1] = cell;
             }
 
-            // Update the view 				
-            eventManager.vent.trigger("SYSTEM:GRID:CELLS_UPDATED");
+            // Not sure if required?
+            eventManager.vent.trigger("VIEWSYSTEM:CELLS:GRID_CHANGED");
         }
     };
 
@@ -115,7 +115,7 @@ var cursorSystem = function(ecs, eventManager, gridRepository) {
         }
 
         // Update the view 				
-        eventManager.vent.trigger("SYSTEM:GRID:CELLS_UPDATED");
+        eventManager.vent.trigger("VIEWSYSTEM:CELLS:GRID_CHANGED");
     }
 
     var addEvent = function(cell) { 
@@ -140,8 +140,8 @@ var cursorSystem = function(ecs, eventManager, gridRepository) {
     };
 
 	var initialiseEvents = function() {
-        eventManager.vent.on("SYSTEM:CURSOR:CHECK", check);
-        eventManager.vent.on("SYSTEM:CURSOR:ADD", add);
+        eventManager.vent.on("SYSTEM:CURSOR:CHECK", checkEvent);
+        eventManager.vent.on("SYSTEM:CURSOR:ADD", addEvent);
 	};
 	initialiseEvents();
 };

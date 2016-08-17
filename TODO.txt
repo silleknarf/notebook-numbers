@@ -1,8 +1,10 @@
 + Write ecs
 + Write bounds system
-- Set up events
--
-
++ Set up events
++ Write cursor view component
++ Write cursor system
+- Test cursor system
+- Extend the game entity bounds when the game gets bigger
 
 - Remove free android version of NN
 - Register domain notebooknumbers.com

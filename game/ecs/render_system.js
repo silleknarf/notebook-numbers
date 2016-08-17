@@ -3,7 +3,7 @@ var renderSystem = function(ecs, eventManager, preloader) {
 
 	var render = function() {
 		ecs.runSystem(
-			[componentTypeEnum.BOUNDS, componentTypeEnum.VIEW],
+			[componentTypeEnum.VIEW],
 			function(entity) { 
 				var view = entity.components[componentTypeEnum.VIEW];
 				if (view.init && !view.hasInit)
