@@ -1,12 +1,22 @@
-+ Write ecs
-+ Write bounds system
-+ Set up events
-+ Write cursor view component
-+ Write cursor system
-- Test cursor system
-- Extend the game entity bounds when the game gets bigger
-
-- Remove free android version of NN
-- Register domain notebooknumbers.com
-- Clean up code
-- Deploy on AWS
++ ecs
+	+ Write ecs
+	+ Write bounds system
+	+ Set up events
++ cursor
+	+ Write cursor view component
+	+ Write cursor system
+	- Get cursor to render
+	- Test cursor system
+- Fix double refill grid bug
+	- Basically, the grid belongs to two entities so it gets updated twice when the refill grid event goes off
+- Scrolling
+	- Extend the background view to the bottom of the screen
+	- Extend the game entity bounds when the game gets bigger
+- Mobile version
+	- Implement vertical layout
+	- Implement touch-based scrolling
+- Release
+	- Remove free android version of NN
+	- Register domain notebooknumbers.com
+	- Clean up code
+	- Deploy on AWS

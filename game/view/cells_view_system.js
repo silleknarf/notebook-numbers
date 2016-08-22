@@ -25,7 +25,7 @@ var cellsViewSystem = function(ecs, eventManager) {
 	        }
 	    }
 	  	// TODO: create a grid entity to hold the cells
-	   	ecs.addEntities("classic", cells);
+	   	ecs.addEntities("grid", cells);
 	};
 
 	var synchroniseGridEvent = function() {

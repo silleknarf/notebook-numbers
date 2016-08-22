@@ -5,7 +5,7 @@ var logicSystem = function(ecs, eventManager, gridRepository) {
 			function(entity) {
 				var grid = entity.components[componentTypeEnum.GRID].grid;
 				gridRepository.refillGrid(grid);
-				eventManager.vent.trigger("SYSTEM:LOGIC:GRID_CHANGED");
+				eventManager.vent.trigger("VIEWSYSTEM:CELLS:GRID_CHANGED");
 			});
 	}
 
@@ -17,7 +17,7 @@ var logicSystem = function(ecs, eventManager, gridRepository) {
 				var isMovePossible = gridRepository.check(grid, firstCell, secondCell);
 				if (isMovePossible) {
 					gridRepository.makeMove(grid, firstCell, secondCell);
-					eventManager.vent.trigger("SYSTEM:LOGIC:GRID_CHANGED");
+					eventManager.vent.trigger("VIEWSYSTEM:CELLS:GRID_CHANGED");
 				}
 			});
 	};

@@ -33,8 +33,8 @@ var classicEntity = function() {
 	var classicBounds = boundsComponent();
 	classicBounds.relative.width = 50;
 
-	var gridEntity = gridEntityFactory(gridComponent);
-	var cursorEntity = cursorEntityFactory(gridComponent);
+	var gridEntity = gridEntityFactory(classicGridComponent);
+	var cursorEntity = cursorEntityFactory(classicGridComponent);
 	var refillGridEntity = refillGridEntityFactory();
 	
 	return entity("classic", [classicBounds], [gridEntity, refillGridEntity, cursorEntity]);

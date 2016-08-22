@@ -7,6 +7,10 @@ var cursorSystem = function(ecs, eventManager, gridRepository) {
         select: "SELECT"
     };
 
+    var equals = function(firstCell, secondCell) {
+        return (firstCell.i == secondCell.i) && (firstCell.j == secondCell.j);
+    }
+
     /**
      * Checks if a new cell is allowed in the cursor
      *
@@ -20,7 +24,7 @@ var cursorSystem = function(ecs, eventManager, gridRepository) {
 
         // Don't allow duplicates
         for (var i = 0; i < cursor.cells.length; i++) { 
-            if (cell.equals(cursor.cells[i]))
+            if (equals(cell, cursor.cells[i]))
                 return false;
         } 
 
@@ -56,8 +60,7 @@ var cursorSystem = function(ecs, eventManager, gridRepository) {
                 cursor.cells[1] = cell;
             }
 
-            // Not sure if required?
-            eventManager.vent.trigger("VIEWSYSTEM:CELLS:GRID_CHANGED");
+            eventManager.vent.trigger("VIEWSYSTEM:CURSOR:UPDATED");
         }
     };
 
@@ -114,8 +117,8 @@ var cursorSystem = function(ecs, eventManager, gridRepository) {
             }
         }
 
-        // Update the view 				
         eventManager.vent.trigger("VIEWSYSTEM:CELLS:GRID_CHANGED");
+        eventManager.vent.trigger("VIEWSYSTEM:CURSOR:UPDATED");
     }
 
     var addEvent = function(cell) { 

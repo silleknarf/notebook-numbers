@@ -3,7 +3,7 @@ var cellViewComponent = function() {
 
 	var init = function(renderSystem, entity) {
 		var absolute = entity.components[componentTypeEnum.BOUNDS].absolute;
-		var number = entity.components[componentTypeEnum.NUMBER];
+		var number = entity.components[componentTypeEnum.CELL];
 		var numberView = new createjs.Text(
 			number.digit, 
 			"30px "+config.font, 
@@ -12,6 +12,19 @@ var cellViewComponent = function() {
 		numberView.x = absolute.x;
 		numberView.y = absolute.y;
 		numberView.digit = number.digit;
+
+		// Create a hitbox for each number
+		var hit = new createjs.Shape();
+		hit.graphics.beginFill("#F00").drawRect(0, 0, absolute.width, absolute.height);
+		numberView.hitArea = hit;
+
+	    numberView.on("click", function(evt) {
+	        eventManager.vent.trigger("SYSTEM:CURSOR:CHECK", number);
+	    });
+	    numberView.on("mouseover", function(evt) {
+	        eventManager.vent.trigger("SYSTEM:CURSOR:ADD", number);
+	    });
+			
 		my.numberView = numberView;
 		renderSystem.stage.addChild(numberView);
 		renderSystem.stage.setChildIndex(numberView, renderSystem.stage.getNumChildren()-1);	
