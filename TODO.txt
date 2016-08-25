@@ -7,8 +7,7 @@
 	+ Write cursor system
 	- Get cursor to render
 	- Test cursor system
-- Fix double refill grid bug
-	- Basically, the grid belongs to two entities so it gets updated twice when the refill grid event goes off
++ Fix double refill grid bug
 - Scrolling
 	- Extend the background view to the bottom of the screen
 	- Extend the game entity bounds when the game gets bigger

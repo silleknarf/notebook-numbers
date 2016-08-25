@@ -1,5 +1,19 @@
+// This repository allows us to create GUIDs which 
+// we can use as component ids
+var componentIdRepository = (function() {
+	var my = this;
+	my.nextId = 1;
+	my.getNextId = function() {
+		var nextId = my.nextId;
+		my.nextId++;
+		return nextId;
+	}
+	return my;
+})();
+
 var component = function(componentType) {
 	var my = {};
+	my.id = componentIdRepository.getNextId();
 	my.componentType = componentType;
 	return my;
 };
