@@ -12,16 +12,16 @@ var cellRepositoryFactory = function() {
 	 *  @param {Cell} otherCell the cell you wish to compare with
 	 *  @return {Boolean}
 	 **/
-	var isBefore = function(otherCell) {
+	var isBefore = function(cell, otherCell) {
 		// Case they're on the same line or otherCell is below
-		if (this.i <= otherCell.i) {
+		if (cell.i <= otherCell.i) {
 			// It's definitely below
-			if (this.i < otherCell.i) {
+			if (cell.i < otherCell.i) {
 				return true;
 			}
 
-			// this is on the left on the same line
-			if (this.j < otherCell.j) {
+			// cell is on the left on the same line
+			if (cell.j < otherCell.j) {
 				return true;
 			} 	
 		}

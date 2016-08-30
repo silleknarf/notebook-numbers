@@ -40,7 +40,7 @@ var gridRepositoryFactory = function(cellRepository) {
 			return false;
 		}
 
-		for (var i = lowerCell.i+1; i < upperCell.i-1; i++) {
+		for (var i = lowerCell.i+1; i < upperCell.i; i++) {
 			var j = lowerCell.j;
 
 			// numbers > 0 block the path
