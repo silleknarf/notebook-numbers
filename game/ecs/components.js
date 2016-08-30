@@ -25,10 +25,11 @@ var componentTypeEnum = Object.freeze({
 	CELL: "cell",
 });
 
-var viewComponent = function(initFunction, renderFunction) {
+var viewComponent = function(initFunction, renderFunction, removeFunction) {
 	var my = component(componentTypeEnum.VIEW);
 	my.init = initFunction;
 	my.render = renderFunction;
+	my.remove = removeFunction;
 	return my;
 }
 

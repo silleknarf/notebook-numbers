@@ -1,5 +1,5 @@
-var gridRepositoryFactory = function() {
-	var my = this;
+var gridRepositoryFactory = function(cellRepository) {
+	var my = {};
 
 	/** 
 	 * Takes a pair of co-ords and returns true if they add to the given total
@@ -65,17 +65,17 @@ var gridRepositoryFactory = function() {
 	var checkHorizontalMove = function(grid, p1, p2){
 		var firstCell = p1;
 		var secondCell = p2;
-		if (p2.isBefore(p1)) {
+		if (cellRepository.isBefore(p2, p1)) {
 			firstCell = p2;
 			secondCell = p1;
 		}
 
 		var checkCell = _.clone(firstCell);
-		if (checkCell.equals(secondCell)) {
+		if (cellRepository.equals(checkCell, secondCell)) {
 			return false;
 		}
 		checkCell.j++;	
-		while (checkCell.isBefore(secondCell)) {
+		while (cellRepository.isBefore(checkCell, secondCell)) {
 			// numbers > 0 block the path
 			if (grid[checkCell.i][checkCell.j] > 0) {
 				return false;
@@ -195,5 +195,6 @@ var gridRepositoryFactory = function() {
 	my.makeMove = makeMove;
 	my.checkCompleted = checkCompleted;
 	my.refillGrid = refillGrid;
+	my.check = check;
 	return my;
 };

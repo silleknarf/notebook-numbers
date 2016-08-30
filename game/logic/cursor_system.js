@@ -1,5 +1,5 @@
-var cursorSystem = function(ecs, eventManager, gridRepository) {
-	var my = this;
+var cursorSystem = function(ecs, eventManager, gridRepository, cellRepository) {
+	var my = {};
     my.maxLength = 2;
 
     my.states = {
@@ -7,24 +7,20 @@ var cursorSystem = function(ecs, eventManager, gridRepository) {
         select: "SELECT"
     };
 
-    var equals = function(firstCell, secondCell) {
-        return (firstCell.i == secondCell.i) && (firstCell.j == secondCell.j);
-    }
-
     /**
      * Checks if a new cell is allowed in the cursor
      *
      * @method allowedInCursor
      * @return {Boolean} true is the cell is allow to be added
      **/
-    var allowedInCursor = function(cursor, cell) {
+    var allowedInCursor = function(grid, cursor, cell) {
         // Don't allow empty cells
-        if (cell.digit == 0)
+        if (grid[cell.i][cell.j] === 0)
             return false;
 
         // Don't allow duplicates
         for (var i = 0; i < cursor.cells.length; i++) { 
-            if (equals(cell, cursor.cells[i]))
+            if (cellRepository.equals(cell, cursor.cells[i]))
                 return false;
         } 
 
@@ -46,8 +42,8 @@ var cursorSystem = function(ecs, eventManager, gridRepository) {
      *
      * @method add
      **/
-    var add = function(cursor, cell) {
-        if (allowedInCursor(cursor, cell)) {
+    var add = function(grid, cursor, cell) {
+        if (allowedInCursor(grid, cursor, cell)) {
 
             // Cursor state machine
             if (!cursor.state) cursor.state = my.states.speed;
@@ -73,7 +69,7 @@ var cursorSystem = function(ecs, eventManager, gridRepository) {
      **/
     var check = function(grid, cursor, cell) {
         if (typeof(cell) !== "undefined")
-            add(cursor, cell);
+            add(grid, cursor, cell);
             
         // Log that shit!
         console.log("cells:");
@@ -97,7 +93,6 @@ var cursorSystem = function(ecs, eventManager, gridRepository) {
         if (valid) {
             eventManager.vent.trigger(
                 "SYSTEM:LOGIC:MAKE_MOVE", 
-                grid, 
                 cursor.cells[0], 
                 cursor.cells[1]);
 
@@ -122,22 +117,37 @@ var cursorSystem = function(ecs, eventManager, gridRepository) {
     }
 
     var addEvent = function(cell) { 
-        ecs.runSystem(
-            [componentTypeEnum.GRID],
-            function(entity) {
-                var gridComponent = entity.components[componentTypeEnum.GRID]; 
-                var cursor = gridComponent.cursor;
-                add(cursor, cell);
-            });
-    };
-
-    var checkEvent = function(cell) {
+        var gridsUpdated = {};
         ecs.runSystem(
             [componentTypeEnum.GRID],
             function(entity) {
                 var gridComponent = entity.components[componentTypeEnum.GRID]; 
                 var grid = gridComponent.grid;
                 var cursor = gridComponent.cursor;
+
+                // We update each grid only once
+                if (gridsUpdated[grid.id] === true)
+                    return;
+                gridsUpdated[grid.id] = true;
+
+                add(grid, cursor, cell);
+            });
+    };
+
+    var checkEvent = function(cell) {
+        var gridsUpdated = {};
+        ecs.runSystem(
+            [componentTypeEnum.GRID],
+            function(entity) {
+                var gridComponent = entity.components[componentTypeEnum.GRID]; 
+                var grid = gridComponent.grid;
+                var cursor = gridComponent.cursor;
+
+                // We update each grid only once
+                if (gridsUpdated[grid.id] === true)
+                    return;
+                gridsUpdated[grid.id] = true;
+                
                 check(grid, cursor, cell)
             });
     };

@@ -2,15 +2,23 @@
 	+ Write ecs
 	+ Write bounds system
 	+ Set up events
-+ cursor
++ Fix double refill grid bug
++ Fix remove child bug
+- cursor
 	+ Write cursor view component
 	+ Write cursor system
-	- Get cursor to render
+	+ Get cursor to render
+	+ Fix cursor remaining on second cell bug
+	- Fix diagonal matches allowed bug
 	- Test cursor system
-+ Fix double refill grid bug
 - Scrolling
 	- Extend the background view to the bottom of the screen
 	- Extend the game entity bounds when the game gets bigger
+- Menu System
+	- Implement menu system
+	- Render menu system
+- Tutorial
+	- Implement tutorial mode
 - Mobile version
 	- Implement vertical layout
 	- Implement touch-based scrolling

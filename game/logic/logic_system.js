@@ -19,7 +19,7 @@ var logicSystem = function(ecs, eventManager, gridRepository) {
 	var makeMoveEvent = function(firstCell, secondCell) {
 		var gridsUpdated = {};
 		ecs.runSystem(
-			[componentEnumType.GRID],
+			[componentTypeEnum.GRID],
 			function(entity) {
 				var grid = entity.components[componentTypeEnum.GRID].grid;
 

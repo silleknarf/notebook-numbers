@@ -1,5 +1,5 @@
 var cellViewComponent = function() {
-	var my = this;
+	var my = {};
 
 	var init = function(renderSystem, entity) {
 		var absolute = entity.components[componentTypeEnum.BOUNDS].absolute;
@@ -12,6 +12,7 @@ var cellViewComponent = function() {
 		numberView.x = absolute.x;
 		numberView.y = absolute.y;
 		numberView.digit = number.digit;
+		numberView.visible = numberView.digit !== 0;
 
 		// Create a hitbox for each number
 		var hit = new createjs.Shape();
@@ -36,5 +37,9 @@ var cellViewComponent = function() {
 		my.numberView.y = absolute.y;
 	};
 
-	return viewComponent(init, render);
+	var remove = function(renderSystem) {
+		renderSystem.stage.removeChild(my.numberView);
+	};
+
+	return viewComponent(init, render, remove);
 };

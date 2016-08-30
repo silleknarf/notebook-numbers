@@ -1,11 +1,12 @@
 var ecs = entityComponentSystem();
 
-var gridRepository = gridRepositoryFactory();
+var cellRepository = cellRepositoryFactory()
+var gridRepository = gridRepositoryFactory(cellRepository);
 
 renderSystem(ecs, eventManager, preloaderMixin);
 boundsSystem(ecs, eventManager);
 logicSystem(ecs, eventManager, gridRepository);
-cursorSystem(ecs, eventManager, gridRepository);
+cursorSystem(ecs, eventManager, gridRepository, cellRepository);
 cursorViewSystem(ecs, eventManager);
 cellsViewSystem(ecs, eventManager);
 
