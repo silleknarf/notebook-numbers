@@ -13,7 +13,8 @@
 	+ Fix vertical gap bug
 	+ Test cursor system
 - Scrolling
-	- Extend the background view to the bottom of the screen
+	+ Extend the background view to the bottom of the screen
+	- Make refill grid appear just below the bottom of the grid
 	- Extend the game entity bounds when the game gets bigger
 - Menu System
 	- Implement menu system

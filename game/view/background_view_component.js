@@ -18,14 +18,14 @@ var backgroundViewComponent = function() {
 		var coverMargin = Math.floor(bounds.absolute.width / 100);
 		var cover = new createjs.Shape();
 	    var coverWidth = !isVerticalLayout
-	        ? bounds.absolute.width - (coverMargin * 2)
+	        ? bounds.absolute.width 
 	        : bounds.absolute.width * 2 + coverMargin * 2 + 20;
 
 		// TODO: scale this appropriately
 	    var cornerRadius = 30;
 	    cover.graphics
             .beginFill(config.backgroundColour)
-            .drawRoundRect(0, 0, coverWidth, bounds.absolute.height, cornerRadius);
+            .drawRoundRect(0, 0, coverWidth, bounds.absolute.height+cornerRadius, cornerRadius);
 
 		renderSystem.background.addChild(cover);
 
@@ -33,7 +33,7 @@ var backgroundViewComponent = function() {
 		var notebookNumbersPage = new createjs.Shape();
 		notebookNumbersPage.graphics
             .beginBitmapFill(renderSystem.assets['background'])
-            .drawRect(0, 0, bounds.absolute.width/2, firstPageHeight, 30);
+            .drawRect(0, 0, bounds.absolute.width/2, bounds.absolute.height);
 
 		notebookNumbersPage.x = coverMargin;
 		notebookNumbersPage.y = coverMargin;

@@ -180,6 +180,13 @@ Option 1 - Grid has no sub entities
 - Logic system to create entities? Yes
 - Game system has bounds which are passed in to the render system
 
+Scroll System
+=============
+- We need to track the current scroll position
+	- 0 is the start
+	- scroll position increases if we scroll down and vice versa when we scroll up
+	- the max scroll position is based on the size of the grid
+
 
 
 

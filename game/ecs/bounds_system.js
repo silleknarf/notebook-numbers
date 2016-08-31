@@ -2,13 +2,21 @@ var boundsSystem = function(ecs, eventManager) {
 	var my = {};
 
 	var update = function() {
-		var fullWidth = $("#canvas-holder").width();
+		var fullWidth = $("#canvas").width();
 		var fullHeight = window.innerHeight
 			|| document.documentElement.clientHeight
 			|| document.body.clientHeight;
 
-		// only use 90% of the screen when running in browser
-		fullHeight *= 0.9
+		fullHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+		var canvasTop = $("#canvas").position().top;
+		fullHeight -= canvasTop;
+
+		fullHeight = $("#canvas").height();
+
+
+
+		// only use 93.6% of the screen when running in browser (the amount of space 
+		// remaining on the screen)
 
 		var maxAbsoluteBounds = { 
 			absolute: {
@@ -36,15 +44,17 @@ var boundsSystem = function(ecs, eventManager) {
 	}
 
 	var start = function() {
-		update();
-		$( window ).resize(function() { 
-			setTimeout(update, 50);
+		$(document).ready(function() {
+			update();
+			$( window ).resize(function() { 
+				setTimeout(update, 50);
+			});
+			eventManager.vent.on("SYSTEM:BOUNDS:UPDATE", update);
 		});
 	};
 
 	var initialiseEvents = function() {
 		eventManager.vent.on("SYSTEM:BOUNDS:START", start);
-		eventManager.vent.on("SYSTEM:BOUNDS:UPDATE", update);
 	};
 	initialiseEvents();
 };
