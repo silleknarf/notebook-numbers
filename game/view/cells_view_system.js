@@ -5,6 +5,7 @@ var cellsViewSystem = function(ecs, eventManager) {
 		var grid = gridComponent.grid;
 		ecs.removeEntities("cell");
 	    // Create each cell and add it to the grid
+	    var topCellHeight = null;
 	    var cells = [];
 	    for (var i = 0; i < grid.length; i++) {
 	        for (var j = 0; j < grid[i].length; j++) {
@@ -22,15 +23,20 @@ var cellsViewSystem = function(ecs, eventManager) {
 	        	var cellView = cellViewComponent();
 	        	var cellEntity = entity("cell", [bounds, cell, cellView])
 	        	cells.push(cellEntity);
+	        	topCellHeight = bounds.relative.y + bounds.relative.height;
 	        }
 	    }
-	  	// TODO: create a grid entity to hold the cells
+		var gridBounds = gridEntity.components[componentTypeEnum.BOUNDS];
+		var updatedBoundsComponent = _.cloneDeep(gridBounds);
+		updatedBoundsComponent.relative.height = topCellHeight;
+		eventManager.vent.trigger("SYSTEM:BOUNDS:RESIZE", updatedBoundsComponent);
+
 	   	ecs.addEntities("grid", cells);
 	};
 
 	var synchroniseGridEvent = function() {
 		ecs.runSystem(
-			[componentTypeEnum.GRID],
+			[componentTypeEnum.GRID, componentTypeEnum.BOUNDS],
 			function(gridEntity) {
 				synchroniseGrid(gridEntity);
 			});

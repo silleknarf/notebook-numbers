@@ -43,6 +43,47 @@ var boundsSystem = function(ecs, eventManager) {
 			})
 	}
 
+	var resizeHelper = function(entityParent, newBounds, oldBounds) {
+		var bounds = entityParent.components[componentTypeEnum.BOUNDS];
+		var heightDifferential = newBounds.relative.height - oldBounds.relative.height;
+		bounds.relative.height += heightDifferential;
+
+		// re-jig children
+		_.forEach(
+			entityParent.subEntities,
+			function(entity) {
+				// if entity is under old bounds then we need to update y by differential
+				var childBounds = entity.components[componentTypeEnum.BOUNDS];
+				if (childBounds &&
+					childBounds.relative.y >= oldBounds.relative.y)
+					childBounds.relative.y += heightDifferential;
+			});
+
+		entityParent = entityParent.parent;
+		if (entityParent)
+			resizeHelper(entityParent, newBounds);
+	};
+
+	// Sometimes the game will make the bounds larger and we need to propagate
+	// this effect across the bounds graph
+	// Firstly, we resize the target element to be relatively larger as specified
+	// Then, we traverse upwards through each parent and add the new height differential
+	// Also, for each parent entity we shift the children down accordingly, if they need
+	// to be pushed down
+	var resize = function(newBounds) {
+		ecs.runSystem(
+			[componentTypeEnum.BOUNDS],
+			function(entity) {
+				var bounds = entity.components[componentTypeEnum.BOUNDS];
+				var isTarget = bounds.id === newBounds.id;
+				if (isTarget) {
+					var parentEntity = entity.parent;
+					resizeHelper(parentEntity, newBounds, bounds);
+					bounds.relative.height = newBounds.relative.height;
+				}
+			})
+	};
+
 	var start = function() {
 		$(document).ready(function() {
 			update();
@@ -55,6 +96,7 @@ var boundsSystem = function(ecs, eventManager) {
 
 	var initialiseEvents = function() {
 		eventManager.vent.on("SYSTEM:BOUNDS:START", start);
+		eventManager.vent.on("SYSTEM:BOUNDS:RESIZE", resize);
 	};
 	initialiseEvents();
 };

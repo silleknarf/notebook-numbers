@@ -4,7 +4,7 @@ var gridEntityFactory = function(gridComponent) {
 		x: 5,
 		y: 5,
 		width: 50,
-		height: 90
+		height: 20
 	};
 
 	var gridComponents = [gridComponent, gridBoundsComponent];
