@@ -15,8 +15,11 @@
 - Scrolling
 	+ Extend the background view to the bottom of the screen
 	+ Implemented bounds resize function
-	- Fix refill grid button not moving bug
-	- Make refill grid appear just below the bottom of the grid
+	+ Fix refill grid button not moving bug
+	+ Fix exponential growth bug
+	+ Make refill grid appear just below the bottom of the grid
+	- Make the grid draw lower when the bounds are expanded
+	- Make the background view draw lower when the bounds are expanded
 	- Implement scrolling of the canvas
 	- Draw the background lower down when the 
 	- Extend the game entity bounds when the game gets bigger

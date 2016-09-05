@@ -33,15 +33,17 @@ var viewComponent = function(initFunction, renderFunction, removeFunction) {
 	return my;
 }
 
-var boundsComponent = function() {
+var boundsComponent = function(relative) {
 	var my = component(componentTypeEnum.BOUNDS);
 
-	var relative = {
-		x: 0,
-		y: 0,
-		width: 100,
-		height: 100
-	};
+	if (!relative) {
+		relative = {
+			x: 0,
+			y: 0,
+			width: 100,
+			height: 100
+		};
+	}
 	var absolute = {
 		x: 0,
 		y: 0,
@@ -50,6 +52,7 @@ var boundsComponent = function() {
 	};
 	my.relative = relative;
 	my.absolute = absolute;
+	my.originalRelative = _.cloneDeep(relative);
 	return my;
 }
 

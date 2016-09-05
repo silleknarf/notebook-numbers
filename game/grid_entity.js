@@ -1,11 +1,11 @@
 var gridEntityFactory = function(gridComponent) {
-	var gridBoundsComponent = boundsComponent();
-	gridBoundsComponent.relative = {
+	var relativeBounds = {
 		x: 5,
 		y: 5,
 		width: 50,
-		height: 20
+		height: 25
 	};
+	var gridBoundsComponent = boundsComponent(relativeBounds);
 
 	var gridComponents = [gridComponent, gridBoundsComponent];
 

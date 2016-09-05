@@ -1,4 +1,5 @@
 var refillGridViewComponentFactory = function() {
+	var my = {};
 	var init = function(renderSystem, entity, eventManager) {
 
 		var bounds = entity.components[componentTypeEnum.BOUNDS];
@@ -27,11 +28,13 @@ var refillGridViewComponentFactory = function() {
 	        // Refill grid event 
 	        eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
 	    });
+	    my.refillGrid = refillGrid;
 
 		renderSystem.stage.addChild(refillGrid);
 	};
-	var render = function() {
-
+	var render = function(renderSystem, entity) {
+		var bounds = entity.components[componentTypeEnum.BOUNDS];
+		my.refillGrid.y = bounds.absolute.y;
 	};
 	return viewComponent(init, render);
 };
