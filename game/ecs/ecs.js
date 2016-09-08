@@ -25,6 +25,7 @@ var entityComponentSystem = function() {
 	var addEntity = function(parentEntityName, entityToAdd) {
 		walkEntities(function(entity) {
 			if (entity.name === parentEntityName) {
+				entityToAdd.parent = entity;
 				entity.subEntities.push(entityToAdd);
 			}
 		});

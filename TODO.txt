@@ -18,6 +18,8 @@
 	+ Fix refill grid button not moving bug
 	+ Fix exponential growth bug
 	+ Make refill grid appear just below the bottom of the grid
+	+ Make the canvas resize properly on page resize
+	- Work out why setting the parent entity properly results in a dodgy grid
 	- Make the grid draw lower when the bounds are expanded
 	- Make the background view draw lower when the bounds are expanded
 	- Implement scrolling of the canvas

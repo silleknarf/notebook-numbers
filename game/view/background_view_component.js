@@ -11,6 +11,11 @@ var backgroundViewComponent = function() {
 	var render = function(renderSystem, entity, eventManager) {
 		renderSystem.background.removeAllChildren();
 		var bounds = entity.components[componentTypeEnum.BOUNDS];
+
+	    // Set the stage parameters from the dimensions object
+		renderSystem.stage.canvas.width = Math.floor(bounds.absolute.width);
+		renderSystem.stage.canvas.height = Math.floor(bounds.absolute.height);
+
 	    var isVerticalLayout = false; // work out from dimensions if we're on a small screen
 	    ///var firstPageHeight = this.dimensions.getTop();
 		//this.background.removeAllChildren();
@@ -45,7 +50,6 @@ var backgroundViewComponent = function() {
 
 		// Click anywhere evaluate cursor
 		var hit = new createjs.Shape();
-		var canvas = document.getElementById("notebooknumbers");
 		hit.graphics
 		   .beginFill("#F00")
 		   .drawRect(0, 0, bounds.absolute.width/2, bounds.absolute.height);

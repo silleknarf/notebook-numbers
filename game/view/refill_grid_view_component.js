@@ -34,6 +34,7 @@ var refillGridViewComponentFactory = function() {
 	};
 	var render = function(renderSystem, entity) {
 		var bounds = entity.components[componentTypeEnum.BOUNDS];
+		my.refillGrid.x = bounds.absolute.x;
 		my.refillGrid.y = bounds.absolute.y;
 	};
 	return viewComponent(init, render);

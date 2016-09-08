@@ -41,7 +41,7 @@ var boundsSystem = function(ecs, eventManager) {
 
 		entityParent = entityParent.parent;
 		if (entityParent)
-			resizeHelper(entityParent, newBounds);
+			resizeHelper(entityParent, newBounds, oldBounds);
 	};
 
 	// Sometimes the game will make the bounds larger and we need to propagate
