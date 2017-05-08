@@ -3,7 +3,7 @@ var gridEntityFactory = function(gridComponent) {
 		x: 5,
 		y: 5,
 		width: 50,
-		height: 25
+		height: 100
 	};
 	var gridBoundsComponent = boundsComponent(relativeBounds);
 

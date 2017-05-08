@@ -19,6 +19,7 @@
 		titleFont: fonts.yellowtail,
         font: fonts.londrinaSolid,
         numColumns: 9,
+        numRows: 20,
 		coverMargin: 10,
         height: 3000,
         cellHeight: 40,

@@ -79,9 +79,9 @@
 	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 	-->
 </head>
-<body onload="init()">
-	<div style="height: 100%; display: flex; flex-direction: column">
-		<div id="header" class="row">
+<body onload="init()" >
+	<div>
+		<div id="header" class="row" style="height: 50px">
 			<span>Facebook Like Button</span>
 			<div class="fb-like" 
 			     data-href="https://www.facebook.com/NotebookNumbers" 
@@ -90,9 +90,8 @@
 			     data-show-faces="true" 
 			     data-share="true"></div>
 		</div>
-		<div style="flex: 1">
-			<div id="canvas"
-				 style="height: 100%">
+		<div >
+			<div id="canvas" style="width: 100vw; height: 100vh">
 				<canvas id="notebooknumbers">Notebook Numbers</canvas>
 			</div>
 			<!--

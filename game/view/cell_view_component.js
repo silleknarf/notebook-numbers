@@ -1,16 +1,24 @@
 var cellViewComponent = function() {
 	var my = {};
 
+	var getFont = function(absolute) {
+		var numberFontSize = Math.floor(absolute.height);
+		var font = numberFontSize + "px " +config.font;
+		return font;
+	}
+
 	var init = function(renderSystem, entity) {
+
 		var absolute = entity.components[componentTypeEnum.BOUNDS].absolute;
 		var number = entity.components[componentTypeEnum.CELL];
 		var numberView = new createjs.Text(
 			number.digit, 
-			"30px "+config.font, 
+			getFont(absolute),
 			config.backgroundColour);
 		numberView.textAlign = "center";
 		numberView.digit = number.digit;
 		numberView.visible = numberView.digit !== 0;
+
 
 		// Create a hitbox for each number
 		var hit = new createjs.Shape();
@@ -42,6 +50,7 @@ var cellViewComponent = function() {
 		var absolute = entity.components[componentTypeEnum.BOUNDS].absolute;
 		my.numberView.x = absolute.x + Math.floor(absolute.width/2);
 		my.numberView.y = absolute.y + Math.floor(absolute.height/2) - 15;
+		my.numberView.font = getFont(absolute);
 		//my.numberView.x = absolute.x;
 		//my.numberView.y = absolute.y;
 	};
