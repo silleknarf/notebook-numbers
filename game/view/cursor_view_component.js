@@ -11,7 +11,9 @@ var cursorViewComponentFactory = function() {
 		g.beginFill(null);
 		var xOffset = width;
 		var yOffset = height;
-		g.drawCircle(xOffset,yOffset,18);
+		var scaleDown = 0.75;
+		var radius = Math.floor(width+height)/2*scaleDown;
+		g.drawCircle(xOffset,yOffset, radius);
 		return new createjs.Shape(g);
 	};
 
