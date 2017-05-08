@@ -3,6 +3,6 @@ var refillGridEntityFactory = function() {
 	var refillGridBoundsComponent = boundsComponent();	
 	refillGridBoundsComponent.relative.x = 50;
 	refillGridBoundsComponent.relative.width = 10;
-	refillGridBoundsComponent.relative.height = 10;
+	refillGridBoundsComponent.relative.height = 100/config.numRows;
 	return entity("refillGrid", [refillGridViewComponent, refillGridBoundsComponent]);
 };

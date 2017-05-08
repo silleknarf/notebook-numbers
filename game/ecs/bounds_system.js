@@ -5,6 +5,7 @@ var boundsSystem = function(ecs, eventManager) {
 	// it up to be larger than the screen then we re-scale it
 	// to be the max size of the canvas
 	var getMaxAbsoluteBounds = function() {
+		
 		var fullWidth = $("#canvas").width();
 		var fullHeight = $("#canvas").height();
 
