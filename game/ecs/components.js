@@ -53,6 +53,7 @@ var boundsComponent = function(relative) {
 	my.relative = relative;
 	my.absolute = absolute;
 	my.originalRelative = _.cloneDeep(relative);
+	
 	return my;
 }
 

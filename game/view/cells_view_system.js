@@ -25,22 +25,27 @@ var cellsViewSystem = function(ecs, eventManager) {
 	var synchroniseGrid = function(gridEntity) {
 		var gridComponent = gridEntity.components[componentTypeEnum.GRID];
 		var grid = gridComponent.grid;
+
+		var previousGridRows = gridEntity.subEntities.length/config.numColumns;
+		var gridRows = grid.length;
+
 		ecs.removeEntities("cell");
 	    // Create each cell and add it to the grid
 	    var topCellHeight = null;
 	    var cells = [];
 	    for (var i = 0; i < grid.length; i++) {
 	        for (var j = 0; j < grid[i].length; j++) {
-	        	var gridWidth = 46;
+	        	var gridWidth = 180;
 	        	var gridOffset = 4;
 	        	var cellWidth = gridWidth/config.numColumns;
-	        	var bounds = boundsComponent();
-	        	bounds.relative = {
+	        	var cellHeight = cellWidth/2;
+	        	var relativeBounds = {
 	        		x: j * cellWidth + gridOffset,
-					y: i * cellWidth + gridOffset,
+					y: i * cellHeight + gridOffset,
 	        		width: cellWidth, 
-	        		height: cellWidth
+	        		height: cellHeight
 	        	};
+	        	var bounds = boundsComponent(relativeBounds);
 	        	var cell = cellComponent(i, j, grid[i][j]);
 	        	var cellView = cellViewComponent();
 	        	var cellEntity = entity("cell", [bounds, cell, cellView])
@@ -49,7 +54,11 @@ var cellsViewSystem = function(ecs, eventManager) {
 	        }
 	    }
 
-	    resizeBounds(gridEntity, topCellHeight);
+
+	    if (previousGridRows !== 0) {
+	    	var newGridHeight = gridEntity.components[componentTypeEnum.BOUNDS].relative.height*gridRows/previousGridRows;
+	    	resizeBounds(gridEntity, newGridHeight);
+	    }
 
 		moveRefillGridButton(gridEntity, topCellHeight);
 

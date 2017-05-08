@@ -1,7 +1,7 @@
 var cursorViewComponentFactory = function() {
 	var my = {};
 
-	var init = function(renderSystem, entity, eventManager) {
+	var getCircle = function(width, height) {
 		// Draw a black circle below the items currently in the cursor
 		var g = new createjs.Graphics();
 		g.beginFill(null);
@@ -9,11 +9,15 @@ var cursorViewComponentFactory = function() {
 		var navy = createjs.Graphics.getRGB(0,50,102);
 		g.beginStroke(navy);
 		g.beginFill(null);
-		var xOffset = 6;
-		var yOffset = 17;
+		var xOffset = width;
+		var yOffset = height;
 		g.drawCircle(xOffset,yOffset,18);
-		my.cursorCircle = new createjs.Shape(g);
-		my.cursorCircle2 = new createjs.Shape(g);
+		return new createjs.Shape(g);
+	};
+
+	var init = function(renderSystem, entity, eventManager) {
+		my.cursorCircle = getCircle(6, 18);
+		my.cursorCircle2 = getCircle(6, 18);
 		renderSystem.stage.addChild(my.cursorCircle);
 		renderSystem.stage.addChild(my.cursorCircle2);
 	};
@@ -21,19 +25,24 @@ var cursorViewComponentFactory = function() {
 	var render = function(renderSystem, entity, eventManager) {
 		var cursor = entity.components[componentTypeEnum.GRID].cursor;
 
-		my.cursorCircle.visible = typeof cursor.cells[0] !== 'undefined';
-		my.cursorCircle2.visible = typeof cursor.cells[1] !== 'undefined';
+		renderSystem.stage.removeChild(my.cursorCircle);
+		renderSystem.stage.removeChild(my.cursorCircle2);
 
-		if (my.cursorCircle.visible) {
-			var firstCellBounds = cursor.cells[0][componentTypeEnum.BOUNDS];
-			my.cursorCircle.x = firstCellBounds.absolute.x;
-			my.cursorCircle.y = firstCellBounds.absolute.y;
+
+		if (typeof cursor.cells[0] !== 'undefined') {
+			var absoluteBounds = cursor.cells[0][componentTypeEnum.BOUNDS].absolute;
+			my.cursorCircle = getCircle(absoluteBounds.width/2, absoluteBounds.height/2);
+			my.cursorCircle.x = absoluteBounds.x;
+			my.cursorCircle.y = absoluteBounds.y;
+			renderSystem.stage.addChild(my.cursorCircle);
 		}
 
-		if (my.cursorCircle2.visible) {
-			var secondCellBounds = cursor.cells[1][componentTypeEnum.BOUNDS];
-			my.cursorCircle2.x = secondCellBounds.absolute.x;
-			my.cursorCircle2.y = secondCellBounds.absolute.y;
+		if (typeof cursor.cells[1] !== 'undefined') {
+			var absoluteBounds = cursor.cells[1][componentTypeEnum.BOUNDS].absolute;
+			my.cursorCircle2 = getCircle(absoluteBounds.width/2, absoluteBounds.height/2);
+			my.cursorCircle2.x = absoluteBounds.x;
+			my.cursorCircle2.y = absoluteBounds.y;
+			renderSystem.stage.addChild(my.cursorCircle2);
 		}
 	};
 

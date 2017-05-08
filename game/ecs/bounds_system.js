@@ -1,7 +1,10 @@
 var boundsSystem = function(ecs, eventManager) {
 	var my = {};
 
-	var update = function() {
+	// We get the max size of the canvas but if we have scaled
+	// it up to be larger than the screen then we re-scale it
+	// to be the max size of the canvas
+	var getMaxAbsoluteBounds = function(relativeBounds) {
 		var fullWidth = $("#canvas").width();
 		var fullHeight = $("#canvas").height();
 
@@ -9,54 +12,66 @@ var boundsSystem = function(ecs, eventManager) {
 			absolute: {
 				x: 0,
 				y: 0,
-				width: fullWidth,
-				height: fullHeight
+				width: fullWidth / relativeBounds.width * 100,
+				height: fullHeight / relativeBounds.height * 100
 			}
 		};
-		console.log("Width: " + fullWidth + ", Height: " + fullHeight);
 
+		console.log("Width: " + fullWidth + ", Height: " + fullHeight);
+		return maxAbsoluteBounds;
+	};
+
+	var update = function() {
 		ecs.runSystem(
 			[componentTypeEnum.BOUNDS],
 			function(entity) {
 				var bounds = entity.components[componentTypeEnum.BOUNDS];
 				var parentBounds = entity.parent 
 					? entity.parent.components[componentTypeEnum.BOUNDS]
-					: maxAbsoluteBounds;
+					: getMaxAbsoluteBounds(bounds.relative);
 
-				bounds.absolute.width = (bounds.relative.width / 100) * parentBounds.absolute.width;
-				bounds.absolute.height = (bounds.relative.height / 100) * parentBounds.absolute.height;
-				bounds.absolute.x = (bounds.relative.x / 100) * parentBounds.absolute.width + parentBounds.absolute.x;
-				bounds.absolute.y = (bounds.relative.y / 100) * parentBounds.absolute.height + parentBounds.absolute.y;			
+				var originalScalingFactor = bounds.relative.height / bounds.originalRelative.height;
+				bounds.absolute.width = Math.floor((bounds.relative.width / 100) * parentBounds.absolute.width);
+				bounds.absolute.height = Math.floor((bounds.relative.height / 100) * parentBounds.absolute.height);
+				bounds.absolute.x = Math.floor((bounds.relative.x / 100) * parentBounds.absolute.width + parentBounds.absolute.x);
+				bounds.absolute.y = Math.floor((bounds.relative.y / 100) * parentBounds.absolute.height / originalScalingFactor + parentBounds.absolute.y);			
 			})
 	}
 
-	var resizeHelper = function(entityParent, newBounds, oldBounds) {
-		if (newBounds.relative.height <= newBounds.originalRelative.height)
-			return;
-
+	var resizeTopLevelParent = function(entityParent, newBounds, oldBounds) {
 		var bounds = entityParent.components[componentTypeEnum.BOUNDS];
 
 		var heightDifferential = newBounds.relative.height - oldBounds.relative.height;
-		bounds.relative.height += heightDifferential;
+		
+		// We never let the relative height be smaller than it's original size
+		if (bounds.relative.height < bounds.originalRelative.height)
+			heightDifferential = 0;
 
-		entityParent = entityParent.parent;
-		if (entityParent)
-			resizeHelper(entityParent, newBounds, oldBounds);
+		var originalRelativeHeight = bounds.relative.height;
+		bounds.relative.height += heightDifferential;
 	};
+
+	var getTopLevelParent = function(entity) {
+		if (entity.parent)
+			return getTopLevelParent(entity.parent);
+		return entity;
+	}
 
 	// Sometimes the game will make the bounds larger and we need to propagate
 	// this effect across the bounds graph
 	// Firstly, we resize the target element to be relatively larger as specified
-	// Then, we traverse upwards through each parent and add the new height differential
+	// Then, we traverse upwards through each parent and a add the new height differential
+	// to the outermost element
 	var resize = function(newBounds) {
+		update();
 		ecs.runSystem(
 			[componentTypeEnum.BOUNDS],
 			function(entity) {
 				var bounds = entity.components[componentTypeEnum.BOUNDS];
 				var isTarget = bounds.id === newBounds.id;
 				if (isTarget) {
-					var parentEntity = entity.parent;
-					resizeHelper(parentEntity, newBounds, bounds);
+					var parentEntity = getTopLevelParent(entity);
+					resizeTopLevelParent(parentEntity, newBounds, bounds);
 					bounds.relative.height = newBounds.relative.height;
 				}
 			})

@@ -185,7 +185,8 @@ Scroll System
 - We need to track the current scroll position
 	- 0 is the start
 	- scroll position increases if we scroll down and vice versa when we scroll up
-	- the max scroll position is based on the size of the grid
+	- the max scroll position is based on the size of the grid + refill grid button height (game space)
+	
 
 
 

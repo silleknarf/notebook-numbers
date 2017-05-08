@@ -1,17 +1,6 @@
-+ ecs
-	+ Write ecs
-	+ Write bounds system
-	+ Set up events
-+ Fix double refill grid bug
-+ Fix remove child bug
-+ cursor
-	+ Write cursor view component
-	+ Write cursor system
-	+ Get cursor to render
-	+ Fix cursor remaining on second cell bug
-	+ Fix diagonal matches allowed bug
-	+ Fix vertical gap bug
-	+ Test cursor system
+TODO
+
+- Work out why the grid shifts down when redrawn
 - Scrolling
 	+ Extend the background view to the bottom of the screen
 	+ Implemented bounds resize function
@@ -25,6 +14,8 @@
 	- Implement scrolling of the canvas
 	- Draw the background lower down when the 
 	- Extend the game entity bounds when the game gets bigger
+- Get the width of the grid from the view system
+- Set the width of the grid and the height of the numbers independently
 - Menu System
 	- Implement menu system
 	- Render menu system
