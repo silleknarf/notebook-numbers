@@ -10,6 +10,7 @@ TODO
 	- Background/binding renderer is *special* as it takes the total relative size of the grid and then adjusts it's absolute height
 + Why does the font not change when the game gets smaller
 - Make the resize grid button resize goodly
+- Make the cursor view resize goodly
 - Make the background view draw lower when the bounds are expanded
 - Scrolling
 	- Implement stop scrolling beyond the bottom of the resize button
