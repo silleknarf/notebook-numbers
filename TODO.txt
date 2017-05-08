@@ -1,21 +1,19 @@
 TODO
 
-- Work out why the grid shifts down when redrawn
++ Work out why the grid shifts down when redrawn
++ Work out why the cells resize when the button moves down
++ Get the width of the grid from the view system
++ Set the width of the grid and the height of the numbers independently
+- New approach:
+	- Relative bounds defines the size of items compared to the original full screen size
+	- If the total relative bounds exceeds 100% of the boundary then we increase the absolute size of the rendered canvas
+	- Background/binding renderer is *special* as it takes the total relative size of the grid and then adjusts it's absolute height
++ Why does the font not change when the game gets smaller
+- Make the resize grid button resize goodly
+- Make the background view draw lower when the bounds are expanded
 - Scrolling
-	+ Extend the background view to the bottom of the screen
-	+ Implemented bounds resize function
-	+ Fix refill grid button not moving bug
-	+ Fix exponential growth bug
-	+ Make refill grid appear just below the bottom of the grid
-	+ Make the canvas resize properly on page resize
-	- Work out why setting the parent entity properly results in a dodgy grid
-	- Make the grid draw lower when the bounds are expanded
-	- Make the background view draw lower when the bounds are expanded
-	- Implement scrolling of the canvas
-	- Draw the background lower down when the 
-	- Extend the game entity bounds when the game gets bigger
-- Get the width of the grid from the view system
-- Set the width of the grid and the height of the numbers independently
+	- Implement stop scrolling beyond the bottom of the resize button
+	- Allow scrolling using the mouse wheel
 - Menu System
 	- Implement menu system
 	- Render menu system
