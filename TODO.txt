@@ -9,8 +9,8 @@ TODO
 	- If the total relative bounds exceeds 100% of the boundary then we increase the absolute size of the rendered canvas
 	- Background/binding renderer is *special* as it takes the total relative size of the grid and then adjusts it's absolute height
 + Why does the font not change when the game gets smaller
-- Make the resize grid button resize goodly
-- Make the cursor view resize goodly
+- Make the resize grid button resize properly
+- Make the cursor view resize properly
 - Make the background view draw lower when the bounds are expanded
 - Scrolling
 	- Implement stop scrolling beyond the bottom of the resize button
