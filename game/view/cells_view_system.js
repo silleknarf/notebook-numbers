@@ -43,11 +43,13 @@ var cellsViewSystem = function(ecs, eventManager) {
 	        }
 	    }
 
-
 	    if (previousGridRows !== 0) {
 	    	var newGridHeight = gridEntity.components[componentTypeEnum.BOUNDS].relative.height*gridRows/previousGridRows;
 	    	resizeBounds(gridEntity, newGridHeight);
 	    }
+
+	    var twoRows = 2;
+		eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE_MAX_HEIGHT", topCellHeight + (100/config.numRows)*twoRows);
 
 		eventManager.vent.trigger("SYSTEM:BOUNDS:MOVE", "refillGrid", null, topCellHeight);
 

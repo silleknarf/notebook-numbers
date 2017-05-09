@@ -10,7 +10,6 @@ cursorSystem(ecs, eventManager, gridRepository, cellRepository);
 cursorViewSystem(ecs, eventManager);
 cellsViewSystem(ecs, eventManager);
 
-
 var backgroundEntityComponents = [backgroundViewComponent(), boundsComponent()];
 var backgroundEntity = entity("background_view", backgroundEntityComponents);
 ecs.entities.push(backgroundEntity);

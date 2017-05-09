@@ -1,6 +1,12 @@
 var boundsSystem = function(ecs, eventManager) {
 	var my = {};
 
+	my.background = {
+		relative: {
+			height: 100
+		}
+	}
+
 	// We get the max size of the canvas but if we have scaled
 	// it up to be larger than the screen then we re-scale it
 	// to be the max size of the canvas
@@ -27,9 +33,14 @@ var boundsSystem = function(ecs, eventManager) {
 			[componentTypeEnum.BOUNDS],
 			function(entity) {
 				var bounds = entity.components[componentTypeEnum.BOUNDS];
+				var maxAbsoluteBounds = getMaxAbsoluteBounds();
 				var parentBounds = entity.parent 
 					? entity.parent.components[componentTypeEnum.BOUNDS]
-					: getMaxAbsoluteBounds();
+					: maxAbsoluteBounds;
+
+				var maxAbsoluteHeight = Math.floor(maxAbsoluteBounds.absolute.height * (my.background.relative.height / 100));
+				my.background.absolute = { height: maxAbsoluteHeight };
+				bounds.background = my.background;
 
 				bounds.absolute.width = Math.floor((bounds.relative.width / 100) * parentBounds.absolute.width);
 				bounds.absolute.height = Math.floor((bounds.relative.height / 100) * parentBounds.absolute.height);
@@ -52,6 +63,11 @@ var boundsSystem = function(ecs, eventManager) {
 			});
 	}
 
+	var updateMaxHeight = function(height) {
+		if (height > 100)
+			my.background.relative.height = height;
+	}
+
 	var start = function() {
 		$(document).ready(function() {
 			update();
@@ -65,6 +81,7 @@ var boundsSystem = function(ecs, eventManager) {
 	var initialiseEvents = function() {
 		eventManager.vent.on("SYSTEM:BOUNDS:START", start);
 		eventManager.vent.on("SYSTEM:BOUNDS:MOVE", move);
+		eventManager.vent.on("SYSTEM:BOUNDS:UPDATE_MAX_HEIGHT", updateMaxHeight);
 	};
 	initialiseEvents();
 };
