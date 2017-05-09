@@ -35,21 +35,6 @@ var renderSystem = function(ecs, eventManager, preloader) {
 		my.stage.update();
 	};
 
-	var startScrolling = function() {
-		my.scrollPosition = 0;
-		var scrollDistance = 20;
-		key('up', function() {
-			if (my.scrollPosition > 0)  {
-				my.stage.regY -= scrollDistance;	
-				my.scrollPosition -= scrollDistance;	
-			}
-		});
-		key('down', function() {
-			my.stage.regY += scrollDistance;	
-			my.scrollPosition += scrollDistance;	
-		});
-	};
-
 	var start = function() {
 	    // Create the easel stage
 	    my.stage = new createjs.Stage('notebooknumbers');
@@ -71,7 +56,7 @@ var renderSystem = function(ecs, eventManager, preloader) {
 		    createjs.Ticker.on("tick", render);
 		});
 
-		startScrolling();
+		eventManager.vent.trigger("SYSTEM:SCROLL:START", my.stage);
 	};
 
 	var initialiseEvents = function() {

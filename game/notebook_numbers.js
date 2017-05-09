@@ -9,6 +9,7 @@ logicSystem(ecs, eventManager, gridRepository);
 cursorSystem(ecs, eventManager, gridRepository, cellRepository);
 cursorViewSystem(ecs, eventManager);
 cellsViewSystem(ecs, eventManager);
+scrollSystem(eventManager);
 
 var backgroundEntityComponents = [backgroundViewComponent(), boundsComponent()];
 var backgroundEntity = entity("background_view", backgroundEntityComponents);

@@ -24,7 +24,7 @@ var boundsSystem = function(ecs, eventManager) {
 			}
 		};
 
-		console.log("Width: " + fullWidth + ", Height: " + fullHeight);
+		//console.log("Width: " + fullWidth + ", Height: " + fullHeight);
 		return maxAbsoluteBounds;
 	};
 
@@ -38,6 +38,8 @@ var boundsSystem = function(ecs, eventManager) {
 					? entity.parent.components[componentTypeEnum.BOUNDS]
 					: maxAbsoluteBounds;
 
+				// The background has got it's own separate height variable
+				// we give it special treatment due to it's absolute placement
 				var maxAbsoluteHeight = Math.floor(maxAbsoluteBounds.absolute.height * (my.background.relative.height / 100));
 				my.background.absolute = { height: maxAbsoluteHeight };
 				bounds.background = my.background;
@@ -46,6 +48,13 @@ var boundsSystem = function(ecs, eventManager) {
 				bounds.absolute.height = Math.floor((bounds.relative.height / 100) * parentBounds.absolute.height);
 				bounds.absolute.x = Math.floor((bounds.relative.x / 100) * parentBounds.absolute.width + parentBounds.absolute.x);
 				bounds.absolute.y = Math.floor((bounds.relative.y / 100) * parentBounds.absolute.height + parentBounds.absolute.y);			
+
+				// Work out if we have any additional height which we may
+				// need to notify the scrolling system about
+				my.previousHeightBeyoundBounds = my.heightBeyondBounds;
+				my.heightBeyondBounds = my.background.absolute.height - maxAbsoluteBounds.absolute.height;
+				if (my.previousHeightBeyoundBounds !== my.heightBeyondBounds)
+					eventManager.vent.trigger("SYSTEM:SCROLL:HEIGHT_BEYOND_BOUNDS", my.heightBeyondBounds);
 			})
 	}
 
