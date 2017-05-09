@@ -146,7 +146,7 @@ var backgroundViewComponent = function() {
 		// Draw the bindings in the middle
         if (!isVerticalLayout) {
             var y = 0;
-            for (var i = 0; y < bounds.background.absolute.height; i++) {
+            for (var i = 0; y+(400) < bounds.background.absolute.height; i++) {
                 var bindings = new createjs.Bitmap(renderSystem.assets['bindings']);
                 bindings.x = Math.floor(bounds.absolute.width/2) - 20;
                 y = 10+(i*225);
@@ -157,7 +157,7 @@ var backgroundViewComponent = function() {
             }
         }
 	}
-	
+
 	var self = viewComponent(init, render);
 	return self;
 }

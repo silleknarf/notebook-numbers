@@ -12,6 +12,7 @@ TODO
 + Make the resize grid button resize properly
 + Make the cursor view resize properly
 + Make the background view draw lower when the bounds are expanded
+- Make the bindings render as expected
 - Scrolling
 	- Implement stop scrolling beyond the bottom of the resize button
 	- Allow scrolling using the mouse wheel
