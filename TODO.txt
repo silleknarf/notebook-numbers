@@ -16,6 +16,7 @@ TODO
 + Scrolling
 	+ Implement stop scrolling beyond the bottom of the resize button
 	+ Allow scrolling using the mouse wheel
+- Implement gadget system	
 - Make the resize grid button resize properly
 = Make the cursor view resize properly
 - Menu System
