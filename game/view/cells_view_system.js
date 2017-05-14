@@ -1,16 +1,5 @@
 var cellsViewSystem = function(ecs, eventManager) {
 
-	var resizeBounds = function(gridEntity, topCellHeight) {
-		// TODO: We will need to make the absolute height of the grid extend
-		// if the bottom of the 
-		/*
-		var gridBounds = gridEntity.components[componentTypeEnum.BOUNDS];
-		var updatedBoundsComponent = _.cloneDeep(gridBounds);
-		updatedBoundsComponent.relative.height = topCellHeight;
-		eventManager.vent.trigger("SYSTEM:BOUNDS:RESIZE", updatedBoundsComponent);
-		*/
-	};
-
 	var synchroniseGrid = function(gridEntity) {
 		var gridComponent = gridEntity.components[componentTypeEnum.GRID];
 		var grid = gridComponent.grid;
@@ -43,16 +32,11 @@ var cellsViewSystem = function(ecs, eventManager) {
 	        }
 	    }
 
-	    if (previousGridRows !== 0) {
-	    	var newGridHeight = gridEntity.components[componentTypeEnum.BOUNDS].relative.height*gridRows/previousGridRows;
-	    	resizeBounds(gridEntity, newGridHeight);
-	    }
-
 	    // Not sure why so much space is required here
-	    var fiveRows = 5;
-		eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE_MAX_HEIGHT", topCellHeight + (100/config.numRows)*fiveRows);
-
-		eventManager.vent.trigger("SYSTEM:BOUNDS:MOVE", "refillGrid", null, topCellHeight);
+	    var rowHeight = (100/config.numRows)
+	    var fourRows = 4 * rowHeight;
+		eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE_MAX_HEIGHT", topCellHeight + fourRows);
+		eventManager.vent.trigger("SYSTEM:BOUNDS:MOVE", "refillGrid", null, topCellHeight + rowHeight);
 
 	   	ecs.addEntities("grid", cells);
 	};

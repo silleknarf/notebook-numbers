@@ -19,18 +19,14 @@ var cellViewComponent = function() {
 		numberView.digit = number.digit;
 		numberView.visible = numberView.digit !== 0;
 
-
 		// Create a hitbox for each number
 		var hit = new createjs.Shape();
 		var colourValue = number.digit * 16;
 		hit.graphics
+			.moveTo(absolute.x, absolute.y)
 			.beginFill("rgba(" + colourValue + "," + colourValue + "," + colourValue + ", 0.5)")
 			.drawRect(0, 0, absolute.width, absolute.height);
 
-		// Because we shift the center of the cell into the middle of it's 
-		// co-ords we need to adjust the hit box accordingly
-		hit.x = -Math.floor(absolute.width/2);
-		hit.y = -Math.floor(absolute.height/2) + 15;
 		numberView.hitArea = hit;
 
 	    numberView.on("click", function(evt) {
@@ -41,7 +37,6 @@ var cellViewComponent = function() {
 	    });
 			
 		my.numberView = numberView;
-		//renderSystem.stage.addChild(hit);
 		renderSystem.stage.addChild(numberView);
 		renderSystem.stage.setChildIndex(numberView, renderSystem.stage.getNumChildren()-1);	
 	};
@@ -49,10 +44,8 @@ var cellViewComponent = function() {
 	var render = function(renderSystem, entity, eventManager) {
 		var absolute = entity.components[componentTypeEnum.BOUNDS].absolute;
 		my.numberView.x = absolute.x + Math.floor(absolute.width/2);
-		my.numberView.y = absolute.y + Math.floor(absolute.height/2) - 15;
+		my.numberView.y = absolute.y;
 		my.numberView.font = getFont(absolute);
-		//my.numberView.x = absolute.x;
-		//my.numberView.y = absolute.y;
 	};
 
 	var remove = function(renderSystem) {

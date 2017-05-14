@@ -55,6 +55,8 @@ var boundsSystem = function(ecs, eventManager) {
 				my.heightBeyondBounds = my.background.absolute.height - maxAbsoluteBounds.absolute.height;
 				if (my.previousHeightBeyoundBounds !== my.heightBeyondBounds)
 					eventManager.vent.trigger("SYSTEM:SCROLL:HEIGHT_BEYOND_BOUNDS", my.heightBeyondBounds);
+
+				eventManager.vent.trigger("SYSTEM:GIZMO:UPDATE", entity);
 			})
 	}
 

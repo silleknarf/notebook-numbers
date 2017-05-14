@@ -24,9 +24,11 @@ var renderSystem = function(ecs, eventManager, preloader) {
 				if (view.init && !view.hasInit)
 				{
 					view.init(my, entity, eventManager);
+					eventManager.vent.trigger("SYSTEM:GIZMO:INIT", my, entity);
 					view.hasInit = true;
 				}
 				view.render(my, entity, eventManager);
+				//eventManager.vent.trigger("SYSTEM:GIZMO:RENDER", my, entity);
 				renderedEntities[view.id] = view;
 			});
 
@@ -53,7 +55,7 @@ var renderSystem = function(ecs, eventManager, preloader) {
 		preloader(my);
 		my.loadImages(function() {
 		    createjs.Ticker.setFPS(25);
-		    createjs.Ticker.on("tick", render);
+	    createjs.Ticker.on("tick", render);
 		});
 
 		eventManager.vent.trigger("SYSTEM:SCROLL:START", my.stage);

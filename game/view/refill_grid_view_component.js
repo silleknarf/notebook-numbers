@@ -15,13 +15,13 @@ var refillGridViewComponentFactory = function() {
 		var refillGrid = new createjs.Text("Refill Grid", getFont(bounds.absolute), config.numbersColour);
 		refillGrid.x = bounds.absolute.x;
 		refillGrid.y = bounds.absolute.y;
-		refillGrid.textAlign = "center";
+		//refillGrid.textAlign = "center";
 
 		// Adding collision detection
 		var hit = new createjs.Shape();
 	    hit.graphics
             .beginFill("#F00")
-			.drawRect(	-refillGrid.getMeasuredWidth()/2, 0, 
+			.drawRect(0, 0, 
 					 	refillGrid.getMeasuredWidth(), refillGrid.getMeasuredHeight());
 		refillGrid.hitArea = hit;
 
@@ -39,8 +39,9 @@ var refillGridViewComponentFactory = function() {
 
 	var render = function(renderSystem, entity) {
 		var bounds = entity.components[componentTypeEnum.BOUNDS];
-		my.refillGrid.x = bounds.absolute.x;
-		my.refillGrid.y = bounds.absolute.y + Math.floor(bounds.absolute.width/2);
+		var middle = Math.floor(bounds.absolute.width/2 - my.refillGrid.getMeasuredWidth()/2);
+		my.refillGrid.x = bounds.absolute.x + middle;
+		my.refillGrid.y = bounds.absolute.y; //+ Math.floor(bounds.absolute.width/2);
 		my.refillGrid.font = getFont(bounds.absolute);
 	};
 
