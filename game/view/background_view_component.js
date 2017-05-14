@@ -103,46 +103,6 @@ var backgroundViewComponent = function() {
 		title.textAlign = "center";
 		renderSystem.background.addChild(title);
 
-		var buttonFontSize = 40 * fontScalingFactor * (isVerticalLayout ? 3 : 1);
-		//var buttonFontSize = 40;
-		var buttonOffset = isVerticalLayout ? Math.floor(firstPageHeight / 8) : 100;
-		var newGame = new createjs.Text("- New Game");
-	    newGame.font = Math.ceil(buttonFontSize)+"px "+config.titleFont;
-	    newGame.color = config.titleColour;
-		newGame.x = banderole.x + Math.floor(bounds.absolute.width / titleTextPosition);
-		newGame.y = coverMargin+titleFontSize+buttonOffset; 
-		newGame.textAlign = "center";
-
-		// Adding collision detection
-		var hit = new createjs.Shape();
-		hit.graphics
-		    .beginFill("#F00")
-		    .drawRect(-Math.floor(newGame.getMeasuredWidth()/2), 0, newGame.getMeasuredWidth(), newGame.getMeasuredHeight());
-		newGame.hitArea = hit;
-		newGame.on("click", function() {
-			eventManager.vent.trigger(events.newGame);
-	   	});
-		renderSystem.background.addChild(newGame);
-
-		// Draw the title banderole on the right hand side
-		var tutorial = new createjs.Text("- Tutorial");
-	    tutorial.font = Math.ceil(buttonFontSize)+"px "+config.titleFont;
-	    tutorial.color = config.titleColour;
-		tutorial.x = banderole.x + Math.floor(bounds.absolute.width / titleTextPosition);
-		tutorial.y = coverMargin+titleFontSize+buttonFontSize+buttonOffset+10; 
-		tutorial.textAlign = "center";
-
-		hit = new createjs.Shape();
-	    hit.graphics
-		   .beginFill("#F00")
-		   .drawRect(-Math.floor(tutorial.getMeasuredWidth()/2), 0, tutorial.getMeasuredWidth(), tutorial.getMeasuredHeight());
-
-		tutorial.hitArea = hit;
-		tutorial.on("click", function() {
-			eventManager.vent.trigger(events.tutorial);
-		});
-		renderSystem.background.addChild(tutorial);
-
 		// Draw the bindings in the middle
         if (!isVerticalLayout) {
             var y = 0;

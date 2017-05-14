@@ -1,29 +1,13 @@
 TODO
 
-+ Work out why the grid shifts down when redrawn
-+ Work out why the cells resize when the button moves down
-+ Get the width of the grid from the view system
-+ Set the width of the grid and the height of the numbers independently
-+ New approach:
-	+ Relative bounds defines the size of items compared to the original full screen size
-	+ If the total relative bounds exceeds 100% of the boundary then we increase the absolute size of the rendered canvas
-	+ Background/binding renderer is *special* as it takes the total relative size of the grid and then adjusts it's absolute height
-+ Why does the font not change when the game gets smaller
-+ Make the resize grid button resize properly
-+ Make the cursor view resize properly
-+ Make the background view draw lower when the bounds are expanded
-+ Make the bindings render as expected
-+ Scrolling
-	+ Implement stop scrolling beyond the bottom of the resize button
-	+ Allow scrolling using the mouse wheel
-+ Implement gizmo system	
-	+ Work out why refill grid has no outline
-	+ Work out why the left hand line of the gizmo is not drawn
-+ Make the resize grid button resize properly
-+ Make the cursor view resize properly
 - Menu System
+	+ Render menu system
 	- Implement menu system
-	- Render menu system
+		- Make the game reset when clicking the new game button
+	- Adjust the font size dynamically
+- Title system
+	- Turn the title into a view component
+	- Adjust the font size dynamically
 - Tutorial
 	- Implement tutorial mode
 - Performance 

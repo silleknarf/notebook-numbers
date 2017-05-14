@@ -15,7 +15,13 @@ gizmoSystem(ecs, eventManager);
 var backgroundEntityComponents = [backgroundViewComponent(), boundsComponent()];
 var backgroundEntity = entity("background_view", backgroundEntityComponents);
 ecs.entities.push(backgroundEntity);
-ecs.addEntities("background_view", [classicEntity()]);
+
+ecs.addEntities("background_view", [classicEntityFactory()]);
+
+var menuBoundsComponent = boundsComponent({ x: 50, y: 20, width: 50, height: 20});
+var menuEntityComponents = [menuViewComponent(), menuBoundsComponent];
+var menuEntity = entity("menu", menuEntityComponents);
+ecs.addEntities("background_view", [menuEntity]);
 
 var init = function() {
 	eventManager.vent.trigger("SYSTEM:MODE:CLASSIC");

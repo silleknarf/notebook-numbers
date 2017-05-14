@@ -1,11 +1,11 @@
 var modeSystem = function(ecs, eventManager) {
-	var currentMode = null;
+	var my = {};
 
 	var changeMode = function(modeEntityFactory) {
 		var mode = modeEntityFactory();
 		ecs.addEntity("background", mode);
 		ecs.removeEntity("mode");
-		currentMode = mode.name;
+		my.currentMode = mode.name;
 	};
 
 	var startClassic = function() {
@@ -17,12 +17,8 @@ var modeSystem = function(ecs, eventManager) {
 	};
 
 	var initialiseEvents = function() {
-		eventManager.vent.on(
-			"SYSTEM:MODE:CLASSIC", 
-			startClassic);
-		eventManager.vent.on(
-			"SYSTEM:MODE:TUTORIAL", 
-			startTutorial);
+		eventManager.vent.on("SYSTEM:MODE:CLASSIC", startClassic);
+		eventManager.vent.on("SYSTEM:MODE:TUTORIAL", startTutorial);
 	};
 	initialiseEvents();
 };

@@ -1,4 +1,4 @@
-var classicEntity = function() {
+var classicEntityFactory = function() {
 	var generateClassicGrid = function() {
 	    var data = [[], [], []];
 	    var firstRow = data[0];
