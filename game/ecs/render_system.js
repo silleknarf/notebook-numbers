@@ -28,7 +28,6 @@ var renderSystem = function(ecs, eventManager, preloader) {
 					view.hasInit = true;
 				}
 				view.render(my, entity, eventManager);
-				//eventManager.vent.trigger("SYSTEM:GIZMO:RENDER", my, entity);
 				renderedEntities[view.id] = view;
 			});
 

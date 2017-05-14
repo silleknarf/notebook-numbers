@@ -16,11 +16,11 @@ TODO
 + Scrolling
 	+ Implement stop scrolling beyond the bottom of the resize button
 	+ Allow scrolling using the mouse wheel
-- Implement gizmo system	
-	- Work out why refill grid has no outline
-	- Work out why the left hand line of the gizmo is not drawn
-- Make the resize grid button resize properly
-= Make the cursor view resize properly
++ Implement gizmo system	
+	+ Work out why refill grid has no outline
+	+ Work out why the left hand line of the gizmo is not drawn
++ Make the resize grid button resize properly
++ Make the cursor view resize properly
 - Menu System
 	- Implement menu system
 	- Render menu system
