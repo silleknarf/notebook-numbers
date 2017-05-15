@@ -53,5 +53,5 @@ var cursorViewComponentFactory = function() {
 		renderSystem.stage.removeChild(my.cursorCircle2);
 	};
 
-	return viewComponent(init, render);
+	return viewComponent(init, render, remove);
 };

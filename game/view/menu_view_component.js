@@ -1,16 +1,22 @@
 var menuViewComponent = function() {
 	var my = {};
+
+	var getFont = function(absolute) {
+		var menuItemsCount = 2;
+		var fontSize = Math.floor(absolute.height / (menuItemsCount + 1));
+		var font = fontSize + "px " + config.titleFont;
+		return font;
+	};
 	
 	var init = function(renderSystem, entity, eventManager) {
 
 		var view = entity.components[componentTypeEnum.BOUNDS];
 		var absolute = view.absolute;
 
-		var buttonFontSize = 40;
 		var buttonOffset = 100;
 		var newGame = new createjs.Text("- New Game");
 
-	    newGame.font = Math.ceil(buttonFontSize)+"px "+config.titleFont;
+	    newGame.font = getFont(absolute);
 	    newGame.color = config.titleColour;
 
 		// Adding collision detection
@@ -28,7 +34,7 @@ var menuViewComponent = function() {
 
 		// Draw the title banderole on the right hand side
 		var tutorial = new createjs.Text("- Tutorial");
-	    tutorial.font = Math.ceil(buttonFontSize)+"px "+config.titleFont;
+	    tutorial.font = getFont(absolute);
 	    tutorial.color = config.titleColour;
 
 		var hitTutorial = new createjs.Shape();
@@ -53,7 +59,9 @@ var menuViewComponent = function() {
 		my.newGame.y = bounds.absolute.y; 
 		my.tutorial.x = bounds.absolute.x + middle;
 		my.tutorial.y = bounds.absolute.y + bounds.absolute.height / 2; 
-		//my.refillGrid.font = getFont(bounds.absolute);
+		var font = getFont(bounds.absolute);
+		my.newGame.font = font;
+		my.tutorial.font = font;
 	}
 
 	var remove = function(renderSystem) {

@@ -1,9 +1,11 @@
 var renderSystem = function(ecs, eventManager, preloader) {
 	var my = {};
 
+	my.hasInit = false;
 	// When we remove entities they may leave view components hanging around
 	// and we need to remove them from the stage
 	my.previouslyRenderedEntities = [];
+
 	var removeOldViews = function(previouslyRenderedEntities, renderedEntities) {
 		var viewIdsToRemove = _.difference(
 			_.keys(previouslyRenderedEntities),
@@ -11,8 +13,15 @@ var renderSystem = function(ecs, eventManager, preloader) {
 		_.forEach(
 			viewIdsToRemove,
 			function(viewId) {
-				previouslyRenderedEntities[viewId].remove(my);
-			})
+				var previouslyRenderedEntity = previouslyRenderedEntities[+viewId];
+				if (previouslyRenderedEntity.remove) {
+					previouslyRenderedEntity.remove(my);
+				}
+				else if (previouslyRenderedEntity) {
+					var parentName = previouslyRenderedEntity.parentEntity.name;
+					console.log("Remove method not implemented for entity: " + parentName);
+				}
+			});
 	};
 
 	var render = function() {
@@ -37,6 +46,9 @@ var renderSystem = function(ecs, eventManager, preloader) {
 	};
 
 	var start = function() {
+		if (my.hasInit)
+			return;
+
 	    // Create the easel stage
 	    my.stage = new createjs.Stage('notebooknumbers');
 
@@ -54,10 +66,12 @@ var renderSystem = function(ecs, eventManager, preloader) {
 		preloader(my);
 		my.loadImages(function() {
 		    createjs.Ticker.setFPS(25);
-	    createjs.Ticker.on("tick", render);
+	    	createjs.Ticker.on("tick", render);
 		});
 
 		eventManager.vent.trigger("SYSTEM:SCROLL:START", my.stage);
+
+		my.hasInit = true;
 	};
 
 	var initialiseEvents = function() {

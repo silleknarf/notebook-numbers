@@ -1,10 +1,12 @@
 TODO
 
-- Menu System
++ Menu System
 	+ Render menu system
-	- Implement menu system
-		- Make the game reset when clicking the new game button
-	- Adjust the font size dynamically
+	+ Implement menu system
+	+ Make the game reset when clicking the new game button
+	+ Adjust the font size dynamically
+	+ Cleanup the cursor view component
+	+ Cleanup the refill grid view component
 - Title system
 	- Turn the title into a view component
 	- Adjust the font size dynamically

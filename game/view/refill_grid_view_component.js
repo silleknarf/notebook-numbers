@@ -45,5 +45,9 @@ var refillGridViewComponentFactory = function() {
 		my.refillGrid.font = getFont(bounds.absolute);
 	};
 
-	return viewComponent(init, render);
+	var remove = function(renderSystem) {
+		renderSystem.stage.removeChild(my.refillGrid);
+	};
+
+	return viewComponent(init, render, remove);
 };

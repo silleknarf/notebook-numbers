@@ -3,9 +3,14 @@ var modeSystem = function(ecs, eventManager) {
 
 	var changeMode = function(modeEntityFactory) {
 		var mode = modeEntityFactory();
-		ecs.addEntity("background", mode);
-		ecs.removeEntity("mode");
+
+		ecs.removeEntities(my.currentMode);
+		ecs.addEntities("background_view", [mode]);
+
 		my.currentMode = mode.name;
+
+		eventManager.vent.trigger("VIEWSYSTEM:CELLS:GRID_CHANGED");
+		eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
 	};
 
 	var startClassic = function() {

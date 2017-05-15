@@ -6,6 +6,7 @@ var entity = function(name, components, subEntities) {
 
 	_.forEach(components, function(component) {
 		my.components[component.componentType] = component;
+		component.parentEntity = my;
 	});
 
 	_.forEach(my.subEntities, function(subEntity) {
