@@ -2,7 +2,7 @@ var titleViewComponent = function() {
 	var my = {};
 
 	var getFont = function(absolute) {
-		var fontSize = Math.floor(absolute.height / 2);
+		var fontSize = Math.floor(absolute.height / 3);
 		var font = fontSize + "px " + config.titleFont;
 		return font;
 	};

@@ -7,9 +7,9 @@ TODO
 	+ Adjust the font size dynamically
 	+ Cleanup the cursor view component
 	+ Cleanup the refill grid view component
-- Title system
-	- Turn the title into a view component
-	- Adjust the font size dynamically
++ Title system
+	+ Turn the title into a view component
+	+ Adjust the font size dynamically
 - Tutorial
 	- Implement tutorial mode
 - Performance 
