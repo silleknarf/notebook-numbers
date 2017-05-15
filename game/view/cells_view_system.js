@@ -34,8 +34,8 @@ var cellsViewSystem = function(ecs, eventManager) {
 
 	    // Not sure why so much space is required here
 	    var rowHeight = (100/config.numRows)
-	    var fourRows = 4 * rowHeight;
-		eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE_MAX_HEIGHT", topCellHeight + fourRows);
+	    var fiveRows = 5 * rowHeight;
+		eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE_MAX_HEIGHT", topCellHeight + fiveRows);
 		eventManager.vent.trigger("SYSTEM:BOUNDS:MOVE", "refillGrid", null, topCellHeight + rowHeight);
 
 	   	ecs.addEntities("grid", cells);

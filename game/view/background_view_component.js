@@ -90,18 +90,6 @@ var backgroundViewComponent = function() {
 		banderole.y = coverMargin; 
 		//renderSystem.background.addChild(banderole);
 
-		// Draw the title banderole on the right hand side
-		// TODO: Scale the font based on absolute height
-		var fontScalingFactor = 1;
-	    var titleTextPosition = isVerticalLayout ? 2 : 4;
-		var titleFontSize = 45 * fontScalingFactor * (isVerticalLayout ? 3 : 1);
-		var title = new createjs.Text("Notebook Numbers");
-	    title.font = Math.ceil(titleFontSize)+"px "+config.titleFont;
-	    title.color = config.titleColour;
-		title.x = banderole.x + Math.floor(bounds.absolute.width / titleTextPosition);
-		title.y = isVerticalLayout ? coverMargin+Math.floor(firstPageHeight/20) : coverMargin+50; 
-		title.textAlign = "center";
-		renderSystem.background.addChild(title);
 
 		// Draw the bindings in the middle
         if (!isVerticalLayout) {

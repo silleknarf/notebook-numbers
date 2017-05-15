@@ -13,14 +13,20 @@ scrollSystem(eventManager);
 gizmoSystem(ecs, eventManager);
 modeSystem(ecs, eventManager);
 
+// TODO: Move these to a background entity factory
 var backgroundEntityComponents = [backgroundViewComponent(), boundsComponent()];
 var backgroundEntity = entity("background_view", backgroundEntityComponents);
 ecs.entities.push(backgroundEntity);
 
+var titleBoundsComponent = boundsComponent({ x: 50, y: 0, width: 50, height: 20});
+var titleEntityComponents = [titleViewComponent(), titleBoundsComponent];
+var titleEntity = entity("title", titleEntityComponents);
+
 var menuBoundsComponent = boundsComponent({ x: 50, y: 20, width: 50, height: 20});
 var menuEntityComponents = [menuViewComponent(), menuBoundsComponent];
 var menuEntity = entity("menu", menuEntityComponents);
-ecs.addEntities("background_view", [menuEntity]);
+
+ecs.addEntities("background_view", [titleEntity, menuEntity]);
 
 var init = function() {
 	eventManager.vent.trigger("SYSTEM:RENDER:START");

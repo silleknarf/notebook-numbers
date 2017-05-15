@@ -13,7 +13,6 @@ var menuViewComponent = function() {
 		var view = entity.components[componentTypeEnum.BOUNDS];
 		var absolute = view.absolute;
 
-		var buttonOffset = 100;
 		var newGame = new createjs.Text("- New Game");
 
 	    newGame.font = getFont(absolute);
@@ -65,7 +64,8 @@ var menuViewComponent = function() {
 	}
 
 	var remove = function(renderSystem) {
-
+		renderSystem.stage.removeChild(my.newGame);
+		renderSystem.stage.removeChild(my.tutorial);
 	};
 
 	return viewComponent(init, render, remove);

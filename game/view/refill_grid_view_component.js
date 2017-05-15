@@ -15,7 +15,6 @@ var refillGridViewComponentFactory = function() {
 		var refillGrid = new createjs.Text("Refill Grid", getFont(bounds.absolute), config.numbersColour);
 		refillGrid.x = bounds.absolute.x;
 		refillGrid.y = bounds.absolute.y;
-		//refillGrid.textAlign = "center";
 
 		// Adding collision detection
 		var hit = new createjs.Shape();
