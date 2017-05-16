@@ -1,4 +1,4 @@
-var entityComponentSystem = function() {
+ar entityComponentSystem = function() {
 	var my = {}
 	my.entities = [];
 

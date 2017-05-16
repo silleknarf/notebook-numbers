@@ -31,7 +31,6 @@ var logicSystem = function(ecs, eventManager, gridRepository) {
 				var isMovePossible = gridRepository.check(grid, firstCell, secondCell);
 				if (isMovePossible) {
 					gridRepository.makeMove(grid, firstCell, secondCell);
-					eventManager.vent.trigger("VIEWSYSTEM:CELLS:GRID_CHANGED");
 					
 					if (gridRepository.checkCompleted(grid))
 						eventManager.vent.trigger("SYSTEM:LOGIC:GRID_COMPLETED");

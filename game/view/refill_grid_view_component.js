@@ -21,7 +21,7 @@ var refillGridViewComponentFactory = function() {
 	    hit.graphics
             .beginFill("#F00")
 			.drawRect(0, 0, 
-					 	refillGrid.getMeasuredWidth(), refillGrid.getMeasuredHeight());
+					 	bounds.absolute.width, bounds.absolute.height);
 		refillGrid.hitArea = hit;
 
 		/**

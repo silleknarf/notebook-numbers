@@ -8,7 +8,7 @@ boundsSystem(ecs, eventManager);
 logicSystem(ecs, eventManager, gridRepository);
 cursorSystem(ecs, eventManager, gridRepository, cellRepository);
 cursorViewSystem(ecs, eventManager);
-cellsViewSystem(ecs, eventManager);
+gridViewSystem(ecs, eventManager);
 scrollSystem(eventManager);
 gizmoSystem(ecs, eventManager);
 modeSystem(ecs, eventManager);

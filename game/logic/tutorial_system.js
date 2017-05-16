@@ -10,11 +10,8 @@ var tutorialSystem = function(ecs, eventManager) {
 		eventManager.vent.on("SYSTEM:LOGIC:GRID_COMPLETED", nextLevel, my);
 	};
 
-	var addTutorialLevel = function(text, grid, height, fontSize) {
-		// TODO: Handle text
-		if (grid != null) {
-			my.tutorialGrid = my.tutorialGrid.concat(grid);
-		}
+	var addTutorialLevel = function(grid) {
+		my.tutorialGrid = grid; //my.tutorialGrid.concat(grid);
 	}
 
 	var updateGrid = function(newGrid) {
@@ -36,7 +33,6 @@ var tutorialSystem = function(ecs, eventManager) {
 				var bottomRow = grid[grid.length-1];
 				if (_.isEqual(bottomRow, [5,0,0,0,0,0,0,0,0])) {
 					nextLevel();
-					//eventManager.vent.off(Cursor.events.makeMove, this.refillGridTutorialHelper, this);
 				}
 			});
 	}
@@ -48,48 +44,42 @@ var tutorialSystem = function(ecs, eventManager) {
 	    var extendGridByRows = 0;
 
 		// Horizontal Same 
-		if (my.level == 1)
-			addTutorialLevel(
-				"If two numbers are the same, then they can be crossed out", 
-				[[0], [1,1]], 
-				0);
+		if (my.level == 1) 
+			my.tutorialGrid = 	
+				["If two numbers are the same, then they can be crossed out", 
+				[1,1]];
 
 		// Horizontal spaces
-		if (my.level == 2)
-			addTutorialLevel(
-				"If there is a gap between numbers, then you can play through it", 
-				[[0], [4,0,4,5,0,0,5]], 
-				2);
+		if (my.level == 2) 
+			my.tutorialGrid = 
+				["If there is a gap between numbers, then you can play through it", 
+				[4,0,4,5,0,0,5]];
 
 		// Horizontal add to 10
 		if (my.level == 3)
-			addTutorialLevel(
-				"If two numbers add to 10, then they can be crossed out", 
-				[[0],[2,0,0,8]], 
-				4);
+			my.tutorialGrid = 
+				["If two numbers add to 10, then they can be crossed out", 
+				[2,0,0,8]];
 
 		// Vertical add to 10 or same
 		if (my.level == 4)
-			addTutorialLevel(
-				"Two numbers can be beside each other vertically", 
-				[[0],[3,0,0,1],[7,0,0,0],[0,0,0,1]], 
-				6);
+			my.tutorialGrid = 
+				["Two numbers can be beside each other vertically", 
+				[3,0,0,1],[7,0,0,0],[0,0,0,1]];
 
 		// New line move twice
 		if (my.level == 5) {
-			var grid = [[0],[0,0,0,0,0,0,0,8,9],[1,2,0,0,0,0,0,0,0]];
-			var hint = "Two numbers are beside each other, from the end of one line to \n\n" + 
-				"the start of the next";
-			addTutorialLevel(hint, grid, 10);
+			var grid = ["Two numbers are beside each other, from the end of one line to \n\n" + 
+				"the start of the next",
+				[0,0,0,0,0,0,0,8,9],[1,2,0,0,0,0,0,0,0]];
+			my.tutorialGrid = grid;
 		}
 
 		// Mini Game
 		if (my.level == 6) {
-			var grid = [[0], [5,4,3,2,1,9,8,7,6]];
-			addTutorialLevel(
-				"The aim of the game is to clear the grid", 
-				grid, 
-				13);
+			my.tutorialGrid =
+				["The aim of the game is to clear the grid", 
+				 [5,4,3,2,1,9,8,7,6]];
 			eventManager.vent.on("SYSTEM:LOGIC:MAKE_MOVE", refillGridTutorialHelper);
 		}
 
@@ -97,39 +87,44 @@ var tutorialSystem = function(ecs, eventManager) {
 		if (my.level == 7) {
 			eventManager.vent.off("SYSTEM:LOGIC:MAKE_MOVE", refillGridTutorialHelper);
 
-			addTutorialLevel(
-				"When there are no more moves to play, you click:", 
-				[[]], 
-				15);
-			// TODO: add refill grid button
+			my.tutorialGrid = my.tutorialGrid.concat(
+				["When there are no more moves to play, you click:"]);
+
+			var refillGridEntity = refillGridEntityFactory();
+			ecs.addEntities("tutorial", [refillGridEntity]);
+			eventManager.vent.on("SYSTEM:LOGIC:REFILL_GRID", nextLevel);
 		}
 
 		if (my.level == 8)
 		{
-			// TODO: remove refill grid button
-		    extendGridByRows = 2;
-			addTutorialLevel(
-				"Now you can complete the grid above", 
-				null, 
-				17);
+			my.tutorialGrid = my.tutorialGrid.concat(
+				["Now you can complete the grid above"]);
+			ecs.removeEntities("refill_grid");
 		}
 
 		// Tutorial Complete
 		// Congratulate user, they can now play Notebook Numbers!	
 		if (my.level == 9) {
 			var hint = "Congratulations, you can now play Notebook Numbers!";
-		    extendGridByRows = 3;
-			addTutorialLevel(hint, null, 18, 28);
+			var nextStep = "Click the \"New Game\" button on the right to play -->";
+			my.tutorialGrid = my.tutorialGrid.concat([hint, nextStep]);
 		}
 
-		// TODO: Update the grid properly
 		updateGrid(my.tutorialGrid);
 
 		eventManager.vent.trigger("VIEWSYSTEM:CELLS:GRID_CHANGED");
 	}
 
+	var dispose = function() {
+		eventManager.vent.off("SYSTEM:LOGIC:MAKE_MOVE", refillGridTutorialHelper);
+		eventManager.vent.off("SYSTEM:LOGIC:GRID_COMPLETED", nextLevel, my);
+		eventManager.vent.off("SYSTEM:LOGIC:REFILL_GRID", nextLevel);
+		ecs.removeEntities("refill_grid");
+	}
+
 	var initialiseEvents = function() {
 		eventManager.vent.on("SYSTEM:MODE:TUTORIAL", init);
+		eventManager.vent.on("SYSTEM:MODE:CHANGE_MODE", dispose);
 	};
 	initialiseEvents();
 };

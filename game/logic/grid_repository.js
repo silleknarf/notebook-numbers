@@ -119,6 +119,11 @@ var gridRepositoryFactory = function(cellRepository) {
 	    var remainingNumbers = [];
 		var allNumbers = 0;
 		for (var i = 0; i < grid.length; i++) {
+
+			// Don't evaluate the text lines
+			if (!Array.isArray(grid[i]))
+				continue;
+
 			for (var j = 0; j < grid[i].length; j++) {
 				// if it is > 0 it should be re-added
 				var item = grid[i][j];
@@ -132,6 +137,11 @@ var gridRepositoryFactory = function(cellRepository) {
 		var lastI = 0;
 		var lastJ = 0;
 		for (var i = grid.length-1; i >= 0; i--) {
+
+			// Don't evaluate the text lines
+			if (!Array.isArray(grid[i]))
+				continue;
+
 			for (var j = grid[i].length; j >= 0; j--) {
 				var number = grid[i][j]; 
 				if (number > 0) {
@@ -168,6 +178,11 @@ var gridRepositoryFactory = function(cellRepository) {
 	 **/
 	var checkCompleted = function(grid) {
 		for (var i = 0; i < grid.length; i++) {
+
+			// Don't evaluate the text lines
+			if (!Array.isArray(grid[i]))
+				continue;
+
 			for (var j = 0; j < grid[i].length; j++) { 
 				// We still have numbers left to clear
 				var item = grid[i][j];

@@ -4,6 +4,8 @@ var modeSystem = function(ecs, eventManager) {
 	var changeMode = function(modeEntityFactory) {
 		var mode = modeEntityFactory();
 
+		eventManager.vent.trigger("SYSTEM:MODE:CHANGE_MODE");
+
 		ecs.removeEntities(my.currentMode);
 		ecs.addEntities("background_view", [mode]);
 

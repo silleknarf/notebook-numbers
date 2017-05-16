@@ -23,6 +23,7 @@ var componentTypeEnum = Object.freeze({
 	BOUNDS: "bounds",
 	GRID: "grid",
 	CELL: "cell",
+	TEXT: "text"
 });
 
 var viewComponent = function(initFunction, renderFunction, removeFunction) {
@@ -72,5 +73,11 @@ var cellComponent = function(i, j, digit) {
 	my.i = i;
 	my.j = j;
 	my.digit = digit;
+	return my;
+};
+
+var textComponent = function(text) {
+	var my = component(componentTypeEnum.TEXT);
+	my.text = text;
 	return my;
 };
