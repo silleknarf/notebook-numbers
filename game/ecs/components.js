@@ -59,7 +59,7 @@ var boundsComponent = function(relative) {
 
 var gridComponent = function(grid) {
 	var my = component(componentTypeEnum.GRID);
-	my.grid = grid;
+	my.grid = grid || [];
 	my.cursor = {
         cells: []
 	};

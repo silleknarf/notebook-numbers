@@ -12,6 +12,7 @@ cellsViewSystem(ecs, eventManager);
 scrollSystem(eventManager);
 gizmoSystem(ecs, eventManager);
 modeSystem(ecs, eventManager);
+tutorialSystem(ecs, eventManager);
 
 // TODO: Move these to a background entity factory
 var backgroundEntityComponents = [backgroundViewComponent(), boundsComponent()];
