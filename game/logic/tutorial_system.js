@@ -46,31 +46,42 @@ var tutorialSystem = function(ecs, eventManager) {
 		// Horizontal Same 
 		if (my.level == 1) 
 			my.tutorialGrid = 	
-				["If two numbers are the same, then they can be crossed out", 
+				["If two numbers are the same,\n\nthen they can be crossed out", 
+				[],
+				[],
 				[1,1]];
 
 		// Horizontal spaces
 		if (my.level == 2) 
 			my.tutorialGrid = 
-				["If there is a gap between numbers, then you can play through it", 
+				["If there is a gap between numbers,\n\nthen you can play through it", 
+				[],
+				[],
 				[4,0,4,5,0,0,5]];
 
 		// Horizontal add to 10
 		if (my.level == 3)
 			my.tutorialGrid = 
-				["If two numbers add to 10, then they can be crossed out", 
+				["If two numbers add to 10,\n\nthen they can be crossed out", 
+				[],
+				[],
 				[2,0,0,8]];
 
 		// Vertical add to 10 or same
 		if (my.level == 4)
 			my.tutorialGrid = 
-				["Two numbers can be beside each other vertically", 
+				["Two numbers can be beside each\n\nother vertically", 
+				[],
+				[],
 				[3,0,0,1],[7,0,0,0],[0,0,0,1]];
 
 		// New line move twice
 		if (my.level == 5) {
-			var grid = ["Two numbers are beside each other, from the end of one line to \n\n" + 
+			var grid = ["Two numbers are beside each other,\n\n" + 
+				"from the end of one line to \n\n" + 
 				"the start of the next",
+				[],
+				[],
 				[0,0,0,0,0,0,0,8,9],[1,2,0,0,0,0,0,0,0]];
 			my.tutorialGrid = grid;
 		}
@@ -78,8 +89,10 @@ var tutorialSystem = function(ecs, eventManager) {
 		// Mini Game
 		if (my.level == 6) {
 			my.tutorialGrid =
-				["The aim of the game is to clear the grid", 
-				 [5,4,3,2,1,9,8,7,6]];
+				["The aim of the game is\n\nto clear the grid", 
+				[],
+				[],
+				[5,4,3,2,1,9,8,7,6]];
 			eventManager.vent.on("SYSTEM:LOGIC:MAKE_MOVE", refillGridTutorialHelper);
 		}
 
@@ -88,7 +101,7 @@ var tutorialSystem = function(ecs, eventManager) {
 			eventManager.vent.off("SYSTEM:LOGIC:MAKE_MOVE", refillGridTutorialHelper);
 
 			my.tutorialGrid = my.tutorialGrid.concat(
-				["When there are no more moves to play, you click:"]);
+				["When there are no more moves to play,\n\nyou click:", []]);
 
 			var refillGridEntity = refillGridEntityFactory();
 			ecs.addEntities("tutorial", [refillGridEntity]);
@@ -98,16 +111,16 @@ var tutorialSystem = function(ecs, eventManager) {
 		if (my.level == 8)
 		{
 			my.tutorialGrid = my.tutorialGrid.concat(
-				["Now you can complete the grid above"]);
+				["Now you can complete\n\nthe grid above"]);
 			ecs.removeEntities("refill_grid");
 		}
 
 		// Tutorial Complete
 		// Congratulate user, they can now play Notebook Numbers!	
 		if (my.level == 9) {
-			var hint = "Congratulations, you can now play Notebook Numbers!";
-			var nextStep = "Click the \"New Game\" button on the right to play -->";
-			my.tutorialGrid = my.tutorialGrid.concat([hint, nextStep]);
+			var hint = "Congratulations, you can now play\n\nNotebook Numbers!";
+			var nextStep = "Click the \"New Game\" button on\n\nthe right to play -->";
+			my.tutorialGrid = [hint, [], [], nextStep];
 			localStorage.setItem("hasCompletedTutorial", true);
 		}
 

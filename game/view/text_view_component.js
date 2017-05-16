@@ -2,7 +2,9 @@ var textViewComponent = function() {
 	var my = {};
 
 	var getFont = function(absolute) {
-		var fontSize = Math.floor(absolute.height * 0.5);
+		var maxVFontSize = Math.floor(absolute.height);
+		var maxHFontSize = Math.floor(absolute.width * 0.15);
+		var fontSize = Math.min(maxHFontSize, maxVFontSize);
 		var font = fontSize + "px " + config.font;
 		return font;
 	};

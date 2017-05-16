@@ -1,26 +1,19 @@
 TODO
 
-+ Menu System
-	+ Render menu system
-	+ Implement menu system
-	+ Make the game reset when clicking the new game button
-	+ Adjust the font size dynamically
-	+ Cleanup the cursor view component
-	+ Cleanup the refill grid view component
-+ Title system
-	+ Turn the title into a view component
-	+ Adjust the font size dynamically
 - Implement tutorial mode
 	+ Render the text in the grid
 	+ Implement the remaining tutorial steps
-	- Set up first time load - start with tutorial
+	+ Set up first time load - start with tutorial
 	- Make the text render correctly regardless of screen size
 - Performance 
 	- Investigate what happens after a click when the board is large
 	- Stop doing unnecessary bounds updates (if background hasn't changed and the entity ids are the same then we're done)
+	- Minimalist render - only update bounds and render when one of the important events occur
 - Mobile version
+	- Implement touch-based clicking
+	- Implement touch-based scrolling 
+	- Create android build
 	- Implement vertical layout
-	- Implement touch-based scrolling
 - Release
 	- Remove free android version of NN
 	- Register domain notebooknumbers.com
