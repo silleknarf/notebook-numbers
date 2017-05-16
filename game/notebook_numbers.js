@@ -32,5 +32,10 @@ ecs.addEntities("background_view", [titleEntity, menuEntity]);
 var init = function() {
 	eventManager.vent.trigger("SYSTEM:RENDER:START");
 	eventManager.vent.trigger("SYSTEM:BOUNDS:START");
-	eventManager.vent.trigger("SYSTEM:MODE:CLASSIC");
+
+	var hasCompletedTutorial = localStorage.getItem('hasCompletedTutorial');
+	if (hasCompletedTutorial)
+		eventManager.vent.trigger("SYSTEM:MODE:CLASSIC");
+	else 
+		eventManager.vent.trigger("SYSTEM:MODE:TUTORIAL");
 };

@@ -108,6 +108,7 @@ var tutorialSystem = function(ecs, eventManager) {
 			var hint = "Congratulations, you can now play Notebook Numbers!";
 			var nextStep = "Click the \"New Game\" button on the right to play -->";
 			my.tutorialGrid = my.tutorialGrid.concat([hint, nextStep]);
+			localStorage.setItem("hasCompletedTutorial", true);
 		}
 
 		updateGrid(my.tutorialGrid);

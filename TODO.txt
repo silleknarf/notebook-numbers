@@ -14,7 +14,7 @@ TODO
 	+ Render the text in the grid
 	+ Implement the remaining tutorial steps
 	- Set up first time load - start with tutorial
-	- Make the text render correct regardless of screen size
+	- Make the text render correctly regardless of screen size
 - Performance 
 	- Investigate what happens after a click when the board is large
 	- Stop doing unnecessary bounds updates (if background hasn't changed and the entity ids are the same then we're done)
