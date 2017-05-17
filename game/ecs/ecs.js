@@ -35,7 +35,6 @@ var entityComponentSystem = function() {
 		_.forEach(entitiesToAdd, function(entity) {
 			addEntity(parentEntityName, entity);
 		});
-		eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
 	};
 
 	var removeEntities = function(entityName) {

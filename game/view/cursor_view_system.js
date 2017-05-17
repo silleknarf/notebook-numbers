@@ -35,6 +35,7 @@ var cursorViewSystem = function(ecs, eventManager) {
 			function(gridEntity) {
 				synchroniseCursor(gridEntity);
 			});
+		eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
 	};
 
 	var initialiseEvents = function() {

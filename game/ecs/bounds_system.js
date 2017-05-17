@@ -56,8 +56,10 @@ var boundsSystem = function(ecs, eventManager) {
 				if (my.previousHeightBeyoundBounds !== my.heightBeyondBounds)
 					eventManager.vent.trigger("SYSTEM:SCROLL:HEIGHT_BEYOND_BOUNDS", my.heightBeyondBounds);
 
-				eventManager.vent.trigger("SYSTEM:GIZMO:UPDATE", entity);
+				if (config.gizmoSystemEnabled)
+					eventManager.vent.trigger("SYSTEM:GIZMO:UPDATE", entity);
 			})
+		eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
 	}
 
 	var move = function(targetName, newX, newY) {

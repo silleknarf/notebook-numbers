@@ -101,7 +101,7 @@ var tutorialSystem = function(ecs, eventManager) {
 			eventManager.vent.off("SYSTEM:LOGIC:MAKE_MOVE", refillGridTutorialHelper);
 
 			my.tutorialGrid = my.tutorialGrid.concat(
-				["When there are no more moves to play,\n\nyou click:", []]);
+				["When there are no more moves to play,\n\nyou click:", [], []]);
 
 			var refillGridEntity = refillGridEntityFactory();
 			ecs.addEntities("tutorial", [refillGridEntity]);

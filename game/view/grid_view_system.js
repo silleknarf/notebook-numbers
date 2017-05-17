@@ -68,6 +68,8 @@ var gridViewSystem = function(ecs, eventManager) {
 
 	   	ecs.addEntities("grid", my.cells);
 	   	ecs.addEntities("grid", my.texts);
+
+	   	eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
 	};
 
 	var synchroniseGridEvent = function() {

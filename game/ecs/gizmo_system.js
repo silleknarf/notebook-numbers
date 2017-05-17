@@ -1,7 +1,6 @@
 var gizmoSystem = function(ecs, eventManager) {
 	var my = {};
 
-
 	var init = function(renderSystem, entity) { 
 		var viewId = entity.components[componentTypeEnum.VIEW].id;
 		my.renderSystem = renderSystem;
@@ -36,8 +35,8 @@ var gizmoSystem = function(ecs, eventManager) {
 	// TODO - cleanup graphics 
 
 	var initialiseEvents = function() {
-		//eventManager.vent.on("SYSTEM:GIZMO:INIT", init);
-		//eventManager.vent.on("SYSTEM:GIZMO:UPDATE", update);
+		eventManager.vent.on("SYSTEM:GIZMO:INIT", init);
+		eventManager.vent.on("SYSTEM:GIZMO:UPDATE", update);
 	}
 	initialiseEvents();
 };

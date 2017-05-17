@@ -35,6 +35,7 @@ var scrollSystem = function(eventManager) {
 	        else{
 	            moveDown();
 	        }
+	        eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
 	    });
 	});
 
