@@ -1,20 +1,33 @@
 TODO
 
-+ Implement tutorial mode
-	+ Render the text in the grid
-	+ Implement the remaining tutorial steps
-	+ Set up first time load - start with tutorial
-	+ Make the text render correctly regardless of screen size
-+ Performance 
-	+ Minimalist render - only update bounds and render when one of the important events occur
-	+ Stop doing unnecessary bounds updates (if background hasn't changed and the entity ids are the same then we're done)
 - Mobile version
 	- Implement touch-based clicking
 	- Implement touch-based scrolling 
-	- Create android build
 	- Implement vertical layout
-- Release
-	- Remove free android version of NN
+	- Re-organise directory structure
+- Android version
+	- Create new android project
+	- Create webview in project
+	- Put resources in the assets folder
+	- Test android app (use remote debugging)
+- iOS version
+	- Create new iOS project
+- Productionise website
+	- Enable facebook sharing
+	- Show attributions
 	- Register domain notebooknumbers.com
-	- Clean up code
-	- Deploy on AWS
+	- Set up support email address
+	- Add link to google play
+	- Add link to app store
+- Release
+	- Set up s3 bucket
+	- Write a script to deploy the code to the s3 bucket
+	- Get the web version tested
+	- Remove free android version of NN
+	- Deploy android app to google play in test
+	- Deploy iOS app to app store in test
+	- Set up DNS to point to S3 bucket
+	- Release android version 
+	- Release iOS version
+- Marketing
+	- Open source the code
