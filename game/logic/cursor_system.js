@@ -112,8 +112,8 @@ var cursorSystem = function(ecs, eventManager, gridRepository, cellRepository) {
             }
         }
 
-        eventManager.vent.trigger("VIEWSYSTEM:CELLS:GRID_CHANGED");
         eventManager.vent.trigger("VIEWSYSTEM:CURSOR:UPDATED");
+        eventManager.vent.trigger("VIEWSYSTEM:CELLS:GRID_CHANGED");
     }
 
     var addEvent = function(cell) { 
