@@ -1,8 +1,8 @@
 TODO
 
 - Mobile version
-	- Implement touch-based clicking
-	- Implement touch-based scrolling 
+	+ Implement touch-based clicking
+	+ Implement touch-based scrolling 
 	- Implement vertical layout
 	- Re-organise directory structure
 - Android version
