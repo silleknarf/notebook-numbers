@@ -35,7 +35,7 @@ var refillGridViewComponentFactory = function() {
 		var bounds = entity.components[componentTypeEnum.BOUNDS];
 		var middle = Math.floor(bounds.absolute.width/2 - my.refillGrid.getMeasuredWidth()/2);
 		my.refillGrid.x = bounds.absolute.x + middle;
-		my.refillGrid.y = bounds.absolute.y; //+ Math.floor(bounds.absolute.width/2);
+		my.refillGrid.y = bounds.absolute.y; 
 		my.refillGrid.font = getFont(bounds.absolute);
 		my.refillGrid.hitArea = getHitArea(bounds.absolute);
 	};

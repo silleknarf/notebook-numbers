@@ -6,7 +6,7 @@ Welcome to Notebook Numbers Web Source!
 Installation
 ============
 
-Notebook Numbers web is implemented as a javascipt web-app, it must be served via http as images are being preloaded.
+Notebook Numbers web is implemented as a javascript web-app, it must be served via http as images are being preloaded.
 
 Doing this is simple if you have python:
 
