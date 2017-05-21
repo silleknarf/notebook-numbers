@@ -53,10 +53,10 @@ var scrollSystem = function(eventManager) {
 	$(document).ready(function(){
 	    $('#canvas').bind('mousewheel', function(e){
 	        if(e.originalEvent.wheelDelta /120 > 0) {
-	            moveUp();
+	            moveUp(my.scrollDistance);
 	        }
 	        else{
-	            moveDown();
+	            moveDown(my.scrollDistance);
 	        }
 	        eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
 	    });
