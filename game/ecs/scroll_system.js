@@ -11,6 +11,7 @@ var scrollSystem = function(eventManager) {
 		if (my.stage.regY < 0)  {
 			my.stage.regY = 0;
 		}
+		console.log("up");
 	};
 
 	var moveDown = function(scrollDistance) { 
@@ -19,21 +20,43 @@ var scrollSystem = function(eventManager) {
 		if (my.stage.regY > my.maxScrollPosition) {
 			my.stage.regY = my.maxScrollPosition;
 		}
+
+		console.log("down");
 	};
 
 	var startDrag = function(event) {
-		if (my.startDragY === null)
+	    if (event.stageY >= my.startDragY)
+	    	moveUp(my.scrollDistance);
+	    else
+	    	moveDown(my.scrollDistance);
+
+	    my.startDragY = event.stageY
+
+		eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
+		/*
+		console.log("Drag event")
+		if (my.startDragY === null) {
 	    	my.startDragY = event.stageY;
+	    	console.log("Scroll initiated: " + my.startDragY);
+	    	return;
+		}
+
+		var scrollDistance = Math.abs(event.stageY - my.startDragY);
+		console.log("Scolling: " + scrollDistance)
+		if (scrollDistance >= 20) {
+		    if (event.stageY >= my.startDragY)
+		    	moveUp(scrollDistance);
+		    else
+		    	moveDown(scrollDistance);
+		
+		    my.startDragY = event.stageY;
+		  	eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
+		}*/
 	}
 
 	var doDrag = function(event) {
-		var scrollDistance = Math.abs(event.stageY - my.startDragY);
-	    if (event.stageY >= my.startDragY)
-	    	moveUp(scrollDistance);
-	    else
-	    	moveDown(scrollDistance);
-	    my.startDragY = null;
-	  	eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
+	    //my.startDragY = null;
+	    console.log("Stopped dragging");
 	}
 
 	var init = function(stage) {
@@ -41,13 +64,16 @@ var scrollSystem = function(eventManager) {
 		my.stage.regY = 0;
 		key('up', function() { 
 			moveUp(my.scrollDistance);
+	        eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
 		});
 		key('down', function() {
 			moveDown(my.scrollDistance);
+	        eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
 		});
 
 		my.stage.addEventListener("pressmove", startDrag); 
 	    my.stage.addEventListener("pressup", doDrag);
+	    //my.stage.addEventListener("click", doDrag);
 	};
 
 	$(document).ready(function(){

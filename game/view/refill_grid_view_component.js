@@ -7,27 +7,22 @@ var refillGridViewComponentFactory = function() {
 		return font;
 	};
 
+	var getHitArea = function(absolute) {
+		var hit = new createjs.Shape();
+	    hit.graphics
+            .beginFill("#F00")
+			.drawRect(0, 0, my.refillGrid.getMeasuredWidth(), absolute.height);
+		return hit;
+	};
+
 	var init = function(renderSystem, entity, eventManager) {
 
 		var bounds = entity.components[componentTypeEnum.BOUNDS];
 
-		// Setting up the text properties
 		var refillGrid = new createjs.Text("Refill Grid", getFont(bounds.absolute), config.numbersColour);
 		refillGrid.x = bounds.absolute.x;
 		refillGrid.y = bounds.absolute.y;
 
-		// Adding collision detection
-		var hit = new createjs.Shape();
-	    hit.graphics
-            .beginFill("#F00")
-			.drawRect(0, 0, 
-					 	bounds.absolute.width, bounds.absolute.height);
-		refillGrid.hitArea = hit;
-
-		/**
-		 *  Refill Grid Click Event - updates the cells and move the button down
-		 *  @event onClick
-		 **/
 	    refillGrid.on("click", function(evt) {
 	        eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
 	    });
@@ -42,6 +37,7 @@ var refillGridViewComponentFactory = function() {
 		my.refillGrid.x = bounds.absolute.x + middle;
 		my.refillGrid.y = bounds.absolute.y; //+ Math.floor(bounds.absolute.width/2);
 		my.refillGrid.font = getFont(bounds.absolute);
+		my.refillGrid.hitArea = getHitArea(bounds.absolute);
 	};
 
 	var remove = function(renderSystem) {
