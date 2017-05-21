@@ -1,5 +1,10 @@
 TODO
 
+- Bug fixes
+	- Sort out number boundary boxes
+	- Add tutorial step - can't play through numbers
+	- Add tutorial step - clicking system
+	- Make refill grid narrower
 - Mobile version
 	+ Implement touch-based clicking
 	+ Implement touch-based scrolling 

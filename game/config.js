@@ -29,7 +29,7 @@
         marginLeft: 15,
         // TODO: delete this
         marginTop: 15,
-        gizmoSystemEnabled: true
+        gizmoSystemEnabled: false
     };
     window.config = config;
 })();
