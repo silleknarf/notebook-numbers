@@ -18,14 +18,15 @@ var cellViewComponent = function() {
 		numberView.textAlign = "center";
 		numberView.digit = number.digit;
 		numberView.visible = numberView.digit !== 0;
+		//numberView.setBounds(absolute.x, absolute.y, absolute.width, absolute.height);
 
 		// Create a hitbox for each number
 		var hit = new createjs.Shape();
 		var colourValue = number.digit * 16;
 		hit.graphics
-			.moveTo(absolute.x, absolute.y)
+			//.moveTo(absolute.x, absolute.y)
 			.beginFill("rgba(" + colourValue + "," + colourValue + "," + colourValue + ", 0.5)")
-			.drawRect(0, 0, absolute.width, absolute.height);
+			.drawRect(-absolute.width/2, 0, absolute.width, absolute.height);
 
 		numberView.hitArea = hit;
 
