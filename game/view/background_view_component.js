@@ -33,23 +33,20 @@ var backgroundViewComponent = function() {
 
 	var init = function(renderSystem, entity) {
 		var bounds = entity.components[componentTypeEnum.BOUNDS];
-	    // Set the stage parameters from the dimensions object
+	    
 		renderSystem.stage.canvas.width = Math.floor(bounds.absolute.width);
 		renderSystem.stage.canvas.height = Math.floor(bounds.absolute.height);
 		renderSystem.background = new createjs.Container();
 		renderSystem.stage.addChild(renderSystem.background);
-
-	    var isVerticalLayout = false; // work out from dimensions if we're on a small screen
 
 	    my.cover = new createjs.Shape();
 	    renderSystem.stage.addChild(my.cover);
 
 	    my.notebookNumbersPage = new createjs.Shape();
 	    my.notebookNumbersPage.on("click", function(evt) {
-	        eventManager.vent.trigger("CURSOR:CHECK");
+	        eventManager.vent.trigger("SYSTEM:CURSOR:CHECK");
 	    });
 	    renderSystem.stage.addChild(my.notebookNumbersPage);
-
 
 		// Draw the bindings in the middle
         var y = 0;
@@ -66,8 +63,6 @@ var backgroundViewComponent = function() {
 
 	var render = function(renderSystem, entity, eventManager) {
 		var bounds = entity.components[componentTypeEnum.BOUNDS];
-		//renderSystem.background.removeAllChildren();
-	    // Set the stage parameters from the dimensions object
 		renderSystem.stage.canvas.width = Math.floor(bounds.absolute.width);
 		renderSystem.stage.canvas.height = Math.floor(bounds.background.absolute.height);
 
