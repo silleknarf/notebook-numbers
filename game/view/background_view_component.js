@@ -1,41 +1,15 @@
 var backgroundViewComponent = function() {
-	var init = function(renderSystem, entity) {
-		var bounds = entity.components[componentTypeEnum.BOUNDS];
-	    // Set the stage parameters from the dimensions object
-		renderSystem.stage.canvas.width = Math.floor(bounds.absolute.width);
-		renderSystem.stage.canvas.height = Math.floor(bounds.absolute.height);
-		renderSystem.background = new createjs.Container();
-		renderSystem.stage.addChild(renderSystem.background);
-	};
+	var my = {};
 
-	var render = function(renderSystem, entity, eventManager) {
-		renderSystem.background.removeAllChildren();
-		var bounds = entity.components[componentTypeEnum.BOUNDS];
-
-	    // Set the stage parameters from the dimensions object
-		renderSystem.stage.canvas.width = Math.floor(bounds.absolute.width);
-		renderSystem.stage.canvas.height = Math.floor(bounds.background.absolute.height);
-
-	    var isVerticalLayout = false; // work out from dimensions if we're on a small screen
-	    ///var firstPageHeight = this.dimensions.getTop();
-		//this.background.removeAllChildren();
-		// Draw the outermost cover
-		var coverMargin = Math.floor(bounds.absolute.width / 100);
-		var cover = new createjs.Shape();
-	    var coverWidth = !isVerticalLayout
-	        ? bounds.absolute.width 
-	        : bounds.absolute.width * 2 + coverMargin * 2 + 20;
-
+	var updateCover = function(cover, bounds, coverMargin) {
 		// TODO: scale this appropriately
 	    var cornerRadius = 30;
 	    cover.graphics
             .beginFill(config.backgroundColour)
-            .drawRoundRect(0, 0, coverWidth, bounds.background.absolute.height+cornerRadius, cornerRadius);
+            .drawRoundRect(0, 0, bounds.absolute.width, bounds.background.absolute.height+cornerRadius, cornerRadius);
+	}
 
-		renderSystem.background.addChild(cover);
-
-		var firstPageHeight = bounds.background.absolute.height - (coverMargin * 2);
-		var notebookNumbersPage = new createjs.Shape();
+	var updateNotebookNumbersPage = function(notebookNumbersPage, renderSystem, bounds, coverMargin) {
 		notebookNumbersPage.graphics
             .beginBitmapFill(renderSystem.assets['background'])
             .drawRect(0, 0, bounds.absolute.width/2, bounds.background.absolute.height);
@@ -55,55 +29,51 @@ var backgroundViewComponent = function() {
 		   .drawRect(0, 0, bounds.absolute.width/2, bounds.background.absolute.height);
 		   // .hugs(laura, "frank"), happiness[twilightStruggle];
 		notebookNumbersPage.hitArea = hit;
+	};
 
-	    notebookNumbersPage.on("click", function(evt) {
+	var init = function(renderSystem, entity) {
+		var bounds = entity.components[componentTypeEnum.BOUNDS];
+	    // Set the stage parameters from the dimensions object
+		renderSystem.stage.canvas.width = Math.floor(bounds.absolute.width);
+		renderSystem.stage.canvas.height = Math.floor(bounds.absolute.height);
+		renderSystem.background = new createjs.Container();
+		renderSystem.stage.addChild(renderSystem.background);
+
+	    var isVerticalLayout = false; // work out from dimensions if we're on a small screen
+
+	    my.cover = new createjs.Shape();
+	    renderSystem.stage.addChild(my.cover);
+
+	    my.notebookNumbersPage = new createjs.Shape();
+	    my.notebookNumbersPage.on("click", function(evt) {
 	        eventManager.vent.trigger("CURSOR:CHECK");
 	    });
-
-		renderSystem.background.addChild(notebookNumbersPage);
-
-        if (!isVerticalLayout) {
-            var titlePage = new createjs.Shape();
-            // TODO: Remove unscaled offsets
-            titlePage.graphics
-                .beginBitmapFill(renderSystem.assets['background'])
-                .drawRect(0, 0, Math.floor(bounds.absolute.width/2), bounds.background.absolute.height - 16);
-            titlePage.x = Math.floor(bounds.absolute.width/2)+coverMargin+20;
-            titlePage.y = coverMargin; 
-            titlePage.sourceRect = new createjs.Rectangle(0,0,bounds.absolute.width, bounds.background.absolute.height, 30);
-            //renderSystem.background.addChild(titlePage);
-        }
-
-		// Draw the banderole on the right hand side
-		var banderole = new createjs.Shape();
-	    var divisor = isVerticalLayout ? 1 : 2;
-	    banderole.graphics
-            .beginFill(config.backgroundColour)
-            .drawRect(
-            	0, 
-            	0, 
-            	(bounds.absolute.width / divisor), 
-            	isVerticalLayout ? bounds.background.absolute.height : bounds.background.absolute.height - 16, 
-            	isVerticalLayout ? 0 : 30);
-
-	    banderole.x = isVerticalLayout ? coverMargin : titlePage.x ;
-		banderole.y = coverMargin; 
-		//renderSystem.background.addChild(banderole);
+	    renderSystem.stage.addChild(my.notebookNumbersPage);
 
 
 		// Draw the bindings in the middle
-        if (!isVerticalLayout) {
-            var y = 0;
-            for (var i = 0; y+(400) < bounds.background.absolute.height; i++) {
-                var bindings = new createjs.Bitmap(renderSystem.assets['bindings']);
-                bindings.x = Math.floor(bounds.absolute.width/2) - 20;
-                y = 10+(i*225);
-                bindings.y = y;
-                bindings.scaleX = 0.6;
-                bindings.scaleY = 0.6;
-                renderSystem.background.addChild(bindings);
-            }
+        var y = 0;
+        for (var i = 0; y+(400) < bounds.background.absolute.height; i++) {
+            var bindings = new createjs.Bitmap(renderSystem.assets['bindings']);
+            bindings.x = Math.floor(bounds.absolute.width/2) - 20;
+            y = 10+(i*225);
+            bindings.y = y;
+            bindings.scaleX = 0.6;
+            bindings.scaleY = 0.6;
+            renderSystem.background.addChild(bindings);
         }
+	};
+
+	var render = function(renderSystem, entity, eventManager) {
+		var bounds = entity.components[componentTypeEnum.BOUNDS];
+		//renderSystem.background.removeAllChildren();
+	    // Set the stage parameters from the dimensions object
+		renderSystem.stage.canvas.width = Math.floor(bounds.absolute.width);
+		renderSystem.stage.canvas.height = Math.floor(bounds.background.absolute.height);
+
+		var coverMargin = Math.floor(bounds.absolute.width / 100);
+		updateCover(my.cover, bounds, coverMargin);
+		updateNotebookNumbersPage(my.notebookNumbersPage, renderSystem, bounds, coverMargin);
 	}
 
 	var self = viewComponent(init, render);

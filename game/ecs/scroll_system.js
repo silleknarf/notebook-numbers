@@ -4,6 +4,15 @@ var scrollSystem = function(eventManager) {
 	my.maxScrollPosition = 0;
 	my.scrollDistance = 20;
 	my.startDragY = null;
+	    
+
+	// We want to render a maximum number of times a second
+	var maxFps = 25;
+	var delayBetweenFrames = Math.floor(1000/maxFps);
+	var throttledRender = _.throttle(
+		function() { eventManager.vent.trigger("SYSTEM:RENDER:RENDER"); },
+		delayBetweenFrames,
+		{ leading: true });
 
 	var moveUp = function(scrollDistance) {
 		my.stage.regY -= scrollDistance;	
@@ -11,7 +20,8 @@ var scrollSystem = function(eventManager) {
 		if (my.stage.regY < 0)  {
 			my.stage.regY = 0;
 		}
-		console.log("up");
+
+		throttledRender();
 	};
 
 	var moveDown = function(scrollDistance) { 
@@ -21,42 +31,28 @@ var scrollSystem = function(eventManager) {
 			my.stage.regY = my.maxScrollPosition;
 		}
 
-		console.log("down");
+		throttledRender();
 	};
 
 	var startDrag = function(event) {
-	    if (event.stageY >= my.startDragY)
-	    	moveUp(my.scrollDistance);
-	    else
-	    	moveDown(my.scrollDistance);
-
-	    my.startDragY = event.stageY
-
-		eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
-		/*
-		console.log("Drag event")
 		if (my.startDragY === null) {
 	    	my.startDragY = event.stageY;
-	    	console.log("Scroll initiated: " + my.startDragY);
 	    	return;
 		}
 
 		var scrollDistance = Math.abs(event.stageY - my.startDragY);
-		console.log("Scolling: " + scrollDistance)
-		if (scrollDistance >= 20) {
+		if (scrollDistance >= 0) {
 		    if (event.stageY >= my.startDragY)
 		    	moveUp(scrollDistance);
 		    else
 		    	moveDown(scrollDistance);
 		
 		    my.startDragY = event.stageY;
-		  	eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
-		}*/
+		}
 	}
 
 	var doDrag = function(event) {
-	    //my.startDragY = null;
-	    console.log("Stopped dragging");
+	    my.startDragY = null;
 	}
 
 	var init = function(stage) {
@@ -64,16 +60,13 @@ var scrollSystem = function(eventManager) {
 		my.stage.regY = 0;
 		key('up', function() { 
 			moveUp(my.scrollDistance);
-	        eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
 		});
 		key('down', function() {
 			moveDown(my.scrollDistance);
-	        eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
 		});
 
 		my.stage.addEventListener("pressmove", startDrag); 
 	    my.stage.addEventListener("pressup", doDrag);
-	    //my.stage.addEventListener("click", doDrag);
 	};
 
 	$(document).ready(function(){
@@ -84,7 +77,6 @@ var scrollSystem = function(eventManager) {
 	        else{
 	            moveDown(my.scrollDistance);
 	        }
-	        eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
 	    });
 	});
 
