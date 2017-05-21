@@ -25,7 +25,7 @@
         cellHeight: 40,
         marginLeft: 15,
         marginTop: 15,
-        gizmoSystemEnabled: true
+        gizmoSystemEnabled: false
     };
     window.config = config;
 })();
