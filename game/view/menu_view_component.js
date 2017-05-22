@@ -21,7 +21,6 @@ var menuViewComponent = function() {
 		// Adding collision detection
 		var hitNewGame = new createjs.Shape();
 		hitNewGame.graphics
-			.moveTo(absolute.x, absolute.y)
 		    .beginFill("#F00")
 		    .drawRect(0, 0, newGame.getMeasuredWidth(), newGame.getMeasuredHeight());
 
@@ -38,7 +37,6 @@ var menuViewComponent = function() {
 
 		var hitTutorial = new createjs.Shape();
 	    hitTutorial.graphics
-			.moveTo(absolute.x, absolute.y)
 		   	.beginFill("#F00")
 		   	.drawRect(0, 0, tutorial.getMeasuredWidth(), tutorial.getMeasuredHeight());
 

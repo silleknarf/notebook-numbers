@@ -19,7 +19,7 @@ var backgroundEntityFactory = function() {
 	var menuEntityComponents = [menuViewComponent(), menuBoundsComponent];
 	var menuEntity = entity("menu", menuEntityComponents);
 
-	var subEntities = [coverEntity, titleEntity, menuEntity, gridBackgroundEntity];
+	var subEntities = [coverEntity, gridBackgroundEntity, titleEntity, menuEntity];
 
 	var backgroundEntityComponents = [backgroundViewComponent(), boundsComponent()];
 	var backgroundEntity = entity("background_view", backgroundEntityComponents, subEntities);
