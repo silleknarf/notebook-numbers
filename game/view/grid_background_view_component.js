@@ -7,7 +7,7 @@ var gridBackgroundViewComponent = function() {
 		my.backgroundGraphics = new createjs.Graphics();
 		my.backgroundGraphics
             .beginBitmapFill(renderSystem.assets['background'])
-            .drawRect(0, bounds.absolute.y, width, bounds.background.absolute.height);
+            .drawRect(0, bounds.absolute.y, width, bounds.background.absolute.height-bounds.absolute.y);
       	gridBackgroundView.graphics = my.backgroundGraphics;
 
 		gridBackgroundView.x = coverMargin;
@@ -16,7 +16,7 @@ var gridBackgroundViewComponent = function() {
             0,
             0,
             width,
-            bounds.background.absolute.height);
+            bounds.absolute.height);
 
 		// Click anywhere evaluate cursor
 		my.hit = new createjs.Shape();

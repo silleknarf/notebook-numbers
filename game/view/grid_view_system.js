@@ -61,10 +61,25 @@ var gridViewSystem = function(ecs, eventManager) {
 	    }
 
 	    // Not sure why so much space is required here
-	    var rowHeight = 100/config.numRows;
-	    var fiveRows = 5 * rowHeight;
-		eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE_MAX_HEIGHT", my.topCellHeight + fiveRows);
-		eventManager.vent.trigger("SYSTEM:BOUNDS:MOVE", "refill_grid", null, my.topCellHeight + rowHeight);
+	    var rowHeight = gridHeight/config.numRows;
+	    var fiveRows = 2 * rowHeight;
+
+		var relativeGridHeight = gridEntity
+			.parent
+			.parent
+			.components[componentTypeEnum.BOUNDS]	
+			.relative
+			.height;
+		eventManager.vent.trigger(
+			"SYSTEM:BOUNDS:UPDATE_MAX_HEIGHT", 
+			my.topCellHeight + fiveRows, 
+			relativeGridHeight);
+
+		eventManager.vent.trigger(
+			"SYSTEM:BOUNDS:MOVE", 
+			"refill_grid", 
+			null, 
+			my.topCellHeight + rowHeight);
 
 	   	ecs.addEntities("grid", my.cells);
 	   	ecs.addEntities("grid", my.texts);

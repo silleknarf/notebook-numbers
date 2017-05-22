@@ -67,9 +67,7 @@ var scrollSystem = function(eventManager) {
 
 		my.stage.addEventListener("pressmove", startDrag); 
 	    my.stage.addEventListener("pressup", doDrag);
-	};
 
-	$(document).ready(function(){
 	    $('#canvas').bind('mousewheel', function(e){
 	        if(e.originalEvent.wheelDelta /120 > 0) {
 	            moveUp(my.scrollDistance);
@@ -78,11 +76,14 @@ var scrollSystem = function(eventManager) {
 	            moveDown(my.scrollDistance);
 	        }
 	    });
-	});
+	};
 
 	var updateHeightBeyondBounds = function(heightBeyondBounds) {
 		if (heightBeyondBounds > 0) {
-			my.maxScrollPosition = heightBeyondBounds;
+			// TODO: Get rid of this offset needed to make max scroll height
+			// update properly
+			var wtfOffset = 121;
+			my.maxScrollPosition = heightBeyondBounds + wtfOffset;
 			my.stage.regY = Math.min(my.stage.regY, heightBeyondBounds);
 		} else {
 			my.stage.regY = 0;

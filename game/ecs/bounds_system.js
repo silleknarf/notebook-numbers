@@ -76,9 +76,12 @@ var boundsSystem = function(ecs, eventManager) {
 			});
 	}
 
-	var updateMaxHeight = function(height) {
-		if (height > 100)
-			my.background.relative.height = height;
+	var updateMaxHeight = function(height, relativeHeight) {
+		if (height > 100) {
+			var nonGridFixedHeight = 100 - relativeHeight;
+			var newScaledGridHeight = height * (relativeHeight / 100); 
+			my.background.relative.height = nonGridFixedHeight + newScaledGridHeight; 
+		}
 	}
 
 	var start = function() {

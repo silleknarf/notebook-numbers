@@ -11,9 +11,17 @@ TODO
 		+ Make the title have relative width: 100
 		+ Make the menu have relative width: 100
 		+ Fix menu buttons
-		- Fix scrolling
+		+ Fix scrolling
+			+ Potential sub-problem: grid bottom is not where it seems
+				+ Disable scrolling limit
+				+ Diagnose
+				+ Fix
+			+ Fix max scroll limit
+			+ Make scrolling work properly with half size grid
+			+ Make scrolling work properly with the vertical layout
 		- Fix bindings rendering
 	- Re-organise directory structure
+- Improve scroll performance
 - Tutorial improvements
 	- Add tutorial step - can't play through numbers
 	- Add tutorial step - clicking system

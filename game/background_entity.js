@@ -5,8 +5,14 @@ var backgroundEntityFactory = function() {
 	var coverEntity = entity("cover", coverEntityComponents);
 
 	var gridBackgroundWidth = config.isVerticalLayout ? 100 : 50;
+	var gridBackgroundHeight = config.isVerticalLayout ? 60 : 100;
 	var gridBackgroundY = config.isVerticalLayout ? 40 : 0;
-	var gridBackgroundBoundsComponent = boundsComponent({ x: 0, y: gridBackgroundY, width: gridBackgroundWidth });
+	var gridBackgroundBoundsComponent = boundsComponent({ 
+		x: 0, 
+		y: gridBackgroundY, 
+		width: gridBackgroundWidth, 
+		height: gridBackgroundHeight 
+	});
 	var gridBackgroundEntityComponents = [gridBackgroundViewComponent(), gridBackgroundBoundsComponent];
 	var gridBackgroundEntity = entity("grid_background", gridBackgroundEntityComponents);
 
