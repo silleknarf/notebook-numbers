@@ -31,7 +31,8 @@ var classicEntityFactory = function() {
 	var classicGridComponent = gridComponent(generateClassicGrid());
 
 	var classicBounds = boundsComponent();
-	classicBounds.relative.width = 50;
+	classicBounds.relative.width = config.isVerticalLayout ? 100 : 50;
+	classicBounds.relative.y = config.isVerticalLayout ? 40 : 0;
 
 	var gridEntity = gridEntityFactory(classicGridComponent);
 	var cursorEntity = cursorEntityFactory(classicGridComponent);

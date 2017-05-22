@@ -2,9 +2,9 @@ TODO
 
 - Mobile version
 	- Implement vertical layout
-		- Make the classic entity have relative width: 100
+		+ Make the classic entity have relative width: 100
 			- Parameter: isVerticalLayout?
-		- Split background into notebook numbers page and cover 
+		+ Split background into notebook numbers page and cover 
 		- Make notebook numbers page have relative width: 100
 		- Make cover appear above the notebook numbers page
 		- Make the cover have relative width: 100

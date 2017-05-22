@@ -29,7 +29,8 @@
         marginLeft: 15,
         // TODO: delete this
         marginTop: 15,
-        gizmoSystemEnabled: false
+        gizmoSystemEnabled: true,
+        isVerticalLayout: true
     };
     window.config = config;
 })();
