@@ -25,7 +25,14 @@ var backgroundEntityFactory = function() {
 	var menuEntityComponents = [menuViewComponent(), menuBoundsComponent];
 	var menuEntity = entity("menu", menuEntityComponents);
 
+	var bindingsBoundsComponent = boundsComponent({ x: menuPageX-5, y: 0, width: 5 });
+	var bindingsEntityComponents = [bindingsViewComponent(), bindingsBoundsComponent];
+	var bindingsEntity = entity("bindings", bindingsEntityComponents);
+
 	var subEntities = [coverEntity, gridBackgroundEntity, titleEntity, menuEntity];
+
+	if (!config.isVerticalLayout)
+		subEntities.push(bindingsEntity)
 
 	var backgroundEntityComponents = [backgroundViewComponent(), boundsComponent()];
 	var backgroundEntity = entity("background_view", backgroundEntityComponents, subEntities);

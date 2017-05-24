@@ -26,9 +26,10 @@ TODO
 		- Fix bindings rendering
 - Re-organise directory structure
 - Improve scroll performance
+- Reset game height on mode change
 - Tutorial improvements
-	- Add tutorial step - can't play through numbers
 	- Add tutorial step - clicking system
+	- Add tutorial step - can't play through numbers
 - Android version
 	- Create new android project
 	- Create webview in project

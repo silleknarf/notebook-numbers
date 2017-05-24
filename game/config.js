@@ -12,7 +12,6 @@
 	};
 
     var config = {
-        navy: "#003266",
 		backgroundColour: colours.navy,
 		titleColour: colours.gold,
 		numbersColour: colours.navy,
@@ -21,14 +20,6 @@
         numColumns: 9,
         numRows: 20,
 		coverMargin: 10,
-        // TODO: delete this
-        height: 3000,
-        // TODO: delete this
-        cellHeight: 40,
-        // TODO: delete this
-        marginLeft: 15,
-        // TODO: delete this
-        marginTop: 15,
         gizmoSystemEnabled: true,
         isVerticalLayout: false
     };
