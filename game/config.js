@@ -30,7 +30,7 @@
         // TODO: delete this
         marginTop: 15,
         gizmoSystemEnabled: true,
-        isVerticalLayout: true
+        isVerticalLayout: false
     };
     window.config = config;
 })();

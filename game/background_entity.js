@@ -1,6 +1,6 @@
 var backgroundEntityFactory = function() {
 
-	var coverBoundsComponent = boundsComponent({ x: 0, y: 0, width: 100 });
+	var coverBoundsComponent = boundsComponent({ x: 0, y: 0, width: 100, height: 100 });
 	var coverEntityComponents = [coverViewComponent(), coverBoundsComponent];
 	var coverEntity = entity("cover", coverEntityComponents);
 

@@ -80,10 +80,7 @@ var scrollSystem = function(eventManager) {
 
 	var updateHeightBeyondBounds = function(heightBeyondBounds) {
 		if (heightBeyondBounds > 0) {
-			// TODO: Get rid of this offset needed to make max scroll height
-			// update properly
-			var wtfOffset = 121;
-			my.maxScrollPosition = heightBeyondBounds + wtfOffset;
+			my.maxScrollPosition = heightBeyondBounds;
 			my.stage.regY = Math.min(my.stage.regY, heightBeyondBounds);
 		} else {
 			my.stage.regY = 0;

@@ -19,10 +19,10 @@ TODO
 			+ Fix max scroll limit
 			+ Make scrolling work properly with half size grid
 			+ Make scrolling work properly with the vertical layout
-		- Make the grid_background render the correct height
-		- Make the cover render the correct height
-		- Make the grid system render the correct height
-		- Remove the scroll system max height hack
+		+ Make the grid_background render the correct height
+		+ Make the cover render the correct height
+		+ Make the grid system render the correct height
+		+ Remove the scroll system max height hack
 		- Fix bindings rendering
 - Re-organise directory structure
 - Improve scroll performance

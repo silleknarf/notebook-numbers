@@ -1,29 +1,30 @@
 var gridBackgroundViewComponent = function() {
 	var my = {};
 
-	var updateGridBackgroundView = function(gridBackgroundView, renderSystem, bounds, coverMargin) {
-
-		var width = bounds.absolute.width-2*coverMargin;
+	var updateGridBackgroundView = function(gridBackgroundView, renderSystem, bounds, gridBackgroundMargin) {
+		var coverMargin = 30;
+		var width = bounds.absolute.width-2*gridBackgroundMargin;
+		var height = bounds.background.absolute.height-2*coverMargin;
 		my.backgroundGraphics = new createjs.Graphics();
 		my.backgroundGraphics
             .beginBitmapFill(renderSystem.assets['background'])
-            .drawRect(0, bounds.absolute.y, width, bounds.background.absolute.height-bounds.absolute.y);
+            .drawRect(0, bounds.absolute.y, width, height-bounds.absolute.y);
       	gridBackgroundView.graphics = my.backgroundGraphics;
 
-		gridBackgroundView.x = coverMargin;
-		gridBackgroundView.y = coverMargin;
+		gridBackgroundView.x = gridBackgroundMargin;
+		gridBackgroundView.y = coverMargin / 2;
 		gridBackgroundView.sourceRect = new createjs.Rectangle(
             0,
             0,
             width,
-            bounds.absolute.height);
+            height);
 
 		// Click anywhere evaluate cursor
 		my.hit = new createjs.Shape();
 		my.hitGraphics = new createjs.Graphics();
 		my.hitGraphics
 			.beginFill("#F00")
-		   	.drawRect(0, 0, width, bounds.background.absolute.height);
+		   	.drawRect(0, 0, width, height);
 		my.hit.graphics = my.hitGraphics;
 		   // .hugs(laura, "frank"), happiness[twilightStruggle];
 		gridBackgroundView.hitArea = my.hit;
@@ -42,8 +43,8 @@ var gridBackgroundViewComponent = function() {
 	var render = function(renderSystem, entity, eventManager) {
 		var bounds = entity.components[componentTypeEnum.BOUNDS];
 
-		var coverMargin = Math.floor(bounds.absolute.width / 100);
-		updateGridBackgroundView(my.gridBackgroundView, renderSystem, bounds, coverMargin);
+		var gridBackgroundMargin = Math.floor(bounds.absolute.width / 100);
+		updateGridBackgroundView(my.gridBackgroundView, renderSystem, bounds, gridBackgroundMargin);
 	}
 
 	return viewComponent(init, render);

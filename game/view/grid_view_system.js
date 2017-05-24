@@ -62,7 +62,7 @@ var gridViewSystem = function(ecs, eventManager) {
 
 	    // Not sure why so much space is required here
 	    var rowHeight = gridHeight/config.numRows;
-	    var fiveRows = 2 * rowHeight;
+	    var fiveRows = 5 * rowHeight;
 
 		var relativeGridHeight = gridEntity
 			.parent
