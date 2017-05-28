@@ -21,7 +21,8 @@
         numRows: 20,
 		coverMargin: 10,
         gizmoSystemEnabled: false,
-        isVerticalLayout: false
+        isVerticalLayout: false,
+        isNativeApp: false
     };
 
     // Dynamic config
@@ -29,6 +30,7 @@
 	if (isMobile) {
 		config.isVerticalLayout = isMobile;
 	}
+	config.isNativeApp = /notebook-numbers-android$/.test(navigator.userAgent);
 
     window.config = config;
 })();
