@@ -1,6 +1,6 @@
 TODO
 
-- Re-organise directory structure
++ Re-organise directory structure
 - Improve scroll performance
 - Reset game height on mode change
 - Tutorial improvements
