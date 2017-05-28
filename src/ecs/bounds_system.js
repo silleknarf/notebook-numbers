@@ -85,13 +85,11 @@ var boundsSystem = function(ecs, eventManager) {
 	}
 
 	var start = function() {
-		$(document).ready(function() {
-			update();
-			$( window ).resize(function() { 
-				setTimeout(update, 50);
-			});
-			eventManager.vent.on("SYSTEM:BOUNDS:UPDATE", update);
+		update();
+		$( window ).resize(function() { 
+			setTimeout(update, 50);
 		});
+		eventManager.vent.on("SYSTEM:BOUNDS:UPDATE", update);
 	};
 
 	var initialiseEvents = function() {

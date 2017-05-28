@@ -1,25 +1,25 @@
-var ecs = entityComponentSystem();
-
-var cellRepository = cellRepositoryFactory()
-var gridRepository = gridRepositoryFactory(cellRepository);
-
-gizmoSystem(ecs, eventManager);
-renderSystem(ecs, eventManager, preloaderMixin);
-boundsSystem(ecs, eventManager);
-logicSystem(ecs, eventManager, gridRepository);
-cursorSystem(ecs, eventManager, gridRepository, cellRepository);
-cursorViewSystem(ecs, eventManager);
-gridViewSystem(ecs, eventManager);
-scrollSystem(eventManager);
-modeSystem(ecs, eventManager);
-tutorialSystem(ecs, eventManager);
-
-var backgroundEntity = backgroundEntityFactory();
-ecs.entities.push(backgroundEntity);
 
 var init = function() {
-	$( document ).ready(function() {
+	var ecs = entityComponentSystem();
 
+	var cellRepository = cellRepositoryFactory()
+	var gridRepository = gridRepositoryFactory(cellRepository);
+
+	gizmoSystem(ecs, eventManager);
+	renderSystem(ecs, eventManager, preloaderMixin);
+	boundsSystem(ecs, eventManager);
+	logicSystem(ecs, eventManager, gridRepository);
+	cursorSystem(ecs, eventManager, gridRepository, cellRepository);
+	cursorViewSystem(ecs, eventManager);
+	gridViewSystem(ecs, eventManager);
+	scrollSystem(eventManager);
+	modeSystem(ecs, eventManager);
+	tutorialSystem(ecs, eventManager);
+
+	var backgroundEntity = backgroundEntityFactory();
+	ecs.entities.push(backgroundEntity);
+
+	$( document ).ready(function() {
 		if (config.isVerticalLayout) {
 			$("#header").remove();
 			$("#canvas").height("100vh");

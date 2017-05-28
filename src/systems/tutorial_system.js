@@ -37,8 +37,13 @@ var tutorialSystem = function(ecs, eventManager) {
 			});
 	}
 
-	var getTutorialLevel = function(text, numbers) {
-
+	var getTutorialLevel = function(texts, numberLines) {
+		var text = texts.join("\n\n");
+		var emptyLinesCount = config.isVerticalLayout 
+			? Math.floor((texts.length-1)/2) 
+			: texts.length - 1;
+		var emptyLines = _.times(texts.length - 1, function() { return []; });
+		return [text].concat(emptyLines).concat(numberLines);
 	};
 
 	var nextLevel = function() {
@@ -53,71 +58,58 @@ var tutorialSystem = function(ecs, eventManager) {
 			my.tutorialGrid = []
 
 			// If we are playing the desktop version we provide some extra help
-			var text = "";
+			var text = [];
 			if (!config.isVerticalLayout) { 
-				var clickHelp = "Clicking on a number holds\n\n" + 
-					"the cursor in place and\n\n" + 
-					"hovering over the number\n\n" + 
-					"adds the number to the cursor.\n\n" + 
-					"Clicking crosses out a number.\n\n";
+				var clickHelp = ["Clicking on a number holds", 
+					"the cursor in place and",
+					"hovering over the number", 
+					"adds the number to the cursor.", 
+					"Clicking crosses out a number."];
 				text = clickHelp;
 			}
 
-			text += "If two numbers are the same,\n\nthen they can be crossed out.";
-			my.tutorialGrid = [text];
-
-			// Extra space for the desktop version tips
-			if (!config.isVerticalLayout)
-				my.tutorialGrid = my.tutorialGrid.concat([[],[], [], [], [], [], []])
-
-			my.tutorialGrid = my.tutorialGrid.concat([[], [1,1]]);
+			text = text.concat(["If two numbers are the same,", 
+				"then they can be crossed out."]);
+			my.tutorialGrid = getTutorialLevel(text, [[1,1]]);
 		}
 
 		// Horizontal spaces
 		if (my.level == 2) 
-			my.tutorialGrid = 
-				["If there are any numbers in between\n\nthen you can't cross out.\n\n" + 
-				"But, if there is a gap between numbers,\n\nthen you can play through it", 
-				[],
-				[],
-				[],
-				[],
-				[4,0,4,5,0,0,5]];
+			my.tutorialGrid = getTutorialLevel(
+				["If there are any numbers in between", 
+				"then you can't cross out.", 
+				"But, if there is a gap between numbers", 
+				"then you can play through it"],
+				[[4,0,4,5,0,0,5]]);
 
 		// Horizontal add to 10
 		if (my.level == 3)
-			my.tutorialGrid = 
-				["If two numbers add to 10,\n\nthen they can be crossed out.", 
-				[],
-				[],
-				[2,0,0,8]];
+			my.tutorialGrid = getTutorialLevel(
+				["If two numbers add to 10,", 
+				"then they can be crossed out."],
+				[[2,0,0,8]]);
 
 		// Vertical add to 10 or same
 		if (my.level == 4)
-			my.tutorialGrid = 
-				["Two numbers can be beside each\n\nother vertically.", 
-				[],
-				[],
-				[3,0,0,1],[7,0,0,0],[0,0,0,1]];
+			my.tutorialGrid = getTutorialLevel(
+				["Two numbers can be beside each", 
+				"other vertically."], 
+				[[3,0,0,1],[7,0,0,0],[0,0,0,1]]);
 
 		// New line move twice
 		if (my.level == 5) {
-			var grid = ["Two numbers are beside each other,\n\n" + 
-				"from the end of one line to \n\n" + 
-				"the start of the next.",
-				[],
-				[],
-				[0,0,0,0,0,0,0,8,9],[1,2,0,0,0,0,0,0,0]];
-			my.tutorialGrid = grid;
+			var text = ["Two numbers are beside each other,", 
+				"from the end of one line to",
+				"the start of the next."];
+			var numberLines = [[0,0,0,0,0,0,0,8,9],[1,2,0,0,0,0,0,0,0]];
+			my.tutorialGrid = getTutorialLevel(text, numberLines);
 		}
 
 		// Mini Game
 		if (my.level == 6) {
-			my.tutorialGrid =
-				["The aim of the game is\n\nto clear the grid.", 
-				[],
-				[],
-				[5,4,3,2,1,9,8,7,6]];
+			my.tutorialGrid = getTutorialLevel(
+				["The aim of the game is", "to clear the grid."],
+				[[5,4,3,2,1,9,8,7,6]]);
 			eventManager.vent.on("SYSTEM:LOGIC:MAKE_MOVE", refillGridTutorialHelper);
 		}
 
@@ -143,9 +135,10 @@ var tutorialSystem = function(ecs, eventManager) {
 		// Tutorial Complete
 		// Congratulate user, they can now play Notebook Numbers!	
 		if (my.level == 9) {
-			var hint = "Congratulations, you can now play\n\nNotebook Numbers!";
-			var nextStep = "Click the \"New Game\" button on\n\nthe right to play -->";
-			my.tutorialGrid = [hint, [], [], nextStep];
+			var hint = ["Congratulations, you can now", "play Notebook Numbers!"];
+			var nextStep = ["Click the \"New Game\" button", "to play a game"];
+			var text = hint.concat(nextStep);
+			my.tutorialGrid = getTutorialLevel(text);
 			localStorage.setItem("hasCompletedTutorial", true);
 		}
 

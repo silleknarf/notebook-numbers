@@ -10,7 +10,10 @@ var preloaderMixin = function(target) {
 	*  @method handleFileLoad
 	**/
 	var handleFileLoad = function(event) {
-		self.assets[event.item.id] = event.result;
+		if (event.item.type === "image")
+			self.assets[event.item.id] = event.result;
+		else if (event.item.type === createjs.AbstractLoader.JAVASCRIPT)
+			console.log(event);
 	};
 
 	/**
