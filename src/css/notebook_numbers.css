@@ -4,6 +4,7 @@ body {
  	   http://stackoverflow.com/questions/12046315/prevent-overscrolling-of-web-page */	
  	height: 100%;
  	overflow: auto;
+ 	margin: 0;
 }
 
 html {

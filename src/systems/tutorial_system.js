@@ -37,26 +37,41 @@ var tutorialSystem = function(ecs, eventManager) {
 			});
 	}
 
+	var getTutorialLevel = function(text, numbers) {
+
+	};
+
 	var nextLevel = function() {
 
 		my.level += 1;
 
 	    var extendGridByRows = 0;
 
-		// Horizontal Same 
-		if (my.level == 1) 
-			my.tutorialGrid = 	
-				["Clicking on a number holds the cursor\n\nin place and hovering over the number\n\n" + 
-				"adds the number to the cursor.\n\nClicking crosses out a number.\n\n" + 
-				"If two numbers are the same,\n\nthen they can be crossed out.", 
-				[],
-				[],
-				[],
-				[],
-				[],
-				[],
-				[],
-				[1,1]];
+		// Horizontal Same and controls
+		if (my.level == 1) { 
+
+			my.tutorialGrid = []
+
+			// If we are playing the desktop version we provide some extra help
+			var text = "";
+			if (!config.isVerticalLayout) { 
+				var clickHelp = "Clicking on a number holds\n\n" + 
+					"the cursor in place and\n\n" + 
+					"hovering over the number\n\n" + 
+					"adds the number to the cursor.\n\n" + 
+					"Clicking crosses out a number.\n\n";
+				text = clickHelp;
+			}
+
+			text += "If two numbers are the same,\n\nthen they can be crossed out.";
+			my.tutorialGrid = [text];
+
+			// Extra space for the desktop version tips
+			if (!config.isVerticalLayout)
+				my.tutorialGrid = my.tutorialGrid.concat([[],[], [], [], [], [], []])
+
+			my.tutorialGrid = my.tutorialGrid.concat([[], [1,1]]);
+		}
 
 		// Horizontal spaces
 		if (my.level == 2) 

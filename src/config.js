@@ -18,7 +18,7 @@
 		titleFont: fonts.yellowtail,
         font: fonts.londrinaSolid,
         numColumns: 9,
-        numRows: 6,
+        numRows: 20,
 		coverMargin: 10,
         gizmoSystemEnabled: false,
         isVerticalLayout: false,
@@ -26,8 +26,8 @@
     };
 
     // Dynamic config
-    //var isMobile = platform.os.family === "Android";
-    var isMobile = true;
+    var isMobile = platform.os.family === "Android";
+    //var isMobile = true;
 	if (isMobile) {
 		config.isVerticalLayout = isMobile;
 		config.numRows = 6;

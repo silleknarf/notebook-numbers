@@ -40,7 +40,7 @@ var scrollSystem = function(eventManager) {
 		}
 
 		var scrollDistance = Math.abs(event.stageY - my.startDragY);
-		var minDragDistance = 20;
+		var minDragDistance = 0;
 		if (scrollDistance >= minDragDistance) {
 		    if (event.stageY >= my.startDragY)
 		    	moveUp(scrollDistance);
@@ -65,8 +65,13 @@ var scrollSystem = function(eventManager) {
 			moveDown(my.scrollDistance);
 		});
 
-		my.stage.addEventListener("stagemousemove", startDrag); 
-	    my.stage.addEventListener("stagemouseup", doDrag);
+		if (config.isVerticalLayout) {
+			my.stage.addEventListener("stagemousemove", startDrag); 
+		} else {
+			my.stage.addEventListener("pressmove", startDrag); 
+		}
+
+		my.stage.addEventListener("stagemouseup", doDrag);
 
 	    $('#canvas').bind('mousewheel', function(e){
 	        if(e.originalEvent.wheelDelta /120 > 0) {
