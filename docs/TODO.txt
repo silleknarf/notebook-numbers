@@ -1,8 +1,7 @@
 TODO
 
 + Re-organise directory structure
-- Improve scroll performance
-- Reset game height on mode change
++ Improve scroll performance
 - Tutorial improvements
 	- Add tutorial step - clicking system
 	- Add tutorial step - can't play through numbers
@@ -32,3 +31,4 @@ TODO
 	- Release iOS version
 - Marketing
 	- Open source the code
+- Reset game height on mode change
