@@ -18,7 +18,7 @@
 		titleFont: fonts.yellowtail,
         font: fonts.londrinaSolid,
         numColumns: 9,
-        numRows: 20,
+        numRows: 6,
 		coverMargin: 10,
         gizmoSystemEnabled: false,
         isVerticalLayout: false,
@@ -26,9 +26,11 @@
     };
 
     // Dynamic config
-    var isMobile = platform.os.family === "Android";
+    //var isMobile = platform.os.family === "Android";
+    var isMobile = true;
 	if (isMobile) {
 		config.isVerticalLayout = isMobile;
+		config.numRows = 6;
 	}
 	config.isNativeApp = /notebook-numbers-android$/.test(navigator.userAgent);
 

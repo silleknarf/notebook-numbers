@@ -4,7 +4,6 @@ var scrollSystem = function(eventManager) {
 	my.maxScrollPosition = 0;
 	my.scrollDistance = 20;
 	my.startDragY = null;
-	    
 
 	// We want to render a maximum number of times a second
 	var maxFps = 25;
@@ -41,7 +40,8 @@ var scrollSystem = function(eventManager) {
 		}
 
 		var scrollDistance = Math.abs(event.stageY - my.startDragY);
-		if (scrollDistance >= 0) {
+		var minDragDistance = 20;
+		if (scrollDistance >= minDragDistance) {
 		    if (event.stageY >= my.startDragY)
 		    	moveUp(scrollDistance);
 		    else
@@ -65,8 +65,8 @@ var scrollSystem = function(eventManager) {
 			moveDown(my.scrollDistance);
 		});
 
-		my.stage.addEventListener("pressmove", startDrag); 
-	    my.stage.addEventListener("pressup", doDrag);
+		my.stage.addEventListener("stagemousemove", startDrag); 
+	    my.stage.addEventListener("stagemouseup", doDrag);
 
 	    $('#canvas').bind('mousewheel', function(e){
 	        if(e.originalEvent.wheelDelta /120 > 0) {

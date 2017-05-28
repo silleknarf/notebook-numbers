@@ -9,7 +9,7 @@ TODO
 	+ Create new android project
 	+ Create webview in project
 	+ Put resources in the assets folder
-	- Make the numbers bigger in the vertical layout mode
+	+ Make the numbers bigger in the vertical layout mode
 	- Set a minimum scroll amount
 	- Detect os and make full screen when on mobile	
 	- Test android app (use remote debugging)
