@@ -3,6 +3,9 @@ var bindingsViewComponent = function() {
 
 	my.bindings = [];
 
+    var init = function() { 
+    };
+
 	// Draw the bindings in the middle
 	var updateBindings = function(renderSystem, bounds) {
         var y = 0;

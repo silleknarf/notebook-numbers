@@ -2,13 +2,14 @@ TODO
 
 + Re-organise directory structure
 + Improve scroll performance
-- Tutorial improvements
-	- Add tutorial step - clicking system
-	- Add tutorial step - can't play through numbers
++ Tutorial improvements
+	+ Add tutorial step - clicking system
+	+ Add tutorial step - can't play through numbers
 - Android version
-	- Create new android project
-	- Create webview in project
-	- Put resources in the assets folder
+	+ Create new android project
+	+ Create webview in project
+	+ Put resources in the assets folder
+	- Detect os and make full screen when on mobile	
 	- Test android app (use remote debugging)
 - iOS version
 	- Create new iOS project

@@ -8,7 +8,7 @@ var coverViewComponent = function() {
 	    my.coverGraphics = new createjs.Graphics();
 	    my.coverGraphics
             .beginFill(config.backgroundColour)
-            .drawRoundRect(0, 0, bounds.absolute.width, bounds.background.absolute.height-cornerRadius, cornerRadius);
+            .drawRoundRect(0, 0, bounds.absolute.width, bounds.background.absolute.height, cornerRadius);
 
 	    cover.graphics = my.coverGraphics;
 	}

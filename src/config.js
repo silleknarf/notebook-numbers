@@ -23,5 +23,12 @@
         gizmoSystemEnabled: false,
         isVerticalLayout: false
     };
+
+    // Dynamic config
+    var isMobile = platform.os.family === "Android";
+	if (isMobile) {
+		config.isVerticalLayout = isMobile;
+	}
+
     window.config = config;
 })();
