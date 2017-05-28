@@ -26,4 +26,9 @@ var init = function() {
 		eventManager.vent.trigger("SYSTEM:MODE:CLASSIC");
 	else 
 		eventManager.vent.trigger("SYSTEM:MODE:TUTORIAL");
+
+	// Set up a big grid for testing scroll perf
+	eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
+	eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
+	eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
 };

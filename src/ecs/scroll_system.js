@@ -10,7 +10,7 @@ var scrollSystem = function(eventManager) {
 	var maxFps = 25;
 	var delayBetweenFrames = Math.floor(1000/maxFps);
 	var throttledRender = _.throttle(
-		function() { eventManager.vent.trigger("SYSTEM:RENDER:RENDER"); },
+		function() { my.stage.update() },
 		delayBetweenFrames,
 		{ leading: true });
 

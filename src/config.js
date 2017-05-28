@@ -20,7 +20,7 @@
         numColumns: 9,
         numRows: 20,
 		coverMargin: 10,
-        gizmoSystemEnabled: true,
+        gizmoSystemEnabled: false,
         isVerticalLayout: false
     };
     window.config = config;

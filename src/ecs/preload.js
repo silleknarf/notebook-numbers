@@ -32,15 +32,9 @@ var preloaderMixin = function(target) {
 	var loadImages = function(onComplete) {
 		self.onComplete = onComplete;
 		var manifest = [
-		    { src: 'src/images/scribble.png', id: 'scribble' },
 		    { src: 'src/images/tile.png', id: 'background' },
 		    { src: 'src/images/bindings.png', id: 'bindings' },
 		];
-		for (var i = 1; i <= 9; i++) {
-		    var digit = i;
-		    var image = 'src/images/' + digit + '.png';
-		    manifest.push({ src: image, id: digit });
-		}
 		// Create an image loader with handlers
 		var loader = new createjs.LoadQueue();
 		loader.addEventListener("fileload", function(ev) {
