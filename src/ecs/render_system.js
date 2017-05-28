@@ -6,6 +6,8 @@ var renderSystem = function(ecs, eventManager, preloader) {
 	// and we need to remove them from the stage
 	my.previouslyRenderedEntities = [];
 
+	my.assets = preloader.assets;
+
 	var removeOldViews = function(previouslyRenderedEntities, renderedEntities) {
 		var viewIdsToRemove = _.difference(
 			_.keys(previouslyRenderedEntities),
@@ -63,14 +65,8 @@ var renderSystem = function(ecs, eventManager, preloader) {
 			my.stage.enableMouseOver();
 		}
 
-		// preload assets
-		preloader(my);
-		my.loadImages(function() {
-		    createjs.Ticker.setFPS(25);
-			eventManager.vent.on("SYSTEM:RENDER:RENDER", render);
-			eventManager.vent.trigger("SYSTEM:RENDER:RENDER");
-		});
-
+	    createjs.Ticker.setFPS(25);
+		eventManager.vent.on("SYSTEM:RENDER:RENDER", render);
 		eventManager.vent.trigger("SYSTEM:SCROLL:START", my.stage);
 
 		my.hasInit = true;

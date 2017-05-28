@@ -1,8 +1,8 @@
-var preloaderMixin = function(target) {
+var preloadSystemFactory = function() {
 
-	var self = target;
+	var my = {};
 
-	self.assets = [];
+	my.assets = [];
 
 	/**
 	*  Callback function from the preloader to store the images in the app.assets object
@@ -11,7 +11,7 @@ var preloaderMixin = function(target) {
 	**/
 	var handleFileLoad = function(event) {
 		if (event.item.type === "image")
-			self.assets[event.item.id] = event.result;
+			my.assets[event.item.id] = event.result;
 		else if (event.item.type === createjs.AbstractLoader.JAVASCRIPT)
 			console.log(event);
 	};
@@ -23,8 +23,8 @@ var preloaderMixin = function(target) {
 	**/
 	var handleComplete = function() {
 		// Log the preloaded files for now
-		console.log(self.assets);
-		self.onComplete();
+		console.log(my.assets);
+		my.onComplete();
 	};
 
 	/**
@@ -32,8 +32,8 @@ var preloaderMixin = function(target) {
 	*
 	* @method loadImages
 	**/
-	var loadImages = function(onComplete) {
-		self.onComplete = onComplete;
+	var load = function(onComplete) {
+		my.onComplete = onComplete;
 		var manifest = [
 		    { src: 'src/images/tile.png', id: 'background' },
 		    { src: 'src/images/bindings.png', id: 'bindings' },
@@ -41,14 +41,14 @@ var preloaderMixin = function(target) {
 		// Create an image loader with handlers
 		var loader = new createjs.LoadQueue();
 		loader.addEventListener("fileload", function(ev) {
-		    return handleFileLoad.call(self, ev);
+		    return handleFileLoad.call(my, ev);
 		});
 		loader.addEventListener("complete", function(ev) {
-		    return handleComplete.call(self, ev);
+		    return handleComplete.call(my, ev);
 		});
 		// Pass the manifest to the image loader
 		loader.loadManifest(manifest);
 	};
-	self.loadImages = loadImages;
-	return self;
+	my.load = load;
+	return my;
 };

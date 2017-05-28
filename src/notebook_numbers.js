@@ -5,38 +5,44 @@ var init = function() {
 	var cellRepository = cellRepositoryFactory()
 	var gridRepository = gridRepositoryFactory(cellRepository);
 
-	gizmoSystem(ecs, eventManager);
-	renderSystem(ecs, eventManager, preloaderMixin);
-	boundsSystem(ecs, eventManager);
-	logicSystem(ecs, eventManager, gridRepository);
-	cursorSystem(ecs, eventManager, gridRepository, cellRepository);
-	cursorViewSystem(ecs, eventManager);
-	gridViewSystem(ecs, eventManager);
-	scrollSystem(eventManager);
-	modeSystem(ecs, eventManager);
-	tutorialSystem(ecs, eventManager);
+	// preload assets
+	var preloadSystem = preloadSystemFactory();
 
-	var backgroundEntity = backgroundEntityFactory();
-	ecs.entities.push(backgroundEntity);
+	preloadSystem.load(function() { 
+		
+		gizmoSystem(ecs, eventManager);
+		boundsSystem(ecs, eventManager);
+		renderSystem(ecs, eventManager, preloadSystem);
+		logicSystem(ecs, eventManager, gridRepository);
+		cursorSystem(ecs, eventManager, gridRepository, cellRepository);
+		cursorViewSystem(ecs, eventManager);
+		gridViewSystem(ecs, eventManager);
+		scrollSystem(eventManager);
+		modeSystem(ecs, eventManager);
+		tutorialSystem(ecs, eventManager);
 
-	$( document ).ready(function() {
-		if (config.isVerticalLayout) {
-			$("#header").remove();
-			$("#canvas").height("100vh");
-		}
+		var backgroundEntity = backgroundEntityFactory();
+		ecs.entities.push(backgroundEntity);
 
-		eventManager.vent.trigger("SYSTEM:RENDER:START");
-		eventManager.vent.trigger("SYSTEM:BOUNDS:START");
+		$( document ).ready(function() {
+			if (config.isVerticalLayout) {
+				$("#header").remove();
+				$("#canvas").height("100vh");
+			}
 
-		var hasCompletedTutorial = localStorage.getItem('hasCompletedTutorial');
-		if (hasCompletedTutorial)
-			eventManager.vent.trigger("SYSTEM:MODE:CLASSIC");
-		else 
-			eventManager.vent.trigger("SYSTEM:MODE:TUTORIAL");
+			eventManager.vent.trigger("SYSTEM:RENDER:START");
+			eventManager.vent.trigger("SYSTEM:BOUNDS:START");
 
-		// Set up a big grid for testing scroll perf
-		eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
-		eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
-		eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
+			var hasCompletedTutorial = localStorage.getItem('hasCompletedTutorial');
+			if (hasCompletedTutorial)
+				eventManager.vent.trigger("SYSTEM:MODE:CLASSIC");
+			else 
+				eventManager.vent.trigger("SYSTEM:MODE:TUTORIAL");
+
+			// Set up a big grid for testing scroll perf
+			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
+			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
+			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
+		});
 	});
 }

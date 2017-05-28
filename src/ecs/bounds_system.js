@@ -4,7 +4,7 @@ var boundsSystem = function(ecs, eventManager) {
 	my.background = {
 		relative: {
 			height: 100
-		}
+		},
 	}
 
 	// We get the max size of the canvas but if we have scaled
@@ -85,11 +85,10 @@ var boundsSystem = function(ecs, eventManager) {
 	}
 
 	var start = function() {
-		update();
+		eventManager.vent.on("SYSTEM:BOUNDS:UPDATE", update);
 		$( window ).resize(function() { 
 			setTimeout(update, 50);
 		});
-		eventManager.vent.on("SYSTEM:BOUNDS:UPDATE", update);
 	};
 
 	var initialiseEvents = function() {
