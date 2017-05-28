@@ -1,15 +1,15 @@
 
 var init = function() {
-	var ecs = entityComponentSystem();
-
-	var cellRepository = cellRepositoryFactory()
-	var gridRepository = gridRepositoryFactory(cellRepository);
-
 	// preload assets
 	var preloadSystem = preloadSystemFactory();
 
 	preloadSystem.load(function() { 
-		
+
+		var ecs = entityComponentSystem();
+
+		var cellRepository = cellRepositoryFactory()
+		var gridRepository = gridRepositoryFactory(cellRepository);
+
 		gizmoSystem(ecs, eventManager);
 		boundsSystem(ecs, eventManager);
 		renderSystem(ecs, eventManager, preloadSystem);
