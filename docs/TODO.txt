@@ -12,13 +12,14 @@ TODO
 	+ Make the numbers bigger in the vertical layout mode
 	+ Detect os and make full screen when on mobile	
 	+ Make the preloader load js
-	- Make the tutorial render well on mobile
-	- Test android app (use remote debugging)
-	- Make the android app re-direct to play store when not running natively
+	+ Make the tutorial render well on mobile
+	+ Test android app (use remote debugging)
 	- Add icon on Android
 	- Disable rotation on mobile
+	- Make the android app re-direct to play store when not running natively
 	- Create signed android app
 	- Upload android app to Play Store
+- Make the bounding boxes on the numbers more accurate
 - Add loading screen
 - iOS version
 	- Create new iOS project
