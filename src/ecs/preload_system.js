@@ -4,11 +4,6 @@ var preloadSystemFactory = function() {
 
 	my.assets = [];
 
-	/**
-	*  Callback function from the preloader to store the images in the app.assets object
-	*
-	*  @method handleFileLoad
-	**/
 	var handleFileLoad = function(event) {
 		if (event.item.type === "image")
 			my.assets[event.item.id] = event.result;
@@ -16,22 +11,12 @@ var preloadSystemFactory = function() {
 			document.body.appendChild(event.result);
 	};
 
-	/**
-	*  Callback function for when the images have all been loaded
-	*
-	*  @method handleComplete
-	**/
 	var handleComplete = function() {
-		// Log the preloaded files for now
 		console.log(my.assets);
 		my.onComplete();
 	};
 
-	/**
-	* Preloads the images that are used for the game
-	*
-	* @method loadImages
-	**/
+	// Preloads the resources that are used for the game
 	var load = function(onComplete) {
 		my.onComplete = onComplete;
 		var manifest = [
@@ -84,8 +69,12 @@ var preloadSystemFactory = function() {
 			{ src: "src/entities/tutorial_entity.js" },
 			{ src: "src/entities/background_entity.js" },
 		];
-		// Create an image loader with handlers
-		var loader = new createjs.LoadQueue();
+		// This means we will use tag loading instead 
+		// We need this so we get a debuggable file
+		// heirarchy in the browser
+		var useXhr = false; 
+		// Create an loader with handlers
+		var loader = new createjs.LoadQueue(false);
 		loader.addEventListener("fileload", function(ev) {
 		    return handleFileLoad.call(my, ev);
 		});

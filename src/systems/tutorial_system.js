@@ -11,7 +11,7 @@ var tutorialSystem = function(ecs, eventManager) {
 	};
 
 	var addTutorialLevel = function(grid) {
-		my.tutorialGrid = grid; //my.tutorialGrid.concat(grid);
+		my.tutorialGrid = grid; 
 	}
 
 	var updateGrid = function(newGrid) {
@@ -42,7 +42,7 @@ var tutorialSystem = function(ecs, eventManager) {
 		var emptyLinesCount = config.isVerticalLayout 
 			? Math.floor((texts.length-1)/2) 
 			: texts.length - 1;
-		var emptyLines = _.times(texts.length - 1, function() { return []; });
+		var emptyLines = _.times(emptyLinesCount, function() { return []; });
 		return [text].concat(emptyLines).concat(numberLines);
 	};
 
@@ -76,10 +76,11 @@ var tutorialSystem = function(ecs, eventManager) {
 		// Horizontal spaces
 		if (my.level == 2) 
 			my.tutorialGrid = getTutorialLevel(
-				["If there are any numbers in between", 
-				"then you can't cross out.", 
-				"But, if there is a gap between numbers", 
-				"then you can play through it"],
+				["If there are any numbers in", 
+				"between then you can't cross out.", 
+				"But, if there is a gap between", 
+				"numbers then you can play ", 
+				"through it"],
 				[[4,0,4,5,0,0,5]]);
 
 		// Horizontal add to 10
@@ -98,9 +99,9 @@ var tutorialSystem = function(ecs, eventManager) {
 
 		// New line move twice
 		if (my.level == 5) {
-			var text = ["Two numbers are beside each other,", 
-				"from the end of one line to",
-				"the start of the next."];
+			var text = ["Two numbers are beside each", 
+				"other, from the end of one line",
+				"to the start of the next."];
 			var numberLines = [[0,0,0,0,0,0,0,8,9],[1,2,0,0,0,0,0,0,0]];
 			my.tutorialGrid = getTutorialLevel(text, numberLines);
 		}
@@ -118,7 +119,7 @@ var tutorialSystem = function(ecs, eventManager) {
 			eventManager.vent.off("SYSTEM:LOGIC:MAKE_MOVE", refillGridTutorialHelper);
 
 			my.tutorialGrid = my.tutorialGrid.concat(
-				["When there are no more moves to play,\n\nyou click:", [], []]);
+				["When there are no more moves to\n\nplay you click:", [], []]);
 
 			var refillGridEntity = refillGridEntityFactory();
 			ecs.addEntities("tutorial", [refillGridEntity]);
