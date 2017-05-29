@@ -14,13 +14,19 @@ TODO
 	+ Make the preloader load js
 	+ Make the tutorial render well on mobile
 	+ Test android app (use remote debugging)
-	- Add icon on Android
-	- Disable rotation on mobile
+	+ Disable rotation on mobile
+	- Add larger icon on Android
+	- Don't do rounded corners on mobile
+	- Save progress!
+	- Make the bounding boxes on the numbers more accurate
+	- Add loading screen
+	- Add end game congratulations
 	- Make the android app re-direct to play store when not running natively
 	- Create signed android app
 	- Upload android app to Play Store
-- Make the bounding boxes on the numbers more accurate
-- Add loading screen
+- Performance
+	- Improve the performance of render cursor on larger grids
+	- Improve the performance of make move on large grids
 - iOS version
 	- Create new iOS project
 - Productionise website
