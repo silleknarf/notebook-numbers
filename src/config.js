@@ -26,7 +26,7 @@
     };
 
     // Dynamic config
-    var isMobile = platform.os.family === "Android";
+    var isMobile = platform.os.family === "Android" || platform.os.family == "iOS";
     //var isMobile = true;
 	if (isMobile) {
 		config.isVerticalLayout = isMobile;

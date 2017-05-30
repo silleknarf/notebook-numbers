@@ -1,6 +1,6 @@
 TODO
 
-- Add loading screen
++ Add loading screen
 - Add end game congratulations
 - Performance
 	- Improve the performance of render cursor on larger grids
