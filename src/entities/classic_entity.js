@@ -1,4 +1,4 @@
-var classicEntityFactory = function() {
+var classicEntityFactory = function(gridRepository) {
 	var generateClassicGrid = function() {
 	    var data = [[], [], []];
 	    var firstRow = data[0];
@@ -28,7 +28,11 @@ var classicEntityFactory = function() {
 		return data;
 	};
 
-	var classicGridComponent = gridComponent(generateClassicGrid());
+	// Retrieve existing grid if it exists
+	var savedGrid = gridRepository.loadGrid();
+	savedGrid = savedGrid || generateClassicGrid();
+
+	var classicGridComponent = gridComponent(savedGrid);
 
 	var classicBounds = boundsComponent();
 	//classicBounds.relative.width = config.isVerticalLayout ? 100 : 50;
