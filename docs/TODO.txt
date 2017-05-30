@@ -1,35 +1,16 @@
 TODO
 
-+ Re-organise directory structure
-+ Improve scroll performance
-+ Tutorial improvements
-	+ Add tutorial step - clicking system
-	+ Add tutorial step - can't play through numbers
-- Android version
-	+ Create new android project
-	+ Create webview in project
-	+ Put resources in the assets folder
-	+ Make the numbers bigger in the vertical layout mode
-	+ Detect os and make full screen when on mobile	
-	+ Make the preloader load js
-	+ Make the tutorial render well on mobile
-	+ Test android app (use remote debugging)
-	+ Disable rotation on mobile
-	+ Add larger icon on Android
-	+ Don't do rounded corners on mobile
-	+ Save progress!
-	- Fix tutorial height on desktop
-	- Make the bounding boxes on the numbers more accurate
-	- Add loading screen
-	- Add end game congratulations
-	- Make the android app re-direct to play store when not running natively
-	- Create signed android app
-	- Upload android app to Play Store
+- Add loading screen
+- Add end game congratulations
 - Performance
 	- Improve the performance of render cursor on larger grids
 	- Improve the performance of make move on large grids
 - iOS version
 	- Create new iOS project
+- Android version release
+	- Make the android app re-direct to play store when not running natively
+	- Create signed android app
+	- Upload android app to Play Store
 - Productionise website
 	- Enable facebook sharing
 	- Show attributions
@@ -49,4 +30,5 @@ TODO
 	- Release iOS version
 - Marketing
 	- Open source the code
-- Reset game height on mode change
+	
+- Make the bounding boxes on the numbers more accurate

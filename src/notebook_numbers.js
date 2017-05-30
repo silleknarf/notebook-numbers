@@ -30,6 +30,9 @@ var init = function() {
 				$("#canvas").height("100vh");
 			}
 
+			$("#loadingscreen").remove();
+			$("#notebooknumbers").show();
+
 			eventManager.vent.trigger("SYSTEM:RENDER:START");
 			eventManager.vent.trigger("SYSTEM:BOUNDS:START");
 
@@ -39,10 +42,6 @@ var init = function() {
 			else 
 				eventManager.vent.trigger("SYSTEM:MODE:TUTORIAL");
 
-			// Set up a big grid for testing scroll perf
-			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
-			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
-			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
 		});
 	});
 }
