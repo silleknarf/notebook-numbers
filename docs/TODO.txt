@@ -17,7 +17,8 @@ TODO
 	+ Disable rotation on mobile
 	+ Add larger icon on Android
 	+ Don't do rounded corners on mobile
-	- Save progress!
+	+ Save progress!
+	- Fix tutorial height on desktop
 	- Make the bounding boxes on the numbers more accurate
 	- Add loading screen
 	- Add end game congratulations

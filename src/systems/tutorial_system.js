@@ -41,7 +41,7 @@ var tutorialSystem = function(ecs, eventManager) {
 		var text = texts.join("\n\n");
 		var emptyLinesCount = config.isVerticalLayout 
 			? Math.floor((texts.length-1)/2) 
-			: texts.length - 1;
+			: texts.length;
 		var emptyLines = _.times(emptyLinesCount, function() { return []; });
 		return [text].concat(emptyLines).concat(numberLines);
 	};
