@@ -207,9 +207,43 @@ var gridRepositoryFactory = function(cellRepository) {
 			grid[i][j] = 0;
 		}
 	}
+
+	var containsText = function(grid) {
+		return _(grid)
+			.map(function(row) {
+				return !Array.isArray(row);
+			})
+			.some();
+	}
+
+	var saveGrid = function(grid) {
+		if (!grid) {
+			localStorage.removeItem('grid');
+			return;
+		}
+		
+		if (!containsText(grid))
+			localStorage.setItem('grid', JSON.stringify(grid));
+	}
+
+	my.savedGridLoaded = false;
+	var loadGrid = function() {
+		if (my.savedGridLoaded)
+			return null;
+
+		var grid = localStorage.getItem('grid');
+		if (grid)
+			grid = JSON.parse(grid);
+
+		my.savedGridLoaded = true;
+		return grid;
+	}
+
 	my.makeMove = makeMove;
 	my.checkCompleted = checkCompleted;
 	my.refillGrid = refillGrid;
 	my.check = check;
+	my.saveGrid = saveGrid;
+	my.loadGrid = loadGrid;
 	return my;
 };

@@ -3,6 +3,7 @@ var init = function() {
 	// preload assets
 	var preloadSystem = preloadSystemFactory();
 
+	debugger;
 	preloadSystem.load(function() { 
 
 		var ecs = entityComponentSystem();
@@ -18,11 +19,13 @@ var init = function() {
 		cursorViewSystem(ecs, eventManager);
 		gridViewSystem(ecs, eventManager);
 		scrollSystem(eventManager);
-		modeSystem(ecs, eventManager);
+		modeSystem(ecs, eventManager, gridRepository);
 		tutorialSystem(ecs, eventManager);
 
 		var backgroundEntity = backgroundEntityFactory();
 		ecs.entities.push(backgroundEntity);
+
+		debugger;
 
 		$( document ).ready(function() {
 			if (config.isVerticalLayout) {
@@ -43,6 +46,7 @@ var init = function() {
 			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
 			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
 			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
+			debugger;
 		});
 	});
 }
