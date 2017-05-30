@@ -6,9 +6,15 @@ var coverViewComponent = function() {
 	    var cornerRadius = 30;
 
 	    my.coverGraphics = new createjs.Graphics();
-	    my.coverGraphics
-            .beginFill(config.backgroundColour)
-            .drawRoundRect(0, 0, bounds.absolute.width, bounds.background.absolute.height, cornerRadius);
+	    if (config.isVerticalLayout) {
+		    my.coverGraphics
+	            .beginFill(config.backgroundColour)
+	            .drawRect(0, 0, bounds.absolute.width, bounds.background.absolute.height);
+	    } else {
+		    my.coverGraphics
+	            .beginFill(config.backgroundColour)
+	            .drawRoundRect(0, 0, bounds.absolute.width, bounds.background.absolute.height, cornerRadius);
+	    }
 
 	    cover.graphics = my.coverGraphics;
 	}

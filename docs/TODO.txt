@@ -15,8 +15,8 @@ TODO
 	+ Make the tutorial render well on mobile
 	+ Test android app (use remote debugging)
 	+ Disable rotation on mobile
-	- Add larger icon on Android
-	- Don't do rounded corners on mobile
+	+ Add larger icon on Android
+	+ Don't do rounded corners on mobile
 	- Save progress!
 	- Make the bounding boxes on the numbers more accurate
 	- Add loading screen
