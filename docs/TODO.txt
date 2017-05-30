@@ -2,6 +2,7 @@ TODO
 
 + Add loading screen
 - Add end game congratulations
+- Remove from cursor
 - Performance
 	- Improve the performance of render cursor on larger grids
 	- Improve the performance of make move on large grids
@@ -30,5 +31,4 @@ TODO
 	- Release iOS version
 - Marketing
 	- Open source the code
-	
-- Make the bounding boxes on the numbers more accurate
+- Line up the grid with the numbers
