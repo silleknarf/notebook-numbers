@@ -1,8 +1,6 @@
 
 var init = function() {
-	// preload assets
 	var preloadSystem = preloadSystemFactory();
-
 	preloadSystem.load(function() { 
 
 		var ecs = entityComponentSystem();
@@ -25,11 +23,14 @@ var init = function() {
 		ecs.entities.push(backgroundEntity);
 
 		$( document ).ready(function() {
+
+			// Full screen the game on mobile
 			if (config.isVerticalLayout) {
 				$("#header").remove();
 				$("#canvas").height("100vh");
 			}
 
+			// Hide the loading screen and show the game when we're ready
 			$("#loadingscreen").remove();
 			$("#notebooknumbers").show();
 
