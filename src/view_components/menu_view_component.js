@@ -60,6 +60,20 @@ var menuViewComponent = function() {
 		var font = getFont(bounds.absolute);
 		my.newGame.font = font;
 		my.tutorial.font = font;
+
+		/*  TODO: Make the hitboxes update dynamically
+		var outline = new createjs.Graphics();
+		outline.setStrokeStyle(1);
+		outline.beginStroke("white");
+		outline.moveTo(my.newGame.x, my.newGame.y);
+		outline.lineTo(my.newGame.x+my.newGame.hitArea.graphics.command.w, my.newGame.y);
+		outline.lineTo(my.newGame.x+my.newGame.hitArea.graphics.command.w, my.newGame.y+my.newGame.hitArea.graphics.command.h);
+		outline.lineTo(my.newGame.x, my.newGame.y+my.newGame.hitArea.graphics.command.h);
+		outline.lineTo(my.newGame.x, my.newGame.y);
+		var outlineShape = new createjs.Shape(outline);
+		renderSystem.stage.addChild(outlineShape);
+		renderSystem.stage.setChildIndex(outlineShape, renderSystem.stage.getNumChildren()-1);	
+		*/
 	}
 
 	var remove = function(renderSystem) {
