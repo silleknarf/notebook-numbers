@@ -68,8 +68,9 @@ var tutorialSystem = function(ecs, eventManager) {
 				text = clickHelp;
 			}
 
-			text = text.concat(["If two numbers are the same,", 
-				"then they can be crossed out."]);
+			text = text.concat([
+				"Click two numbers that are the", 
+				"same to cross them out."]);
 			my.tutorialGrid = getTutorialLevel(text, [[1,1]]);
 		}
 

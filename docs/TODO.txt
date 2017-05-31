@@ -2,9 +2,8 @@ TODO
 
 + Add loading screen
 + Add end game congratulations
-- Remove from cursor
-- Use verb tap/click/hit in tutorial
-- Fix new game hitbox
++ Use verb tap/click/hit in tutorial
++ Fix new game hitbox
 - Performance
 	- Improve the performance of render cursor on larger grids
 	- Improve the performance of make move on large grids
@@ -34,3 +33,4 @@ TODO
 - Marketing
 	- Open source the code
 - Line up the grid with the numbers
+- Remove from cursor

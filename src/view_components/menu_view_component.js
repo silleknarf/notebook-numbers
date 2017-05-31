@@ -22,7 +22,8 @@ var menuViewComponent = function() {
 		var hitNewGame = new createjs.Shape();
 		hitNewGame.graphics
 		    .beginFill("#F00")
-		    .drawRect(0, 0, newGame.getMeasuredWidth(), newGame.getMeasuredHeight());
+		    .drawRect(0, 0, newGame.getMeasuredWidth()*1.1, newGame.getMeasuredHeight() * 1.5);
+
 
 		newGame.hitArea = hitNewGame;
 		newGame.on("click", function() {
@@ -38,7 +39,7 @@ var menuViewComponent = function() {
 		var hitTutorial = new createjs.Shape();
 	    hitTutorial.graphics
 		   	.beginFill("#F00")
-		   	.drawRect(0, 0, tutorial.getMeasuredWidth(), tutorial.getMeasuredHeight());
+		   	.drawRect(0, 0, tutorial.getMeasuredWidth()*1.1, tutorial.getMeasuredHeight() * 1.5);
 
 		tutorial.hitArea = hitTutorial;
 		tutorial.on("click", function() {
