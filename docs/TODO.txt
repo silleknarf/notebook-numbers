@@ -1,7 +1,7 @@
 TODO
 
 + Add loading screen
-- Add end game congratulations
++ Add end game congratulations
 - Remove from cursor
 - Use verb tap/click/hit in tutorial
 - Fix new game hitbox

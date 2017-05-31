@@ -5,6 +5,8 @@ var entityComponentSystem = function() {
 	var walkEntitiesHelper = function(entities, functionDefinition) {
 		_.forEach(entities, 
 			function(entity) {
+				if (!entity)
+					return;
 				functionDefinition(entity);
 				walkEntitiesHelper(entity.subEntities, functionDefinition);
 		 	});
