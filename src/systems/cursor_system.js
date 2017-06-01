@@ -117,7 +117,7 @@ var cursorSystem = function(ecs, eventManager, gridRepository, cellRepository) {
 
     var addEvent = function(cell) { 
         var gridsUpdated = {};
-        ecs.runSystem(
+        ecs.runSystemOnce(
             [componentTypeEnum.GRID],
             function(entity) {
                 var gridComponent = entity.components[componentTypeEnum.GRID]; 
@@ -135,7 +135,7 @@ var cursorSystem = function(ecs, eventManager, gridRepository, cellRepository) {
 
     var checkEvent = function(cell) {
         var gridsUpdated = {};
-        ecs.runSystem(
+        ecs.runSystemOnce(
             [componentTypeEnum.GRID],
             function(entity) {
                 var gridComponent = entity.components[componentTypeEnum.GRID]; 

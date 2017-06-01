@@ -44,6 +44,12 @@ var init = function() {
 			else 
 				eventManager.vent.trigger("SYSTEM:MODE:TUTORIAL");
 
+			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
+			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
+			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
+			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
+			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
+
 		});
 	});
 }

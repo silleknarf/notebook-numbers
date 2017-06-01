@@ -7,8 +7,9 @@ var entityComponentSystem = function() {
 			function(entity) {
 				if (!entity)
 					return;
-				functionDefinition(entity);
-				walkEntitiesHelper(entity.subEntities, functionDefinition);
+				var shouldContinue = functionDefinition(entity);
+				if (shouldContinue)
+					walkEntitiesHelper(entity.subEntities, functionDefinition);
 		 	});
 	}
 
@@ -21,15 +22,31 @@ var entityComponentSystem = function() {
 		walkEntities(function(entity) {
 			if (entity.hasRequiredComponents(requiredComponents))
 				systemFunction(entity);
+			return true;
+		});
+	};
+
+	var runSystemOnce = function(requiredComponents, systemFunction) {
+		// Walk the tree
+		var shouldContinue = true;
+		walkEntities(function(entity) {
+			if (entity.hasRequiredComponents(requiredComponents)) {
+				systemFunction(entity);
+				shouldContinue = false;
+			}
+			return shouldContinue;
 		});
 	};
 
 	var addEntity = function(parentEntityName, entityToAdd) {
+		var shouldContinue = true;
 		walkEntities(function(entity) {
 			if (entity.name === parentEntityName) {
 				entityToAdd.parent = entity;
 				entity.subEntities.push(entityToAdd);
+				shouldContinue = false;	
 			}
+			return shouldContinue;
 		});
 	};
 
@@ -46,10 +63,12 @@ var entityComponentSystem = function() {
 				function(subEntity) {
 					return subEntity.name === entityName;
 				});
+			return true;
 		});
 	};
 
 	my.runSystem = runSystem;
+	my.runSystemOnce = runSystemOnce;
 	my.addEntities = addEntities;
 	my.removeEntities = removeEntities;
 	return my;

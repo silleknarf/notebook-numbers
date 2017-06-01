@@ -88,7 +88,7 @@ var gridViewSystem = function(ecs, eventManager) {
 	};
 
 	var synchroniseGridEvent = function() {
-		ecs.runSystem(
+		ecs.runSystemOnce(
 			[componentTypeEnum.GRID, componentTypeEnum.BOUNDS],
 			function(gridEntity) {
 				synchroniseGrid(gridEntity);

@@ -2,7 +2,7 @@ var logicSystem = function(ecs, eventManager, gridRepository) {
 
 	var updateGrid = function(gridUpdateFunc) {
 		var gridsUpdated = {};
-		ecs.runSystem(
+		ecs.runSystemOnce(
 			[componentTypeEnum.GRID],
 			function(entity) {
 				var grid = entity.components[componentTypeEnum.GRID].grid;

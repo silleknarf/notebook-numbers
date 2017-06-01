@@ -30,7 +30,7 @@ var cursorViewSystem = function(ecs, eventManager) {
 	};
 
 	var synchroniseCursorEvent = function() {
-		ecs.runSystem(
+		ecs.runSystemOnce(
 			[componentTypeEnum.GRID],
 			function(gridEntity) {
 				synchroniseCursor(gridEntity);

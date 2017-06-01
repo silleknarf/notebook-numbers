@@ -16,7 +16,7 @@ var tutorialSystem = function(ecs, eventManager) {
 
 	var updateGrid = function(newGrid) {
 		var gridsUpdated = {};
-		ecs.runSystem(
+		ecs.runSystemOnce(
 			[componentTypeEnum.GRID],
 			function(entity) {
 				entity.components[componentTypeEnum.GRID].grid = newGrid;
@@ -25,7 +25,7 @@ var tutorialSystem = function(ecs, eventManager) {
 
 	var refillGridTutorialHelper = function() {
 		var gridsUpdated = {};
-		ecs.runSystem(
+		ecs.runSystemOnce(
 			[componentTypeEnum.GRID],
 			function(entity) {
 				var grid = entity.components[componentTypeEnum.GRID].grid;
