@@ -23,8 +23,8 @@
 		ga('create', 'UA-41406639-1', 'silleknarf.com');
 		ga('send', 'pageview');
 	</script> -->
+
 	<!-- Facebook SDK -->
-	<!--
 	<div id="fb-root" />
 	<script>(function(d, s, id) {
 	  var js, fjs = d.getElementsByTagName(s)[0];
@@ -34,57 +34,69 @@
 	  fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));</script>
 	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-	-->
+
 </head>
 <body onload="init()" style="height: 100%; overflow: hidden" >
 	<div class="font_preload" style="opacity: 0">
 	    <span style="font-family: 'YellowTail', Arial, sans-serif;"></span>
 	    <span style="font-family: 'Londrina Solid', Arial, sans-serif;"></span>
 	</div>
-	<div>
-		<div id="header" class="row" style="height: 50px">
-			<div class="fb-like" 
-			     data-href="https://www.facebook.com/NotebookNumbers" 
-			     data-layout="standard" 
-			     data-action="like" 
-			     data-show-faces="true" 
-			     data-share="true"></div>
+	<div id="loadingscreen" style="font-family: 'YellowTail'; background: #003266; color: #FDD017; text-align: center;">
+		<div style="width: 100vw; height: 100vh; font-size: 15vh;">
+			Loading...
 		</div>
-		<div >
-			<div id="canvas" style="width: 100vw; height: calc(100vh - 50px)">
-				<div id="loadingscreen" style="font-family: 'YellowTail'; background: #003266; color: #FDD017; text-align: center;">
-					<div style="width: 100vw; height: 100vh; font-size: 30vh;">
-						Loading...
+	</div>
+	<div>
+		<div id="header" class="row" style="height: 50px; visibility: hidden;">
+			<div style="float: left; margin: 5px">
+				<a  href="https://play.google.com/store/apps/details?id=silleknarf.game"
+					class="">
+					<img alt="Get it on Google Play"
+					     src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png" />
+				</a>
+			</div>
+			<div style="float: right">
+				<div style="float: left; margin: 5px 0; display: none" 
+					 class="fb-like share-button" 
+				     data-href="https://www.facebook.com/NotebookNumbers" 
+				     data-layout="standard" 
+				     data-action="like" 
+				     data-show-faces="true" 
+				     data-share="true"></div>
+				<div style="float: left; display: none"
+				     class="share-button">
+				     <div style="margin: 20px 15px 0 0">
+						<a href="https://twitter.com/silleknarf" 
+					   	class="twitter-follow-button" 
+					   	data-show-count="false">Follow @silleknarf</a>
+					   	<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+				     </div>
+				</div>
+				<div style="float: left; margin: 5px">
+					<div>
+						<a href="http://www.createjs.com">
+							<img
+								border="0" 
+								alt="Create.js" 
+								src="src/images/attributions/logo_createjs.png" 
+								width="120px"
+								height="30px">
+						</a>
+					</div>
+					<div>
+						<a href="http://getbootstrap.com">
+							<img border="0" alt="Bootstrap" src="src/images/attributions/logo_bootstrap.png"
+								width="120px"
+								height="30px">
+						</a>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div >
+			<div id="canvas" style="width: 100vw; height: calc(100vh - 50px); float: left">
 				<canvas id="notebooknumbers" style="display: none;">Notebook Numbers</canvas>
 			</div>
-			<!--
-			<div id="sidebar" style="width: 10vw; height: 100vh">
-				<div class="row sidebar-row">
-					<a 	href="https://play.google.com/store/apps/details?id=silleknarf.game"
-						class="sidebar-content">
-						<img alt="Get it on Google Play"
-						     src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png" />
-					</a>
-				</div>
-				<div class="row sidebar-row"> 
-					<a 	href="https://twitter.com/silleknarf" 
-						class="twitter-follow-button sidebar-content" 
-						data-show-count="false" 
-						data-size="large">Follow @silleknarf</a>
-				</div>
-				<div id="sidebar-attributions" class="row sidebar-row"> 
-					<h2>Powered By:</h2> 
-					<a href="http://www.createjs.com">
-						<img border="0" alt="Create.js" src="game/img/attributions/logo_createjs.png" width="50%">
-					</a>
-					<a href="http://getbootstrap.com">
-						<img border="0" alt="Bootstrap" src="game/img/attributions/logo_bootstrap.png" width="50%">
-					</a>
-				</div>
-			</div>
-			-->
 		</div>
 	</div>
 </body>

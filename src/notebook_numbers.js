@@ -1,8 +1,13 @@
 
 var init = function() {
-	
 	var preloadSystem = preloadSystemFactory();
 	preloadSystem.load(function() { 
+
+		if (!config.isApprovedVersion)
+		{
+			//window.location.href = "https://www.google.com";
+			//return;
+		}
 
 		var ecs = entityComponentSystem();
 
@@ -25,10 +30,14 @@ var init = function() {
 
 		$( document ).ready(function() {
 
+
 			// Full screen the game on mobile
-			if (config.isVerticalLayout) {
+			if (config.isMobile) {
 				$("#header").remove();
 				$("#canvas").height("100vh");
+			} else {
+				$("#header").css("visibility", "visible");
+				$(".share-button").css("display", "initial");
 			}
 
 			// Hide the loading screen and show the game when we're ready
@@ -43,13 +52,6 @@ var init = function() {
 				eventManager.vent.trigger("SYSTEM:MODE:CLASSIC");
 			else 
 				eventManager.vent.trigger("SYSTEM:MODE:TUTORIAL");
-
-			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
-			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
-			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
-			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
-			eventManager.vent.trigger("SYSTEM:LOGIC:REFILL_GRID");
-
 		});
 	});
 }

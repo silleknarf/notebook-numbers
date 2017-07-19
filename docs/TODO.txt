@@ -4,18 +4,13 @@ TODO
 + Add end game congratulations
 + Use verb tap/click/hit in tutorial
 + Fix new game hitbox
-- Performance
-	- Improve the performance of render cursor on larger grids
-	- Improve the performance of make move on large grids
-- iOS version
-	- Create new iOS project
 - Android version release
 	- Make the android app re-direct to play store when not running natively
 	- Create signed android app
 	- Upload android app to Play Store
 - Productionise website
-	- Enable facebook sharing
-	- Show attributions
+	+ Enable facebook sharing
+	+ Show attributions
 	- Register domain notebooknumbers.com
 	- Set up support email address
 	- Add link to google play
@@ -30,6 +25,11 @@ TODO
 	- Set up DNS to point to S3 bucket
 	- Release android version 
 	- Release iOS version
+- Performance
+	- Improve the performance of render cursor on larger grids
+	- Improve the performance of make move on large grids
+- iOS version
+	- Create new iOS project
 - Marketing
 	- Open source the code
 - Line up the grid with the numbers

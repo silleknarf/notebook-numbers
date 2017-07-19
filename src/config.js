@@ -26,12 +26,13 @@
     };
 
     // Dynamic config
-    var isMobile = platform.os.family === "Android" || platform.os.family == "iOS";
-	if (isMobile) {
-		config.isVerticalLayout = isMobile;
+    config.isMobile = platform.os.family === "Android" || platform.os.family == "iOS";
+	if (config.isMobile) {
+		config.isVerticalLayout = config.isMobile;
 		config.numRows = 6;
 	}
 	config.isNativeApp = /notebook-numbers-android$/.test(navigator.userAgent);
+	config.isApprovedVersion = !config.isMobile || config.isNativeApp;
 
     window.config = config;
 })();
