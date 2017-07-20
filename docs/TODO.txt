@@ -13,7 +13,7 @@ TODO
 	+ Enable facebook sharing
 	+ Show attributions
 	- Fix play store link
-	- Register domain notebooknumbers.com
+	+ Register domain notebooknumbers.com
 	- Set up support email address
 	- Add link to google play
 - Release
