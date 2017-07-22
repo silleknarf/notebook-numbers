@@ -1,7 +1,15 @@
 Notebook Numbers Web
 ====================
 
-Welcome to Notebook Numbers Web Source!
+Welcome to Notebook Numbers Web Source! Notebook numbers is a web-based puzzle game written in JS.
+
+Play it now!
+============
+
+The game is playable at [http://notebooknumbers.com](http://notebooknumbers.com). Please ensure that all bugs are reported with instructions on how to 
+repeat them/detailed game state description, see below for how to submit. 
+
+It's also available to buy on [Android](https://play.google.com/store/apps/details?id=com.silleknarf.notebooknumbers&hl=en) and iOS will be coming shortly.
 
 Installation
 ============
@@ -11,22 +19,10 @@ Notebook Numbers web is implemented as a javascript web-app, it must be served v
 Doing this is simple if you have python:
 
     git clone https://<your_bitbucket_username>@bitbucket.org/<your_bitbucket_username>/notebook-numbers.git
-    cd notebook-numbers
-    python -m 'SimpleHTTPServer' 
+    cd notebook-numbers/bin
+    run.sh
 
-Then visit [localhost:8000/game](localhost:8000/game)
-
-Online Documentation
-====================
-
-Documentation is available at [game/docs](http://notebooknumbers.silleknarf.com/game/docs/modules/NotebookNumbers.html)
-
-Online Game
-===========
-
-The master branch is playable at [game](http://notebooknumbers.silleknarf.com/game). Please keep this domain private for now
-as I want to keep the app testing process organised. Please ensure that all bugs are reported with instructions on how to 
-repeat them/detailed game state description, see below for how to submit.
+Then visit [localhost:8000](localhost:8000)
 
 Bug Reports
 ===========
