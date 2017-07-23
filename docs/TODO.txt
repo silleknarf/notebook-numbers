@@ -1,27 +1,16 @@
 TODO
 
-- Fix end game completion text
++ Fix end game completion text
+- Compress functionality
 - Android version release
-	+ Create signed android app
-	+ Upload android app to Play Store
 	- Test android app
 	- Make the android app re-direct to play store when not running natively
 - Productionise website
-	+ Enable facebook sharing
-	+ Show attributions
-	+ Fix play store link
-	+ Register domain notebooknumbers.com
-	+ Set up support email address
 	- Add support email to the website
 - iOS version
-	+ Create new iOS project
-	+ Implement iOS version
 	- Upload iOS app to the app store
 	- Test iOS version
 - Release
-	+ Set up s3 bucket
-	+ Write a script to deploy the code to the s3 bucket
-	+ Set up DNS to point to S3 bucket
 	- Get the web version tested
 	- Release iOS version
 	- Release android version 
@@ -31,5 +20,7 @@ TODO
 	- Improve the performance of make move on large grids
 - Marketing
 	- Open source the code
-- Line up the grid with the numbers
-- Remove from cursor
+
+- v2
+	- Line up the grid with the numbers
+	- Remove from cursor

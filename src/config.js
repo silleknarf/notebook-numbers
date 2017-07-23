@@ -26,13 +26,16 @@
     };
 
     // Dynamic config
-    config.isMobile = platform.os.family === "Android" || platform.os.family == "iOS";
+    config.isAndroid = platform.os.family === "Android";
+    config.isIos = platform.os.family == "iOS";
+    config.isMobile = config.isIos || config.isIos
 	if (config.isMobile) {
 		config.isVerticalLayout = config.isMobile;
 		config.numRows = 6;
 	}
-	config.isNativeApp = /notebook-numbers-android$/.test(navigator.userAgent);
-	config.isApprovedVersion = !config.isMobile || config.isNativeApp;
+	config.isAndroidNativeApp = /notebook-numbers-android$/.test(navigator.userAgent);
+	config.isIosNativeApp = /notebook-numbers-ios$/.test(navigator.userAgent);
+	config.isApprovedVersion = !config.isMobile || config.isAndroidNativeApp || config.isIosNativeApp;
 
     window.config = config;
 })();

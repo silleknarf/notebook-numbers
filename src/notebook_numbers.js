@@ -3,10 +3,15 @@ var init = function() {
 	var preloadSystem = preloadSystemFactory();
 	preloadSystem.load(function() { 
 
+		// Redirect to the relevant app store on mobile
 		if (!config.isApprovedVersion)
 		{
-			//window.location.href = "https://www.google.com";
-			//return;
+			if (config.isAndroid && !config.isAndroidNativeApp)
+				window.location.href = "https://play.google.com/store/apps/details?id=com.silleknarf.notebooknumbers";
+			else if (config.isIos && !config.isIosNativeApp)
+				window.location.href = "http://www.notebooknumbers.com/coming_soon.html"
+			
+			return;
 		}
 
 		var ecs = entityComponentSystem();
@@ -29,7 +34,6 @@ var init = function() {
 		ecs.entities.push(backgroundEntity);
 
 		$( document ).ready(function() {
-
 
 			// Full screen the game on mobile
 			if (config.isMobile) {

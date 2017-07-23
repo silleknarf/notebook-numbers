@@ -201,10 +201,41 @@ var gridRepositoryFactory = function(cellRepository) {
 	 **/
 	var makeMove = function(grid, firstCell, secondCell) {
 		var cells = [firstCell, secondCell]
+		var rows = {};
 		for (var c = 0; c < cells.length; c++) {
 			var i = cells[c].i;
 			var j = cells[c].j;
 			grid[i][j] = 0;
+			// we need to keep a set of rows to maybe remove
+			rows[i] = true;
+		}
+		
+		maybeRemoveRows(grid, rows);
+	}
+
+	// Try and remove each row that had a cell crossed out
+	var maybeRemoveRows = function(grid, rows) {
+		_.forEach(
+			_.keys(rows),
+			function(i, index) {
+				// We subtract the index so if it's the 2nd item
+				// we know there is one less row in the grid
+				maybeClearEmptyRow(grid, i-index);
+			});
+	}
+
+	// If the row only contains 0s then it can be cleared completely to free up grid space
+	var maybeClearEmptyRow = function(grid, rowIndex) {
+		var row = grid[rowIndex];
+		if (Array.isArray(row)) {
+			var isEmptyRow = _.every(
+				row, 
+				function(element) {
+					return element === 0;
+				});
+
+			if (isEmptyRow)
+				grid.splice(rowIndex, 1);
 		}
 	}
 
