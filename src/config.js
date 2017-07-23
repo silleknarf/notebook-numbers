@@ -28,7 +28,7 @@
     // Dynamic config
     config.isAndroid = platform.os.family === "Android";
     config.isIos = platform.os.family == "iOS";
-    config.isMobile = config.isIos || config.isIos
+    config.isMobile = config.isAndroid || config.isIos
 	if (config.isMobile) {
 		config.isVerticalLayout = config.isMobile;
 		config.numRows = 6;

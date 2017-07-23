@@ -7,10 +7,10 @@ var init = function() {
 		if (!config.isApprovedVersion)
 		{
 			if (config.isAndroid && !config.isAndroidNativeApp)
-				window.location.href = "https://play.google.com/store/apps/details?id=com.silleknarf.notebooknumbers";
+				window.location.href = "market://details?id=com.silleknarf.notebooknumbers";
 			else if (config.isIos && !config.isIosNativeApp)
 				window.location.href = "http://www.notebooknumbers.com/coming_soon.html"
-			
+
 			return;
 		}
 
