@@ -2,6 +2,7 @@ TODO
 
 + Fix end game completion text
 + Compress functionality
++ Score
 - Android version release
 	- Test android app
 	+ Make the android app re-direct to play store when not running natively
@@ -22,5 +23,6 @@ TODO
 	- Open source the code
 
 - v2
+	- Title re-alignment bug
 	- Line up the grid with the numbers
 	- Remove from cursor

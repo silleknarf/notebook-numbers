@@ -59,6 +59,7 @@ var preloadSystemFactory = function() {
 			{ src: "src/systems/logic_system.js" },
 			{ src: "src/systems/mode_system.js" },
 			{ src: "src/systems/tutorial_system.js" },
+			{ src: "src/systems/score_system.js" },
 			{ src: "src/systems/cell_repository.js" },
 			{ src: "src/systems/grid_repository.js" },
 

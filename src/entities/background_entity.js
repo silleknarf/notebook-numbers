@@ -5,8 +5,8 @@ var backgroundEntityFactory = function() {
 	var coverEntity = entity("cover", coverEntityComponents);
 
 	var gridBackgroundWidth = config.isVerticalLayout ? 100 : 50;
-	var gridBackgroundHeight = config.isVerticalLayout ? 60 : 100;
-	var gridBackgroundY = config.isVerticalLayout ? 40 : 0;
+	var gridBackgroundHeight = config.isVerticalLayout ? 55 : 100;
+	var gridBackgroundY = config.isVerticalLayout ? 45 : 0;
 	var gridBackgroundBoundsComponent = boundsComponent({ 
 		x: 0, 
 		y: gridBackgroundY, 
@@ -21,8 +21,8 @@ var backgroundEntityFactory = function() {
 	var titleEntityComponents = [titleViewComponent(), titleBoundsComponent];
 	var titleEntity = entity("title", titleEntityComponents);
 
-	var menuBoundsComponent = boundsComponent({ x: menuPageX, y: 20, width: gridBackgroundWidth, height: 20});
-	var menuEntityComponents = [menuViewComponent(), menuBoundsComponent];
+	var menuBoundsComponent = boundsComponent({ x: menuPageX, y: 20, width: gridBackgroundWidth, height: 25});
+	var menuEntityComponents = [menuViewComponent(), menuBoundsComponent, scoreComponent()];
 	var menuEntity = entity("menu", menuEntityComponents);
 
 	var bindingsBoundsComponent = boundsComponent({ x: menuPageX-5, y: 0, width: 5 });

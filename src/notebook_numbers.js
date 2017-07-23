@@ -29,6 +29,7 @@ var init = function() {
 		scrollSystem(eventManager);
 		modeSystem(ecs, eventManager, gridRepository);
 		tutorialSystem(ecs, eventManager);
+		scoreSystem(ecs, eventManager);
 
 		var backgroundEntity = backgroundEntityFactory();
 		ecs.entities.push(backgroundEntity);

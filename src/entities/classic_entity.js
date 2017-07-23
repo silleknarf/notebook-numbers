@@ -30,7 +30,11 @@ var classicEntityFactory = function(gridRepository) {
 
 	// Retrieve existing grid if it exists
 	var savedGrid = gridRepository.loadGrid();
-	savedGrid = savedGrid || generateClassicGrid();
+	if (!savedGrid)
+	{
+		savedGrid = generateClassicGrid();
+		gridRepository.saveGrid(savedGrid);
+	}
 
 	var classicGridComponent = gridComponent(savedGrid);
 
@@ -40,6 +44,6 @@ var classicEntityFactory = function(gridRepository) {
 	var gridEntity = gridEntityFactory(classicGridComponent);
 	var cursorEntity = cursorEntityFactory(classicGridComponent);
 	var refillGridEntity = refillGridEntityFactory();
-	
+
 	return entity("classic", [classicBounds], [gridEntity, refillGridEntity, cursorEntity]);
 };

@@ -191,6 +191,8 @@ var gridRepositoryFactory = function(cellRepository) {
 				}
 			}
 		}
+
+		eventManager.vent.trigger("SYSTEM:SCORE:ADD", 1000);
 		return true;
 	}
 
@@ -239,6 +241,7 @@ var gridRepositoryFactory = function(cellRepository) {
 
 			if (isEmptyRow) {
 				grid.splice(rowIndex, 1);
+				eventManager.vent.trigger("SYSTEM:SCORE:ADD", 10);
 				return true;
 			}
 		}

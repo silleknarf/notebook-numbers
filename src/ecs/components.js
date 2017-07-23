@@ -23,7 +23,8 @@ var componentTypeEnum = Object.freeze({
 	BOUNDS: "bounds",
 	GRID: "grid",
 	CELL: "cell",
-	TEXT: "text"
+	TEXT: "text",
+	SCORE: "score"
 });
 
 var viewComponent = function(initFunction, renderFunction, removeFunction) {
@@ -79,5 +80,11 @@ var cellComponent = function(i, j, digit) {
 var textComponent = function(text) {
 	var my = component(componentTypeEnum.TEXT);
 	my.text = text;
+	return my;
+};
+
+var scoreComponent = function() {
+	var my = component(componentTypeEnum.SCORE);
+	my.score = 0;
 	return my;
 };
