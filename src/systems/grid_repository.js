@@ -215,12 +215,15 @@ var gridRepositoryFactory = function(cellRepository) {
 
 	// Try and remove each row that had a cell crossed out
 	var maybeRemoveRows = function(grid, rows) {
+		var rowsRemoved = 0;
 		_.forEach(
 			_.sortBy(_.keys(rows)),
-			function(i, index) {
-				// We subtract the index so if it's the 2nd item
+			function(i) {
+				// We subtract the number of rows removed so if removed then
 				// we know there is one less row in the grid
-				maybeClearEmptyRow(grid, i-index);
+				if (maybeClearEmptyRow(grid, i-rowsRemoved)) {
+					rowsRemoved++;
+				}
 			});
 	}
 
@@ -234,9 +237,12 @@ var gridRepositoryFactory = function(cellRepository) {
 					return element === 0;
 				});
 
-			if (isEmptyRow)
+			if (isEmptyRow) {
 				grid.splice(rowIndex, 1);
+				return true;
+			}
 		}
+		return false;
 	}
 
 	var containsText = function(grid) {

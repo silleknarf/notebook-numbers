@@ -4,7 +4,7 @@ TODO
 + Compress functionality
 - Android version release
 	- Test android app
-	- Make the android app re-direct to play store when not running natively
+	+ Make the android app re-direct to play store when not running natively
 - Productionise website
 	- Add support email to the website
 - iOS version
