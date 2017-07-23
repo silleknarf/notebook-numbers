@@ -209,14 +209,14 @@ var gridRepositoryFactory = function(cellRepository) {
 			// we need to keep a set of rows to maybe remove
 			rows[i] = true;
 		}
-		
+
 		maybeRemoveRows(grid, rows);
 	}
 
 	// Try and remove each row that had a cell crossed out
 	var maybeRemoveRows = function(grid, rows) {
 		_.forEach(
-			_.keys(rows),
+			_.sortBy(_.keys(rows)),
 			function(i, index) {
 				// We subtract the index so if it's the 2nd item
 				// we know there is one less row in the grid
