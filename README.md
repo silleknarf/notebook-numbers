@@ -18,7 +18,7 @@ Notebook Numbers web is implemented as a javascript web-app, it must be served v
 
 Doing this is simple if you have python:
 
-    git clone https://<your_bitbucket_username>@bitbucket.org/<your_bitbucket_username>/notebook-numbers.git
+    git clone https://github.com/silleknarf/notebook-numbers.git
     cd notebook-numbers/bin
     run.sh
 
@@ -27,6 +27,13 @@ Then visit [localhost:8000](localhost:8000)
 Bug Reports
 ===========
 
-Please submit bug reports to the [issue tracker](https://bitbucket.org/silleknarf/notebook-numbers/issues?status=new&status=open)
+Please submit bug reports to the [issue tracker](https://github.com/silleknarf/notebook-numbers/issues)
+
+
+Licensing
+=========
+
+This repository is provided without an explicit licence and as such, all copyright is reserved. 
+Pull requests will only be considered if the contributor agrees to the terms of our CLA license.
 
 --silleknarf
