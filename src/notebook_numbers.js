@@ -43,6 +43,7 @@ var init = function() {
 			} else {
 				$("#header").css("visibility", "visible");
 				$(".share-button").css("display", "initial");
+				$(".share-buttons").css("display", "initial");
 			}
 
 			// Hide the loading screen and show the game when we're ready

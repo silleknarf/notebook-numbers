@@ -43,3 +43,20 @@ html {
 canvas {
    	display: block;
 }
+
+.badge {
+	padding: 2px; 
+	width: 122px;
+	height: 20px;
+	margin-bottom: 1px;
+
+    border-radius: 2px;
+
+}
+
+.badge-text, .badge-text:hover, .badge-text:active {
+    font: normal normal normal 11px/18px 'Helvetica Neue',Arial,sans-serif;
+	font-size: 11px; 
+	color: white; 
+	text-align: center;
+}
