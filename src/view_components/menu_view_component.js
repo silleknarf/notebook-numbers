@@ -45,15 +45,8 @@ var menuViewComponent = function() {
 		});
 		renderSystem.stage.addChild(tutorial);
 
-		var scoreComponent = entity.components[componentTypeEnum.SCORE];
-		var score = new createjs.Text("Score: " + scoreComponent.score);
-	    score.font = getFont(absolute);
-	    score.color = config.titleColour;
-		renderSystem.stage.addChild(score);
-
 		my.newGame = newGame;
 		my.tutorial = tutorial;
-		my.score = score;
 	};
 
 	var render = function(renderSystem, entity, eventManager) {
@@ -62,17 +55,11 @@ var menuViewComponent = function() {
 		my.newGame.x = bounds.absolute.x + middle;
 		my.newGame.y = bounds.absolute.y; 
 		my.tutorial.x = bounds.absolute.x + middle;
-		my.tutorial.y = bounds.absolute.y + bounds.absolute.height / 3; 
-
-		middle = Math.floor(bounds.absolute.width/2 - my.score.getMeasuredWidth()/2);
-		my.score.x = bounds.absolute.x + middle;
-		my.score.y = bounds.absolute.y + bounds.absolute.height * 3 / 4; 
+		my.tutorial.y = bounds.absolute.y + bounds.absolute.height / 2; 
 
 		var font = getFont(bounds.absolute);
 		my.newGame.font = font;
 		my.tutorial.font = font;
-		my.score.font = font;
-		my.score.text = "Score: " + entity.components[componentTypeEnum.SCORE].score;
 
 		/*  TODO: Make the hitboxes update dynamically
 		var outline = new createjs.Graphics();
@@ -92,7 +79,6 @@ var menuViewComponent = function() {
 	var remove = function(renderSystem) {
 		renderSystem.stage.removeChild(my.newGame);
 		renderSystem.stage.removeChild(my.tutorial);
-		renderSystem.stage.removeChild(my.score);
 	};
 
 	return viewComponent(init, render, remove);

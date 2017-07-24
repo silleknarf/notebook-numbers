@@ -21,15 +21,19 @@ var backgroundEntityFactory = function() {
 	var titleEntityComponents = [titleViewComponent(), titleBoundsComponent];
 	var titleEntity = entity("title", titleEntityComponents);
 
-	var menuBoundsComponent = boundsComponent({ x: menuPageX, y: 20, width: gridBackgroundWidth, height: 25});
-	var menuEntityComponents = [menuViewComponent(), menuBoundsComponent, scoreComponent()];
+	var menuBoundsComponent = boundsComponent({ x: menuPageX, y: 20, width: gridBackgroundWidth, height: 20});
+	var menuEntityComponents = [menuViewComponent(), menuBoundsComponent];
 	var menuEntity = entity("menu", menuEntityComponents);
+
+	var scoreBoundsComponent = boundsComponent({ x: menuPageX, y: 40, width: gridBackgroundWidth, height: 5});
+	var scoreEntityComponents = [scoreViewComponent(), scoreBoundsComponent, scoreComponent()];
+	var scoreEntity = entity("score", scoreEntityComponents);
 
 	var bindingsBoundsComponent = boundsComponent({ x: menuPageX-5, y: 0, width: 5 });
 	var bindingsEntityComponents = [bindingsViewComponent(), bindingsBoundsComponent];
 	var bindingsEntity = entity("bindings", bindingsEntityComponents);
 
-	var subEntities = [coverEntity, gridBackgroundEntity, titleEntity, menuEntity];
+	var subEntities = [coverEntity, gridBackgroundEntity, titleEntity, menuEntity, scoreEntity];
 
 	if (!config.isVerticalLayout)
 		subEntities.push(bindingsEntity)

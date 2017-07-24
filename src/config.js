@@ -37,5 +37,7 @@
 	config.isIosNativeApp = /notebook-numbers-ios$/.test(navigator.userAgent);
 	config.isApprovedVersion = !config.isMobile || config.isAndroidNativeApp || config.isIosNativeApp;
 
+	config.isVerticalLayout = true;
+
     window.config = config;
 })();
