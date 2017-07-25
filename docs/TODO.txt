@@ -3,7 +3,7 @@ TODO
 + Fix end game completion text
 + Compress functionality
 + Score
-- Scrolling on FF
++ Scrolling on FF
 - Don't show score in tutorial mode
 - Android version release
 	- Test android app

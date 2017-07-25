@@ -73,8 +73,11 @@ var scrollSystem = function(eventManager) {
 
 		my.stage.addEventListener("stagemouseup", doDrag);
 
-	    $('#canvas').bind('mousewheel', function(e){
-	        if(e.originalEvent.wheelDelta /120 > 0) {
+	    $('#canvas').bind('mousewheel wheel', function(e){
+	    	var delta = e.originalEvent.wheelDelta;
+	    	if (e.originalEvent && e.originalEvent.deltaY)
+	    		delta = e.originalEvent.deltaY / -1;
+	        if(delta /120 > 0) {
 	            moveUp(my.scrollDistance);
 	        }
 	        else{
