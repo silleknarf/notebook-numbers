@@ -3,11 +3,12 @@ TODO
 + Fix end game completion text
 + Compress functionality
 + Score
+- Don't show score in tutorial mode
 - Android version release
 	- Test android app
 	+ Make the android app re-direct to play store when not running natively
-- Productionise website
-	- Add support email to the website
++ Productionise website
+	+ Add support email to the website
 - iOS version
 	- Upload iOS app to the app store
 	- Test iOS version
@@ -20,7 +21,6 @@ TODO
 	- Improve the performance of render cursor on larger grids
 	- Improve the performance of make move on large grids
 - Marketing
-	- Open source the code
 
 - v2
 	- Title re-alignment bug
