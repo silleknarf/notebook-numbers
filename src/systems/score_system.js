@@ -27,7 +27,7 @@ var scoreSystem = function(ecs, eventManager) {
     }
 
     var saveScore = function() {
-        if (my.score)
+        if (typeof my.score != "undefined")
             localStorage.setItem('score', JSON.stringify(my.score));
     }
 

@@ -33,11 +33,8 @@ var preloadSystemFactory = function() {
 			{ src: "src/ecs/ecs.js" },
 			{ src: "src/ecs/entity.js" },
 			{ src: "src/ecs/components.js" },
-			{ src: "src/ecs/event_manager.js" },
-			{ src: "src/ecs/render_system.js" },
-			{ src: "src/ecs/bounds_system.js" },
-			{ src: "src/ecs/scroll_system.js" },
-			{ src: "src/ecs/gizmo_system.js" },
+
+			{ src: "src/event_manager.js" },
 
 			{ src: "src/config.js" },
 
@@ -63,6 +60,10 @@ var preloadSystemFactory = function() {
 			{ src: "src/systems/score_system.js" },
 			{ src: "src/systems/cell_repository.js" },
 			{ src: "src/systems/grid_repository.js" },
+			{ src: "src/systems/render_system.js" },
+			{ src: "src/systems/bounds_system.js" },
+			{ src: "src/systems/scroll_system.js" },
+			{ src: "src/systems/gizmo_system.js" },
 
 			{ src: "src/entities/refill_grid_entity.js" },
 			{ src: "src/entities/cursor_entity.js" },
