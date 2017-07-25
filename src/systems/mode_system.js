@@ -11,13 +11,12 @@ var modeSystem = function(ecs, eventManager, gridRepository) {
 
 		my.currentMode = mode.name;
 
-		eventManager.vent.trigger("SYSTEM:SCORE:RESET");
 		eventManager.vent.trigger("VIEWSYSTEM:CELLS:GRID_CHANGED");
 		eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
 	};
 
 	var startClassic = function() {
-		eventManager.vent.trigger("SYSTEM:SCORE:SHOW");
+		eventManager.vent.trigger("SYSTEM:SCORE:SHOW")
 		changeMode(classicEntityFactory);
 	};
 

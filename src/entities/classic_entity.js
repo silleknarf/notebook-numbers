@@ -34,6 +34,9 @@ var classicEntityFactory = function(gridRepository) {
 	{
 		savedGrid = generateClassicGrid();
 		gridRepository.saveGrid(savedGrid);
+		eventManager.vent.trigger("SYSTEM:SCORE:RESET");
+	} else {
+		eventManager.vent.trigger("SYSTEM:SCORE:LOAD");
 	}
 
 	var classicGridComponent = gridComponent(savedGrid);
