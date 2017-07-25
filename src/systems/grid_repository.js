@@ -192,7 +192,7 @@ var gridRepositoryFactory = function(cellRepository) {
 			}
 		}
 
-		eventManager.vent.trigger("SYSTEM:SCORE:ADD", 1000);
+		eventManager.vent.trigger("SYSTEM:SCORE:COMPLETED_GAME");
 		return true;
 	}
 

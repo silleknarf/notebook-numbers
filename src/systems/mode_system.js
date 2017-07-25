@@ -17,10 +17,12 @@ var modeSystem = function(ecs, eventManager, gridRepository) {
 	};
 
 	var startClassic = function() {
+		eventManager.vent.trigger("SYSTEM:SCORE:SHOW");
 		changeMode(classicEntityFactory);
 	};
 
 	var startTutorial = function() {
+		eventManager.vent.trigger("SYSTEM:SCORE:HIDE");
 		changeMode(tutorialEntityFactory);
 	};
 

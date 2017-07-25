@@ -31,6 +31,7 @@ var scoreViewComponent = function() {
 		var font = getFont(bounds.absolute);
 		my.score.font = font;
 		my.score.text = "Score: " + entity.components[componentTypeEnum.SCORE].score;
+		my.score.visible = entity.components[componentTypeEnum.SCORE].isVisible;
 	}
 
 	var remove = function(renderSystem) {
