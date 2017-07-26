@@ -1,5 +1,5 @@
 var cursorSystem = function(ecs, eventManager, gridRepository, cellRepository) {
-	var my = {};
+    var my = {};
     my.maxLength = 2;
 
     my.states = {
@@ -88,7 +88,7 @@ var cursorSystem = function(ecs, eventManager, gridRepository, cellRepository) {
         console.log("Valid move:"+valid);
 
         // Cursor state machine
-       	if (!cursor.state) cursor.state = my.states.speed;
+        if (!cursor.state) cursor.state = my.states.speed;
 
         if (valid) {
             eventManager.vent.trigger(
@@ -151,9 +151,9 @@ var cursorSystem = function(ecs, eventManager, gridRepository, cellRepository) {
             });
     };
 
-	var initialiseEvents = function() {
+    var initialiseEvents = function() {
         eventManager.vent.on("SYSTEM:CURSOR:CHECK", checkEvent);
         eventManager.vent.on("SYSTEM:CURSOR:ADD", addEvent);
-	};
-	initialiseEvents();
+    };
+    initialiseEvents();
 };

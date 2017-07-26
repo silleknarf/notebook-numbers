@@ -1,5 +1,5 @@
 var scoreSystem = function(ecs, eventManager) {
-	var my = {};
+    var my = {};
 
     var add = function(score) {
         my.score += score;
@@ -50,13 +50,13 @@ var scoreSystem = function(ecs, eventManager) {
         saveScore();
     }
 
-	var initialiseEvents = function() {
+    var initialiseEvents = function() {
         eventManager.vent.on("SYSTEM:SCORE:ADD", add);
         eventManager.vent.on("SYSTEM:SCORE:COMPLETED_GAME", completedGame);
         eventManager.vent.on("SYSTEM:SCORE:RESET", reset);
         eventManager.vent.on("SYSTEM:SCORE:SHOW", show);
         eventManager.vent.on("SYSTEM:SCORE:HIDE", hide);
         eventManager.vent.on("SYSTEM:SCORE:LOAD", loadScore);
-	};
-	initialiseEvents();
+    };
+    initialiseEvents();
 };
