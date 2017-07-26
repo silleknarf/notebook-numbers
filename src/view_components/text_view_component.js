@@ -29,6 +29,9 @@ var textViewComponent = function() {
 		my.textView.x = bounds.absolute.x;
 		my.textView.y = bounds.absolute.y; 
 		my.textView.font = getFont(bounds.absolute);
+
+		var text = entity.components[componentTypeEnum.TEXT].text;
+		my.textView.text = text;
 	};
 
 	var remove = function(renderSystem) {

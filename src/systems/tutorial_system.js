@@ -42,7 +42,7 @@ var tutorialSystem = function(ecs, eventManager) {
 		var emptyLinesCount = config.isVerticalLayout 
 			? Math.floor((texts.length-1)/2) 
 			: texts.length;
-		var emptyLines = _.times(emptyLinesCount, function() { return []; });
+		var emptyLines = _.times(emptyLinesCount, function() { return ""; });
 		return [text].concat(emptyLines).concat(numberLines);
 	};
 
@@ -120,7 +120,7 @@ var tutorialSystem = function(ecs, eventManager) {
 			eventManager.vent.off("SYSTEM:LOGIC:MAKE_MOVE", refillGridTutorialHelper);
 
 			my.tutorialGrid = my.tutorialGrid.concat(
-				["When there are no more moves to\n\nplay you click:", [[]], []]);
+				["When there are no more moves to\n\nplay you click:", [""], []]);
 
 			var refillGridEntity = refillGridEntityFactory();
 			ecs.addEntities("tutorial", [refillGridEntity]);

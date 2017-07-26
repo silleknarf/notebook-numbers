@@ -67,9 +67,27 @@ var entityComponentSystem = function() {
 		});
 	};
 
+	var removeEntitiesById = function(entitiesToRemove) {
+		var entityIdsToRemove = _(entitiesToRemove)
+			.map(function(entity) { return entity.id })
+			.keyBy()
+			.mapValues(function() { return true; })
+			.value();
+
+		walkEntities(function(entity) {
+			_.remove(
+				entity.subEntities,
+				function(subEntity) {
+					return entityIdsToRemove[subEntity.id] === true;
+				});
+			return true;
+		});
+	};
+
 	my.runSystem = runSystem;
 	my.runSystemOnce = runSystemOnce;
 	my.addEntities = addEntities;
 	my.removeEntities = removeEntities;
+	my.removeEntitiesById = removeEntitiesById;
 	return my;
 };

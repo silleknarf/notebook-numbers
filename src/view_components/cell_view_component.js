@@ -44,6 +44,10 @@ var cellViewComponent = function() {
 		var absolute = entity.components[componentTypeEnum.BOUNDS].absolute;
 		my.numberView.x = absolute.x + Math.floor(absolute.width/2);
 		my.numberView.y = absolute.y;
+
+		var number = entity.components[componentTypeEnum.CELL];
+		my.numberView.text = number.digit;
+		my.numberView.visible = number.digit !== 0;
 		my.numberView.font = getFont(absolute);
 	};
 

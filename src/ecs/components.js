@@ -77,8 +77,9 @@ var cellComponent = function(i, j, digit) {
 	return my;
 };
 
-var textComponent = function(text) {
+var textComponent = function(i, text) {
 	var my = component(componentTypeEnum.TEXT);
+	my.i = i;
 	my.text = text;
 	return my;
 };

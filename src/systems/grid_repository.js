@@ -217,15 +217,10 @@ var gridRepositoryFactory = function(cellRepository) {
 
 	// Try and remove each row that had a cell crossed out
 	var maybeRemoveRows = function(grid, rows) {
-		var rowsRemoved = 0;
 		_.forEach(
-			_.sortBy(_.keys(rows)),
+			_.keys(rows),
 			function(i) {
-				// We subtract the number of rows removed so if removed then
-				// we know there is one less row in the grid
-				if (maybeClearEmptyRow(grid, i-rowsRemoved)) {
-					rowsRemoved++;
-				}
+				maybeClearEmptyRow(grid, i);
 			});
 	}
 
@@ -240,7 +235,7 @@ var gridRepositoryFactory = function(cellRepository) {
 				});
 
 			if (isEmptyRow) {
-				grid.splice(rowIndex, 1);
+				grid[rowIndex] = [];
 				eventManager.vent.trigger("SYSTEM:SCORE:ADD", 10);
 				return true;
 			}

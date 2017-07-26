@@ -1,6 +1,20 @@
+// This repository allows us to create GUIDs which 
+// we can use as entity ids
+var entityIdRepository = (function() {
+	var my = this;
+	my.nextId = 1;
+	my.getNextId = function() {
+		var nextId = my.nextId;
+		my.nextId++;
+		return nextId;
+	}
+	return my;
+})();
+
 var entity = function(name, components, subEntities) {
 	var my = {};
 	my.name = name;
+	my.id = entityIdRepository.getNextId();
 	my.components = {}
 	my.subEntities = subEntities || [];
 
