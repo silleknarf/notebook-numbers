@@ -1,7 +1,7 @@
 TODO
 
-- Implement object pooling
-	- Hide rows by making them empty
+- Fix the size of the share buttons
+- Add unit tests
 - iOS version
 	- Test iOS version
 - Android version release
@@ -12,9 +12,6 @@ TODO
 	- Release iOS version
 	- Release android version 
 	- Remove the old android version of NN
-- Performance
-	- Improve the performance of render cursor on larger grids
-	- Improve the performance of make move on large grids
 - Marketing
 
 - v2
