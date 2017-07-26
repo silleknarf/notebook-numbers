@@ -1,6 +1,6 @@
 TODO
 
-- Fix the size of the share buttons
+- Add favicon
 - Add unit tests
 - iOS version
 	- Test iOS version
