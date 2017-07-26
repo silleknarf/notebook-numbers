@@ -1,5 +1,6 @@
 TODO
 
+- Implement object pooling
 - iOS version
 	- Test iOS version
 - Android version release
