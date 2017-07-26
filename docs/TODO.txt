@@ -1,12 +1,12 @@
 TODO
 
 - iOS version
-	- Upload iOS app to the app store
 	- Test iOS version
 - Android version release
 	- Test android app
-- Release
+- Web version
 	- Get the web version tested
+- Release
 	- Release iOS version
 	- Release android version 
 	- Remove the old android version of NN
