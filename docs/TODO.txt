@@ -3,18 +3,38 @@ TODO
 - Add favicon
 - Add unit tests
 - iOS version
-	- Test iOS version
+    - Test iOS version
 - Android version release
-	- Test android app
+    - Test android app
 - Web version
-	- Get the web version tested
+    - Get the web version tested
 - Release
-	- Release iOS version
-	- Release android version 
-	- Remove the old android version of NN
+    - Release iOS version
+    - Release android version 
+    - Remove the old android version of NN
 - Marketing
 
 - v2
-	- Title re-alignment bug
-	- Line up the grid with the numbers
-	- Remove from cursor
+    - Leaderboards
+        - New menu item for login/viewing highscores
+        - iOS
+            - Link menu item code to swift code
+            - Login to iOS game center
+            - Call highscore endpoint
+        - Android    
+            - Link menu item code to Java code
+            - Login to google play game services
+            - Call highscore endpoint
+    - Cheats (in app purchase)
+        - Add new menu item for buying cheats
+        - Implement cheat functionality
+        - iOS 
+            - Call itunes in app purchase endpoint
+            - Top up cheats count
+        - Android
+            - Call Android in app purchase endpoint
+            - Top up cheats count
+    - More levels
+    - Title re-alignment bug
+    - Line up the grid with the numbers
+    - Remove from cursor
