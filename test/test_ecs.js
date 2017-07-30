@@ -1,6 +1,3 @@
-//var chai = require('chai');
-//var rewire = require('rewire');
-//var ecs = rewire('../ecs/ecs.js');
 var assert = chai.assert;
 
 var childEntity1 = entity("testChild1", [scoreComponent()]);
