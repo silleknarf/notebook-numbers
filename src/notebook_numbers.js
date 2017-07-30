@@ -32,7 +32,7 @@ var init = function() {
         scoreSystem(ecs, eventManager);
 
         var backgroundEntity = backgroundEntityFactory();
-        ecs.entities.push(backgroundEntity);
+        ecs.addEntity(null, backgroundEntity);
 
         $( document ).ready(function() {
 

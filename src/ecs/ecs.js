@@ -39,6 +39,10 @@ var entityComponentSystem = function() {
     };
 
     var addEntity = function(parentEntityName, entityToAdd) {
+        if (!parentEntityName) {
+            my.entities.push(entityToAdd);
+            return;
+        }
         var shouldContinue = true;
         walkEntities(function(entity) {
             if (entity.name === parentEntityName) {
@@ -84,10 +88,12 @@ var entityComponentSystem = function() {
         });
     };
 
-    my.runSystem = runSystem;
-    my.runSystemOnce = runSystemOnce;
-    my.addEntities = addEntities;
-    my.removeEntities = removeEntities;
-    my.removeEntitiesById = removeEntitiesById;
-    return my;
+    return {
+        runSystem: runSystem,
+        runSystemOnce: runSystemOnce,
+        addEntity: addEntity,
+        addEntities: addEntities,
+        removeEntities: removeEntities,
+        removeEntitiesById: removeEntitiesById
+    };
 };
