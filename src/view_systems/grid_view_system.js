@@ -32,8 +32,8 @@ var gridViewSystem = function(ecs, eventManager) {
             // We're updating existing numbers
             } else {
                 bounds = previousRow[i].components[componentTypeEnum.BOUNDS];
-                bounds.x = i * my.cellWidth;
-                bounds.y = rowIndex * my.cellHeight;
+                bounds.relative.x = i * my.cellWidth;
+                bounds.relative.y = rowIndex * my.cellHeight;
                 var cell = previousRow[i].components[componentTypeEnum.CELL];
                 cell.digit = row[i];
             }
@@ -60,8 +60,8 @@ var gridViewSystem = function(ecs, eventManager) {
         // We're updating existing text
         } else {
             bounds = previousRow.components[componentTypeEnum.BOUNDS];
-            bounds.x = 0;
-            bounds.y = rowIndex * my.cellHeight;
+            bounds.relative.x = 0;
+            bounds.relative.y = rowIndex * my.cellHeight;
             previousRow.components[componentTypeEnum.TEXT].text = row;
         }
 
