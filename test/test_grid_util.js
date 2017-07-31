@@ -40,7 +40,7 @@ describe("grid util", function() {
     });
     it("should check whether is a move is possible", function() {
         var gridUtil = gridUtilFactory(cellUtilFactory());
-        var testGrid = [[1,0,1],[1,0,0],[0,3,1],[0,0,0], [0,2,1]]
+        var testGrid = [[1,0,1],[1,0,0],[0,3,1],[0,0,0],[0,2,1]]
         config.numColumns = 3;
         // Check horizontal
         var isValidMove = gridUtil.check(testGrid, { i: 0, j: 0}, { i: 0, j: 2});
