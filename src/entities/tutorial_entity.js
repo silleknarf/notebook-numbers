@@ -1,4 +1,4 @@
-var tutorialEntityFactory = function(gridRepository) {
+var tutorialEntityFactory = function(gridUtil) {
     var tutorialGridComponent = gridComponent();
     var tutorialBounds = boundsComponent();
 

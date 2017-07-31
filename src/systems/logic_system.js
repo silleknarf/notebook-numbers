@@ -1,4 +1,4 @@
-var logicSystem = function(ecs, eventManager, gridRepository) {
+var logicSystem = function(ecs, eventManager, gridUtil) {
 
     var updateGrid = function(gridUpdateFunc) {
         var gridsUpdated = {};
@@ -20,26 +20,26 @@ var logicSystem = function(ecs, eventManager, gridRepository) {
 
     var refillGridEvent = function() {
         updateGrid(function(grid) {
-            gridRepository.refillGrid(grid);
-            gridRepository.saveGrid(grid);
+            gridUtil.refillGrid(grid);
+            gridUtil.saveGrid(grid);
         });
     }
 
     var makeMoveEvent = function(firstCell, secondCell) {
         updateGrid(function(grid) {
-            var isMovePossible = gridRepository.check(grid, firstCell, secondCell);
+            var isMovePossible = gridUtil.check(grid, firstCell, secondCell);
             if (isMovePossible) {
-                gridRepository.makeMove(grid, firstCell, secondCell);
-                gridRepository.saveGrid(grid);
+                gridUtil.makeMove(grid, firstCell, secondCell);
+                gridUtil.saveGrid(grid);
                 
-                if (gridRepository.checkCompleted(grid))
+                if (gridUtil.checkCompleted(grid))
                     eventManager.vent.trigger("SYSTEM:LOGIC:GRID_COMPLETED");
             }
         });
     };
 
     var gridCompletedEvent = function() {
-        gridRepository.saveGrid(null);
+        gridUtil.saveGrid(null);
         updateGrid(function(grid) {
             var newGrid = [
                 "Congratulations you have",

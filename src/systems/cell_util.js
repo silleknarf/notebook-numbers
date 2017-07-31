@@ -1,4 +1,4 @@
-var cellRepositoryFactory = function() {
+var cellUtilFactory = function() {
     var my = {};
 
     var equals = function(firstCell, secondCell) {

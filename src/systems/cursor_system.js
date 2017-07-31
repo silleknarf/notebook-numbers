@@ -1,4 +1,4 @@
-var cursorSystem = function(ecs, eventManager, gridRepository, cellRepository) {
+var cursorSystem = function(ecs, eventManager, gridUtil, cellUtil) {
     var my = {};
     my.maxLength = 2;
 
@@ -20,7 +20,7 @@ var cursorSystem = function(ecs, eventManager, gridRepository, cellRepository) {
 
         // Don't allow duplicates
         for (var i = 0; i < cursor.cells.length; i++) { 
-            if (cellRepository.equals(cell, cursor.cells[i]))
+            if (cellUtil.equals(cell, cursor.cells[i]))
                 return false;
         } 
 
@@ -80,7 +80,7 @@ var cursorSystem = function(ecs, eventManager, gridRepository, cellRepository) {
         // Check if the cursors is valid (Can be crossed out/removed/etc)
         var valid = false;
         if (hasEnoughCells(cursor)) { 
-            valid = gridRepository.check(
+            valid = gridUtil.check(
                 grid, 
                 cursor.cells[0], 
                 cursor.cells[1]);

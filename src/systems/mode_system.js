@@ -1,8 +1,8 @@
-var modeSystem = function(ecs, eventManager, gridRepository) {
+var modeSystem = function(ecs, eventManager, gridUtil) {
     var my = {};
 
     var changeMode = function(modeEntityFactory) {
-        var mode = modeEntityFactory(gridRepository);
+        var mode = modeEntityFactory(gridUtil);
 
         eventManager.vent.trigger("SYSTEM:MODE:CHANGE_MODE");
 

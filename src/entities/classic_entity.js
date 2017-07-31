@@ -1,4 +1,4 @@
-var classicEntityFactory = function(gridRepository) {
+var classicEntityFactory = function(gridUtil) {
     var generateClassicGrid = function() {
         var data = [[], [], []];
         var firstRow = data[0];
@@ -29,11 +29,11 @@ var classicEntityFactory = function(gridRepository) {
     };
 
     // Retrieve existing grid if it exists
-    var savedGrid = gridRepository.loadGrid();
+    var savedGrid = gridUtil.loadGrid();
     if (!savedGrid)
     {
         savedGrid = generateClassicGrid();
-        gridRepository.saveGrid(savedGrid);
+        gridUtil.saveGrid(savedGrid);
         eventManager.vent.trigger("SYSTEM:SCORE:RESET");
     } else {
         eventManager.vent.trigger("SYSTEM:SCORE:LOAD");

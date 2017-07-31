@@ -20,7 +20,7 @@ describe("ecs", function() {
     ecs.runSystem([], function(entity) {
         count++;
     })
-    assert.equal(count, 3);
+    assert.strictEqual(count, 3);
   });
 
   it("should add run system only when the components specified match", function() {
@@ -29,7 +29,7 @@ describe("ecs", function() {
     ecs.runSystem([componentTypeEnum.SCORE], function(entity) {
         count++;
     })
-    assert.equal(count, 1);
+    assert.strictEqual(count, 1);
   });
 
   it("should add run system only once", function() {
@@ -38,7 +38,7 @@ describe("ecs", function() {
     ecs.runSystemOnce([], function(entity) {
         count++;
     })
-    assert.equal(count, 1);
+    assert.strictEqual(count, 1);
   });
 
   it("should remove entities", function() {
@@ -48,7 +48,7 @@ describe("ecs", function() {
     ecs.runSystem([], function(entity) {
         count++;
     })
-    assert.equal(count, 2);
+    assert.strictEqual(count, 2);
   });
 
   it("should remove entities by id", function() {
@@ -58,6 +58,6 @@ describe("ecs", function() {
     ecs.runSystem([], function(entity) {
         count++;
     })
-    assert.equal(count, 2);
+    assert.strictEqual(count, 2);
   });
 });

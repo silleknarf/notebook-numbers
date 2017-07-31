@@ -16,18 +16,18 @@ var init = function() {
 
         var ecs = entityComponentSystem();
 
-        var cellRepository = cellRepositoryFactory()
-        var gridRepository = gridRepositoryFactory(cellRepository);
+        var cellUtil = cellUtilFactory()
+        var gridUtil = gridUtilFactory(cellUtil);
 
         gizmoSystem(ecs, eventManager);
         boundsSystem(ecs, eventManager);
         renderSystem(ecs, eventManager, preloadSystem);
-        logicSystem(ecs, eventManager, gridRepository);
-        cursorSystem(ecs, eventManager, gridRepository, cellRepository);
+        logicSystem(ecs, eventManager, gridUtil);
+        cursorSystem(ecs, eventManager, gridUtil, cellUtil);
         cursorViewSystem(ecs, eventManager);
         gridViewSystem(ecs, eventManager);
         scrollSystem(eventManager);
-        modeSystem(ecs, eventManager, gridRepository);
+        modeSystem(ecs, eventManager, gridUtil);
         tutorialSystem(ecs, eventManager);
         scoreSystem(ecs, eventManager);
 

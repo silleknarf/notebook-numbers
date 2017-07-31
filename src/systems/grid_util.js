@@ -1,4 +1,4 @@
-var gridRepositoryFactory = function(cellRepository) {
+var gridUtilFactory = function(cellUtil) {
     var my = {};
 
     /** 
@@ -65,17 +65,17 @@ var gridRepositoryFactory = function(cellRepository) {
     var checkHorizontalMove = function(grid, p1, p2){
         var firstCell = p1;
         var secondCell = p2;
-        if (cellRepository.isBefore(p2, p1)) {
+        if (cellUtil.isBefore(p2, p1)) {
             firstCell = p2;
             secondCell = p1;
         }
 
         var checkCell = _.clone(firstCell);
-        if (cellRepository.equals(checkCell, secondCell)) {
+        if (cellUtil.equals(checkCell, secondCell)) {
             return false;
         }
         checkCell.j++;  
-        while (cellRepository.isBefore(checkCell, secondCell)) {
+        while (cellUtil.isBefore(checkCell, secondCell)) {
             // numbers > 0 block the path
             if (grid[checkCell.i][checkCell.j] > 0) {
                 return false;
@@ -192,7 +192,6 @@ var gridRepositoryFactory = function(cellRepository) {
             }
         }
 
-        eventManager.vent.trigger("SYSTEM:SCORE:COMPLETED_GAME");
         return true;
     }
 

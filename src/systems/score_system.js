@@ -52,7 +52,7 @@ var scoreSystem = function(ecs, eventManager) {
 
     var initialiseEvents = function() {
         eventManager.vent.on("SYSTEM:SCORE:ADD", add);
-        eventManager.vent.on("SYSTEM:SCORE:COMPLETED_GAME", completedGame);
+        eventManager.vent.on("SYSTEM:LOGIC:GRID_COMPLETED", completedGame);
         eventManager.vent.on("SYSTEM:SCORE:RESET", reset);
         eventManager.vent.on("SYSTEM:SCORE:SHOW", show);
         eventManager.vent.on("SYSTEM:SCORE:HIDE", hide);
