@@ -11,37 +11,39 @@ var gridViewSystem = function(ecs, eventManager) {
         ecs.removeEntitiesById(flattenedEntitiesToRemove);
     }
 
-    var upsertCells = function(rowIndex, row, previousRow, isNewRowType) {
+    var upsertCells = function(rowIndex, i, row, previousRow, isNewRowType) {
         var bounds;
-        for (var i = 0; i < row.length; i++) {
-            var isNewCellForRow = typeof previousRow !== "undefined" && typeof previousRow[i] === "undefined";
+        for (var j = 0; j < row.length; j++) {
+            var isNewCellForRow = typeof previousRow !== "undefined" && typeof previousRow[j] === "undefined";
             var shouldInsertNewCell = isNewRowType || isNewCellForRow;
             // We're adding new numbers
             if (shouldInsertNewCell) {
                 var relativeBounds = {
-                    x: i * my.cellWidth,
+                    x: j * my.cellWidth,
                     y: rowIndex * my.cellHeight,
                     width: my.cellWidth, 
                     height: my.cellHeight
                 };
                 bounds = boundsComponent(relativeBounds);
-                var cell = cellComponent(rowIndex, i, row[i]);
+                var cell = cellComponent(i, j, row[j]);
                 var cellView = cellViewComponent();
                 var cellEntity = entity("cell", [bounds, cell, cellView])
                 my.cells.push(cellEntity);
             // We're updating existing numbers
             } else {
-                bounds = previousRow[i].components[componentTypeEnum.BOUNDS];
-                bounds.relative.x = i * my.cellWidth;
+                bounds = previousRow[j].components[componentTypeEnum.BOUNDS];
+                bounds.relative.x = j * my.cellWidth;
                 bounds.relative.y = rowIndex * my.cellHeight;
-                var cell = previousRow[i].components[componentTypeEnum.CELL];
-                cell.digit = row[i];
+                var cell = previousRow[j].components[componentTypeEnum.CELL];
+                cell.i = i;
+                cell.j = j;
+                cell.digit = row[j];
             }
         }
         my.topCellHeight = bounds.relative.y + bounds.relative.height;
     };
 
-    var upsertText = function(rowIndex, row, previousRow, isNewRowType) {
+    var upsertText = function(rowIndex, i, row, previousRow, isNewRowType) {
         var bounds;
         // We're adding new text
         if (isNewRowType) {
@@ -54,7 +56,7 @@ var gridViewSystem = function(ecs, eventManager) {
             };
             bounds = boundsComponent(relativeBounds);
             var textView = textViewComponent();
-            var text = textComponent(rowIndex, row);
+            var text = textComponent(i, row);
             var textEntity = entity("text", [bounds, text, textView])
             my.texts.push(textEntity);
         // We're updating existing text
@@ -62,7 +64,9 @@ var gridViewSystem = function(ecs, eventManager) {
             bounds = previousRow.components[componentTypeEnum.BOUNDS];
             bounds.relative.x = 0;
             bounds.relative.y = rowIndex * my.cellHeight;
-            previousRow.components[componentTypeEnum.TEXT].text = row;
+            var text = previousRow.components[componentTypeEnum.TEXT]
+            text.i = i;
+            text.text = row;
         }
 
         my.topCellHeight = bounds.relative.y + bounds.relative.height;
@@ -132,9 +136,9 @@ var gridViewSystem = function(ecs, eventManager) {
             if (!isEmptyRow) { 
                 // We upsert the new version of the row
                 if (isArray)
-                    upsertCells(row, grid[i], previousGridRows[i], isNewRowType);
+                    upsertCells(row, i, grid[i], previousGridRows[i], isNewRowType);
                 else 
-                    upsertText(row, grid[i], previousGridRows[i], isNewRowType);
+                    upsertText(row, i, grid[i], previousGridRows[i], isNewRowType);
 
                 // We only increment the row counter for non-empty rows
                 row++;
