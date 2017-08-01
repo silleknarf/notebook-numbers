@@ -35,8 +35,8 @@ var preloadSystemFactory = function() {
             { src: "src/ecs/components.js" },
 
             { src: "src/event_manager.js" },
-
             { src: "src/config.js" },
+            { src: "src/levels.js" },
 
             { src: "src/view_components/background_view_component.js" },
             { src: "src/view_components/refill_grid_view_component.js" },
