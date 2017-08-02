@@ -2,6 +2,7 @@ var levelSystem = function(eventManager) {
     var my = this;
     my.currentLevel = 1;
     my.currentUnlockedLevel = 1;
+    my.nextLevel = 1;
 
     var generateClassicGrid = function() {
         var data = [[], [], []];
@@ -41,18 +42,32 @@ var levelSystem = function(eventManager) {
         [[1,2,3,4,5,6,7,8,9],[2,3,4,5,6,7,8,9,1],[3,4,5,6,7,8,9,1,2]]
     ];
 
-    var getLevel = function() {
+    // Get the level currently in play
+    var getCurrentLevelNumber = function() {
         this.number = my.currentLevel;
-        this.grid = _.cloneDeep(my.levels[my.currentLevel-1]);
     }
 
-    var nextLevel = function() {
-        my.currentLevel++;
-        if (my.currentLevel > my.currentUnlockedLevel)
-            my.currentLevel = 1;
+    // Start a new level
+    var getLevelGrid = function() {
+        my.currentLevel = my.nextLevel;
+        this.number = my.nextLevel;
+        this.grid = _.cloneDeep(my.levels[my.currentLevel-1]);
         saveLevel();
     }
 
+    // Get the level of what a new level would be
+    var getNextLevelNumber = function() {
+        this.number = my.nextLevel;
+    }
+
+    // Cycle through the unlocked levels
+    var nextLevel = function() {
+        my.nextLevel++;
+        if (my.nextLevel > my.currentUnlockedLevel)
+            my.nextLevel = 1;
+    }
+
+    // Unlock a level if you have progressed
     var unlockLevel = function() {
         var nextLevel = my.currentLevel + 1;
         if (nextLevel > my.currentUnlockedLevel && nextLevel < my.levels.length)
@@ -60,6 +75,7 @@ var levelSystem = function(eventManager) {
         saveLevel();
     };
 
+    // Save the level to local storage
     var saveLevel = function() {
         localStorage.setItem('currentLevel', JSON.stringify(my.currentLevel));
         localStorage.setItem('currentUnlockedLevel', JSON.stringify(my.currentUnlockedLevel));
@@ -72,13 +88,16 @@ var levelSystem = function(eventManager) {
         return 1;
     }
 
+    // Load the current level and unlocked levels from local storage
     var loadLevel = function() {
         my.currentLevel = getIntFromLocalStorage("currentLevel");
         my.currentUnlockedLevel = getIntFromLocalStorage("currentUnlockedLevel");
     }
 
     var initialiseEvents = function() {
-        eventManager.vent.on("SYSTEM:LEVEL:GET", getLevel);
+        eventManager.vent.on("SYSTEM:LEVEL:GET_GRID", getLevelGrid);
+        eventManager.vent.on("SYSTEM:LEVEL:GET_CURRENT_NUMBER", getCurrentLevelNumber);
+        eventManager.vent.on("SYSTEM:LEVEL:GET_NEXT_NUMBER", getNextLevelNumber);
         eventManager.vent.on("SYSTEM:LEVEL:NEXT", nextLevel);
         eventManager.vent.on("SYSTEM:LEVEL:LOAD", loadLevel);
         eventManager.vent.on("SYSTEM:LOGIC:GRID_COMPLETED", unlockLevel);

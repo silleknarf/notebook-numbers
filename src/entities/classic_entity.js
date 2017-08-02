@@ -4,7 +4,7 @@ var classicEntityFactory = function(gridUtil) {
     var savedGrid = gridUtil.loadGrid();
     if (!savedGrid)
     {
-        savedGrid = eventManager.vent.trigger("SYSTEM:LEVEL:GET").grid;
+        savedGrid = eventManager.vent.trigger("SYSTEM:LEVEL:GET_GRID").grid;
         gridUtil.saveGrid(savedGrid);
         eventManager.vent.trigger("SYSTEM:SCORE:RESET");
     } else {

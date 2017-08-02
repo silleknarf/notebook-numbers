@@ -25,9 +25,14 @@ var modeSystem = function(ecs, eventManager, gridUtil) {
         changeMode(tutorialEntityFactory);
     };
 
+    var getMode = function() {
+        this.mode = my.currentMode;
+    }
+
     var initialiseEvents = function() {
         eventManager.vent.on("SYSTEM:MODE:CLASSIC", startClassic);
         eventManager.vent.on("SYSTEM:MODE:TUTORIAL", startTutorial);
+        eventManager.vent.on("SYSTEM:MODE:GET", getMode);
     };
     initialiseEvents();
 };

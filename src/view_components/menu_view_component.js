@@ -80,7 +80,8 @@ var menuViewComponent = function() {
         my.newGame.font = font;
         my.tutorial.font = font;
         my.level.font = font;
-        my.level.text = "- Level: " + eventManager.vent.trigger("SYSTEM:LEVEL:GET").number;
+        my.level.text = "- Level: " + eventManager.vent.trigger("SYSTEM:LEVEL:GET_NEXT_NUMBER").number;
+        my.level.visible = eventManager.vent.trigger("SYSTEM:MODE:GET").mode !== "tutorial";
 
         /*  TODO: Make the hitboxes update dynamically
         var outline = new createjs.Graphics();
