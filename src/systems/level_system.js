@@ -34,12 +34,16 @@ var levelSystem = function(eventManager) {
     };
 
     my.levels = [
-        [[1,9,5,1,5,1,1,9,5],[5,9,1,5,9,1,5,5,1]],
-        [[1,2,3,2,2,3,1,2,3],[2,3,1,2,3,1,2,2,1]],
-        [[2,1,4,2,1,4,2,1,4],[1,2,4,1,1,3,4,2,1]],
-        generateClassicGrid(),
-        [[1,9,1,2,3,4,5,6,7],[2,3,4,5,6,7,8,8,2],[7,3,1,2,3,4,5,6,7]],
-        [[1,2,3,4,5,6,7,8,9],[2,3,4,5,6,7,8,9,1],[3,4,5,6,7,8,9,1,2]]
+        [[8,2,9,7,7,1,3,8,1],[9,2,8,1,5,5,7,8,1]], // Very easy
+        [[1,9,5,1,5,1,1,9,5],[5,9,1,5,9,1,5,5,1]], // Quite easy
+        [[9,7,1,3,1,3,7,9,1],[3,9,1,3,7,9,7,1,3]], // Quite easy
+        [[1,2,3,2,2,3,1,2,3],[2,3,1,2,3,1,2,2,1]], // Medium
+        [[5,5,5,9,1,2,3,4,7],[1,2,3,5,7,8,2,1,4]], // Medium
+        [[2,1,4,2,1,4,2,1,4],[1,2,4,1,1,3,4,2,1]], // Pretty hard
+        generateClassicGrid(), // the classic
+        [[1,2,3,5,1,2,3,5,1],[5,1,2,3,5,1,5,3,1]], // Hard
+        [[1,9,1,2,3,4,5,6,7],[2,3,4,5,6,7,8,8,2],[7,3,1,2,3,4,5,6,7]], // Hard
+        [[1,2,3,4,5,6,7,8,9],[2,3,4,5,6,7,8,9,1],[3,4,5,6,7,8,9,1,2]] // Is it even possible?
     ];
 
     // Get the level currently in play
@@ -75,6 +79,10 @@ var levelSystem = function(eventManager) {
         saveLevel();
     };
 
+    var getMaxLevelNumber = function() {
+        this.number = my.levels.length;
+    }
+
     // Save the level to local storage
     var saveLevel = function() {
         localStorage.setItem('currentLevel', JSON.stringify(my.currentLevel));
@@ -98,6 +106,7 @@ var levelSystem = function(eventManager) {
         eventManager.vent.on("SYSTEM:LEVEL:GET_GRID", getLevelGrid);
         eventManager.vent.on("SYSTEM:LEVEL:GET_CURRENT_NUMBER", getCurrentLevelNumber);
         eventManager.vent.on("SYSTEM:LEVEL:GET_NEXT_NUMBER", getNextLevelNumber);
+        eventManager.vent.on("SYSTEM:LEVEL:GET_MAX_NUMBER", getMaxLevelNumber);
         eventManager.vent.on("SYSTEM:LEVEL:NEXT", nextLevel);
         eventManager.vent.on("SYSTEM:LEVEL:LOAD", loadLevel);
         eventManager.vent.on("SYSTEM:LOGIC:GRID_COMPLETED", unlockLevel);

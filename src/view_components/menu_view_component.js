@@ -82,20 +82,6 @@ var menuViewComponent = function() {
         my.level.font = font;
         my.level.text = "- Level: " + eventManager.vent.trigger("SYSTEM:LEVEL:GET_NEXT_NUMBER").number;
         my.level.visible = eventManager.vent.trigger("SYSTEM:MODE:GET").mode !== "tutorial";
-
-        /*  TODO: Make the hitboxes update dynamically
-        var outline = new createjs.Graphics();
-        outline.setStrokeStyle(1);
-        outline.beginStroke("white");
-        outline.moveTo(my.newGame.x, my.newGame.y);
-        outline.lineTo(my.newGame.x+my.newGame.hitArea.graphics.command.w, my.newGame.y);
-        outline.lineTo(my.newGame.x+my.newGame.hitArea.graphics.command.w, my.newGame.y+my.newGame.hitArea.graphics.command.h);
-        outline.lineTo(my.newGame.x, my.newGame.y+my.newGame.hitArea.graphics.command.h);
-        outline.lineTo(my.newGame.x, my.newGame.y);
-        var outlineShape = new createjs.Shape(outline);
-        renderSystem.stage.addChild(outlineShape);
-        renderSystem.stage.setChildIndex(outlineShape, renderSystem.stage.getNumChildren()-1);  
-        */
     }
 
     var remove = function(renderSystem) {

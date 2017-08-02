@@ -40,13 +40,25 @@ var logicSystem = function(ecs, eventManager, gridUtil) {
 
     var gridCompletedEvent = function() {
         gridUtil.saveGrid(null);
+        var currentLevel = eventManager.vent.trigger("SYSTEM:LEVEL:GET_CURRENT_NUMBER").number;
+        var maxLevel = eventManager.vent.trigger("SYSTEM:LEVEL:GET_MAX_NUMBER").number;
         updateGrid(function(grid) {
             var newGrid = [
-                "Congratulations you have",
-                "completed Notebook Numbers!",
-                "You're an absolute legend!",
-                "Click new game to play again."
+                "Well done you have",
+                "completed level " +  currentLevel + " of ",
+                "Notebook Numbers!",
+                "Click new game to play ",
+                "the next level."
             ];
+            if (currentLevel === maxLevel)
+            {
+                var newGrid = [
+                    "Congratulations you have",
+                    "completed Notebook Numbers!",
+                    "You're an absolute legend!",
+                    "Click new game to play again."
+                ];
+            }
             // Replace the grid without updating the reference
             grid.length = 0;
             Array.prototype.push.apply(grid, newGrid);
