@@ -30,6 +30,7 @@ var init = function() {
         modeSystem(ecs, eventManager, gridUtil);
         tutorialSystem(ecs, eventManager);
         scoreSystem(ecs, eventManager);
+        levelSystem(eventManager);
 
         var backgroundEntity = backgroundEntityFactory();
         ecs.addEntity(null, backgroundEntity);

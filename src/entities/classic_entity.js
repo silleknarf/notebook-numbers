@@ -4,11 +4,12 @@ var classicEntityFactory = function(gridUtil) {
     var savedGrid = gridUtil.loadGrid();
     if (!savedGrid)
     {
-        savedGrid = getLevel(2);
+        savedGrid = eventManager.vent.trigger("SYSTEM:LEVEL:GET").grid;
         gridUtil.saveGrid(savedGrid);
         eventManager.vent.trigger("SYSTEM:SCORE:RESET");
     } else {
         eventManager.vent.trigger("SYSTEM:SCORE:LOAD");
+        eventManager.vent.trigger("SYSTEM:LEVEL:LOAD");
     }
 
     var classicGridComponent = gridComponent(savedGrid);

@@ -36,7 +36,6 @@ var preloadSystemFactory = function() {
 
             { src: "src/event_manager.js" },
             { src: "src/config.js" },
-            { src: "src/levels.js" },
 
             { src: "src/view_components/background_view_component.js" },
             { src: "src/view_components/refill_grid_view_component.js" },
@@ -64,6 +63,7 @@ var preloadSystemFactory = function() {
             { src: "src/systems/bounds_system.js" },
             { src: "src/systems/scroll_system.js" },
             { src: "src/systems/gizmo_system.js" },
+            { src: "src/systems/level_system.js" },
 
             { src: "src/entities/refill_grid_entity.js" },
             { src: "src/entities/cursor_entity.js" },

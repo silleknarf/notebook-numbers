@@ -7,7 +7,8 @@ var scoreSystem = function(ecs, eventManager) {
     };
 
     var completedGame = function() {
-        my.score = 1000060 - my.score;
+        var level = +eventManager.vent.trigger("SYSTEM:LEVEL:GET").number;
+        my.score = level * 1000000 - my.score;
         update();
     };
 

@@ -2,7 +2,7 @@ var menuViewComponent = function() {
     var my = {};
 
     var getFont = function(absolute) {
-        var menuItemsCount = 2;
+        var menuItemsCount = 3;
         var fontSize = Math.floor(absolute.height / (menuItemsCount + 1));
         var font = fontSize + "px " + config.titleFont;
         return font;
@@ -45,8 +45,25 @@ var menuViewComponent = function() {
         });
         renderSystem.stage.addChild(tutorial);
 
+        var level = new createjs.Text("- Level: ");
+        level.font = getFont(absolute);
+        level.color = config.titleColour;
+
+        var hitLevel = new createjs.Shape();
+        hitLevel.graphics
+            .beginFill("#F00")
+            .drawRect(0, 0, level.getMeasuredWidth()*1.1, level.getMeasuredHeight() * 1.5);
+
+        level.hitArea = hitLevel;
+        level.on("click", function() {
+            eventManager.vent.trigger("SYSTEM:LEVEL:NEXT");
+            eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
+        });
+        renderSystem.stage.addChild(level);
+
         my.newGame = newGame;
         my.tutorial = tutorial;
+        my.level = level;
     };
 
     var render = function(renderSystem, entity, eventManager) {
@@ -55,11 +72,15 @@ var menuViewComponent = function() {
         my.newGame.x = bounds.absolute.x + middle;
         my.newGame.y = bounds.absolute.y; 
         my.tutorial.x = bounds.absolute.x + middle;
-        my.tutorial.y = bounds.absolute.y + bounds.absolute.height / 2; 
+        my.tutorial.y = bounds.absolute.y + bounds.absolute.height / 3; 
+        my.level.x = bounds.absolute.x + middle;
+        my.level.y = bounds.absolute.y + bounds.absolute.height * 2 / 3; 
 
         var font = getFont(bounds.absolute);
         my.newGame.font = font;
         my.tutorial.font = font;
+        my.level.font = font;
+        my.level.text = "- Level: " + eventManager.vent.trigger("SYSTEM:LEVEL:GET").number;
 
         /*  TODO: Make the hitboxes update dynamically
         var outline = new createjs.Graphics();
