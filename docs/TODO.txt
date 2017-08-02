@@ -1,15 +1,5 @@
 TODO
 
-- Level system
-    + GET_LEVEL: returns a new grid and the level number
-    + NEXT_LEVEL: increments the level number up to the current max unlocked level and saves
-    + UNLOCK_LEVEL: increments the max unlocked level to the level above the current level up to the max level and saves
-    + LOAD_LEVEL: loads the current level and max unlocked level
-    + Call get level in the classic entity factory
-    - Call get level in the menu view
-    - Call next level from the menu view
-    + Call unlock level when the grid is completed
-    + Call load level in the classic entity factory
 - Add favicon
 - iOS version
     - Test iOS version
