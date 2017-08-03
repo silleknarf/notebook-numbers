@@ -8,7 +8,7 @@ Play it now!
 
 The game is playable at [http://notebooknumbers.com](http://notebooknumbers.com). Please ensure that all bugs are reported with instructions on how to repeat them/detailed game state description, see below for how to submit. 
 
-It's also available to buy on [Android](https://play.google.com/store/apps/details?id=com.silleknarf.notebooknumbers&hl=en) and iOS will be coming shortly.
+It's also available to buy on [Android](https://play.google.com/store/apps/details?id=com.silleknarf.notebooknumbers&hl=en) and [iOS](https://itunes.apple.com/app/noteboook-numbers/id1262922571).
 
 Installation
 ============
