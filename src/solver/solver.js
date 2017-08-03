@@ -111,7 +111,7 @@ var solver = {
             var movesMade = [];
             var gridCompleted = false;
             var iterations = 0;
-            var maxIterations = 15;
+            var maxIterations = 10;
 
             while (!gridCompleted && iterations <= maxIterations) {
                 var moves = _.shuffle(getMoves(gridToSolve));
@@ -133,7 +133,7 @@ var solver = {
             return false;
         }
 
-        console.log(levels[6]);
+        console.log(levels[3]);
         var solvedTimes = 0;
         _.forEach(
             _.range(1000), 
