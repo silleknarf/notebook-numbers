@@ -44,7 +44,6 @@ var gridUtilFactory = function(cellUtil) {
             var j = lowerCell.j;
 
             // numbers > 0 block the path
-            console.log("Horizontal:" +grid[i][j]);
             if (grid[i][j] > 0) {
                 return false;
             }
