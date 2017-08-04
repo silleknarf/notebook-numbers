@@ -74,7 +74,7 @@ var levelSystem = function(eventManager) {
     // Unlock a level if you have progressed
     var unlockLevel = function() {
         var nextLevel = my.currentLevel + 1;
-        if (nextLevel > my.currentUnlockedLevel && nextLevel < my.levels.length)
+        if (nextLevel > my.currentUnlockedLevel && nextLevel <= my.levels.length)
             my.currentUnlockedLevel = nextLevel;
         saveLevel();
     };
