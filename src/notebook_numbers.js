@@ -9,7 +9,7 @@ var init = function() {
             if (config.isAndroid && !config.isAndroidNativeApp)
                 window.location.href = "market://details?id=com.silleknarf.notebooknumbers";
             else if (config.isIos && !config.isIosNativeApp)
-                window.location.href = "http://www.notebooknumbers.com/coming_soon.html"
+                window.location.href = "https://itunes.apple.com/app/noteboook-numbers/id1262922571"
 
             return;
         }
