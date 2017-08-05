@@ -113,4 +113,5 @@ var levelSystem = function(eventManager) {
         eventManager.vent.on("SYSTEM:LOGIC:GRID_COMPLETED", nextLevel);
     };
     initialiseEvents();
+    loadLevel();
 };

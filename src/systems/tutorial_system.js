@@ -130,16 +130,26 @@ var tutorialSystem = function(ecs, eventManager) {
         if (my.level == 8)
         {
             my.tutorialGrid = my.tutorialGrid.concat(
-                ["Now you can complete\n\nthe grid above."]);
+                ["", "Now you can complete\n\nthe grid above."]);
             ecs.removeEntities("refill_grid");
         }
 
         // Tutorial Complete
         // Congratulate user, they can now play Notebook Numbers!   
         if (my.level == 9) {
-            var hint = ["Congratulations, you can now", "play Notebook Numbers!"];
-            var nextStep = ["Click the \"New Game\" button", "to play a game"];
-            var text = hint.concat(nextStep);
+            var text = [
+                "Congratulations, you can now", 
+                "play Notebook Numbers!",
+                "",
+                "Tip: If you get stuck,",
+                "it may be essential to", 
+                "use the refill grid button",
+                "or start a new game in order",
+                "to beat the level.",
+                "",
+                "Click the \"New Game\" button", 
+                "to play a game.",
+            ];
             my.tutorialGrid = getTutorialLevel(text);
             localStorage.setItem("hasCompletedTutorial", true);
         }
