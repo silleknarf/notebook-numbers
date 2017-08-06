@@ -69,6 +69,7 @@ var levelSystem = function(eventManager) {
         my.nextLevel++;
         if (my.nextLevel > my.currentUnlockedLevel)
             my.nextLevel = 1;
+        saveLevel();
     }
 
     // Unlock a level if you have progressed
@@ -85,6 +86,7 @@ var levelSystem = function(eventManager) {
 
     // Save the level to local storage
     var saveLevel = function() {
+        localStorage.setItem('nextLevel', JSON.stringify(my.nextLevel));
         localStorage.setItem('currentLevel', JSON.stringify(my.currentLevel));
         localStorage.setItem('currentUnlockedLevel', JSON.stringify(my.currentUnlockedLevel));
     }
@@ -98,6 +100,7 @@ var levelSystem = function(eventManager) {
 
     // Load the current level and unlocked levels from local storage
     var loadLevel = function() {
+        my.nextLevel = getIntFromLocalStorage("nextLevel");
         my.currentLevel = getIntFromLocalStorage("currentLevel");
         my.currentUnlockedLevel = getIntFromLocalStorage("currentUnlockedLevel");
     }

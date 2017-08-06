@@ -1,6 +1,6 @@
 TODO
 
-- Save the "next level" variable
++ Save the "next level" variable
 - Leaderboards
     - New menu item for login/viewing highscores
     - iOS
