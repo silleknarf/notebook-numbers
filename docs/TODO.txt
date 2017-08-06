@@ -1,12 +1,6 @@
 TODO
 
-- Marketing
-
-- Set up CI
-    - Set up Gitlab integration
-        - Run the tests
-        - If successful then copy development branch to master branch
-        - Display badge on Github
+- Save the "next level" variable
 - Leaderboards
     - New menu item for login/viewing highscores
     - iOS
@@ -17,6 +11,14 @@ TODO
         - Link menu item code to Java code
         - Login to google play game services
         - Call highscore endpoint
+- Set up CI
+    - Set up Gitlab integration
+        - Run the tests
+        - If successful then copy development branch to master branch
+        - Display badge on Github
+- Marketing
+    - Write a blog post about how to release a cross-platform game using JS and HTML
+    - Write a post-mortem of the game
 - Cheats (in app purchase)
     - Add new menu item for buying cheats
     - Implement cheat functionality
@@ -26,6 +28,7 @@ TODO
     - Android
         - Call Android in app purchase endpoint
         - Top up cheats count
+- Undo (in app purchase)
 - Title re-alignment bug
 - Line up the grid with the numbers
 - Remove from cursor
