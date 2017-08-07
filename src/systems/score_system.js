@@ -27,6 +27,10 @@ var scoreSystem = function(ecs, eventManager) {
         update();
     }
 
+    var getScore = function() {
+        this.score = my.score;
+    }
+
     var saveScore = function() {
         if (typeof my.score != "undefined")
             localStorage.setItem('score', JSON.stringify(my.score));
@@ -58,6 +62,7 @@ var scoreSystem = function(ecs, eventManager) {
         eventManager.vent.on("SYSTEM:SCORE:SHOW", show);
         eventManager.vent.on("SYSTEM:SCORE:HIDE", hide);
         eventManager.vent.on("SYSTEM:SCORE:LOAD", loadScore);
+        eventManager.vent.on("SYSTEM:SCORE:GET", getScore);
     };
     initialiseEvents();
 };
