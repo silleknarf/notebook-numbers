@@ -1,92 +1,104 @@
 var menuViewComponent = function() {
     var my = {};
+    my.menuItems = {};
 
     var getFont = function(absolute) {
-        var menuItemsCount = 3;
+        var menuItemsCount = _.keys(my.menuItems).length;
         var fontSize = Math.floor(absolute.height / (menuItemsCount + 1));
         var font = fontSize + "px " + config.titleFont;
         return font;
     };
+
+    var addMenuItem = function(absolute, key, text, sortOrder, action) {
+        var menuItem = new createjs.Text("- " + text);
+
+        menuItem.font = getFont(absolute);
+        menuItem.color = config.titleColour;
+
+        // Adding collision detection
+        var hitMenuItem = new createjs.Shape();
+        hitMenuItem.graphics
+            .beginFill("#F00")
+            .drawRect(0, 0, menuItem.getMeasuredWidth()*1.1, menuItem.getMeasuredHeight() * 1.5);
+
+        menuItem.hitArea = hitMenuItem;
+        menuItem.on("click", function() {
+            action();
+        });
+        my.renderSystem.stage.addChild(menuItem);
+        my.menuItems[key] = menuItem;
+    }
     
     var init = function(renderSystem, entity, eventManager) {
-
+        my.renderSystem = renderSystem;
         var view = entity.components[componentTypeEnum.BOUNDS];
         var absolute = view.absolute;
 
-        var newGame = new createjs.Text("- New Game");
+        addMenuItem(
+            absolute, 
+            "newGame", 
+            "New Game", 
+            1,
+            function() { 
+                eventManager.vent.trigger("SYSTEM:MODE:CLASSIC");
+            });
 
-        newGame.font = getFont(absolute);
-        newGame.color = config.titleColour;
+        addMenuItem(
+            absolute, 
+            "tutorial", 
+            "Tutorial", 
+            2,
+            function() { 
+                eventManager.vent.trigger("SYSTEM:MODE:TUTORIAL");
+            });
 
-        // Adding collision detection
-        var hitNewGame = new createjs.Shape();
-        hitNewGame.graphics
-            .beginFill("#F00")
-            .drawRect(0, 0, newGame.getMeasuredWidth()*1.1, newGame.getMeasuredHeight() * 1.5);
+        addMenuItem(
+            absolute, 
+            "leaderboards", 
+            "Leaderboards", 
+            3,
+            function() { 
+                eventManager.vent.trigger("SYSTEM:LEADERBOARDS:ACTION");
+            });
 
-        newGame.hitArea = hitNewGame;
-        newGame.on("click", function() {
-            eventManager.vent.trigger("SYSTEM:MODE:CLASSIC");
-        });
-        renderSystem.stage.addChild(newGame);
-
-        var tutorial = new createjs.Text("- Tutorial");
-        tutorial.font = getFont(absolute);
-        tutorial.color = config.titleColour;
-
-        var hitTutorial = new createjs.Shape();
-        hitTutorial.graphics
-            .beginFill("#F00")
-            .drawRect(0, 0, tutorial.getMeasuredWidth()*1.1, tutorial.getMeasuredHeight() * 1.5);
-
-        tutorial.hitArea = hitTutorial;
-        tutorial.on("click", function() {
-            eventManager.vent.trigger("SYSTEM:MODE:TUTORIAL");
-        });
-        renderSystem.stage.addChild(tutorial);
-
-        var level = new createjs.Text("- Level: ");
-        level.font = getFont(absolute);
-        level.color = config.titleColour;
-
-        var hitLevel = new createjs.Shape();
-        hitLevel.graphics
-            .beginFill("#F00")
-            .drawRect(0, 0, level.getMeasuredWidth()*1.1, level.getMeasuredHeight() * 1.5);
-
-        level.hitArea = hitLevel;
-        level.on("click", function() {
-            eventManager.vent.trigger("SYSTEM:LEVEL:NEXT");
-            eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
-        });
-        renderSystem.stage.addChild(level);
-
-        my.newGame = newGame;
-        my.tutorial = tutorial;
-        my.level = level;
+        addMenuItem(
+            absolute, 
+            "level", 
+            "Level: ", 
+            4,
+            function() { 
+                eventManager.vent.trigger("SYSTEM:LEVEL:NEXT");
+                eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
+            });
     };
 
     var render = function(renderSystem, entity, eventManager) {
         var bounds = entity.components[componentTypeEnum.BOUNDS];
-        var middle = Math.floor(bounds.absolute.width/2 - my.newGame.getMeasuredWidth()/2);
-        my.newGame.x = bounds.absolute.x + middle;
-        my.newGame.y = bounds.absolute.y; 
-        my.tutorial.x = bounds.absolute.x + middle;
-        my.tutorial.y = bounds.absolute.y + bounds.absolute.height / 3; 
-        my.level.x = bounds.absolute.x + middle;
-        my.level.y = bounds.absolute.y + bounds.absolute.height * 2 / 3; 
-
+        var firstMenuItem = _.head(_.values(my.menuItems));
+        var middle = Math.floor(bounds.absolute.width/2 - firstMenuItem.getMeasuredWidth()/2);
+        var menuItemsCount = _.keys(my.menuItems).length;
         var font = getFont(bounds.absolute);
-        my.newGame.font = font;
-        my.tutorial.font = font;
-        my.level.font = font;
-        my.level.text = "- Level: " + eventManager.vent.trigger("SYSTEM:LEVEL:GET_NEXT_NUMBER").number;
-        my.level.visible = eventManager.vent.trigger("SYSTEM:MODE:GET").mode !== "tutorial";
+        var i = 0;
+        _.forEach(
+            my.menuItems,
+            function(menuItem) {
+                menuItem.x = bounds.absolute.x + middle;
+                menuItem.y = bounds.absolute.y + bounds.absolute.height * i / menuItemsCount; 
+                menuItem.font = font;
+                i++;
+            });
+
+        my.menuItems.level.text = "- Level: " + eventManager.vent.trigger("SYSTEM:LEVEL:GET_NEXT_NUMBER").number;
+        my.menuItems.level.visible = eventManager.vent.trigger("SYSTEM:MODE:GET").mode !== "tutorial";
+        my.menuItems.leaderboards.text = "- " + eventManager.vent.trigger("SYSTEM:LEADERBOARDS:GET_ACTION").text;
     }
 
     var remove = function(renderSystem) {
-        renderSystem.stage.removeChild(my.newGame);
-        renderSystem.stage.removeChild(my.tutorial);
+        _.forEach(
+            my.menuItems,
+            function(menuItem) {
+                renderSystem.stage.removeChild(menuItem);
+            });
     };
 
     return viewComponent(init, render, remove);
