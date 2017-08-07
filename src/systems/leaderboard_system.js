@@ -13,7 +13,9 @@ var leaderboardSystem = function(eventManager) {
 
     var openLeaderboards = function() {
         console.log("Open leaderboards");
-        loggedOut();
+        if (window.AppInterface && window.AppInterface.isSignedIn()) {
+            window.AppInterface.openLeaderboards();
+        } 
     }
 
     var action = function() {
@@ -39,6 +41,12 @@ var leaderboardSystem = function(eventManager) {
         eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
     }
 
+    var updateLeaderboards = function() {
+        var score = eventManager.vent.trigger("SYSTEM:SCORE:GET").score;
+        if (window.AppInterface && window.AppInterface.isSignedIn()) {
+            window.AppInterface.updateLeaderboards(score);
+        } 
+    }
     var updateLeaderboards = function() {
         var score = eventManager.vent.trigger("SYSTEM:SCORE:GET").score;
         if (window.AppInterface && window.AppInterface.isSignedIn()) {
