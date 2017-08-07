@@ -47,6 +47,7 @@ var leaderboardSystem = function(eventManager) {
                 my.currentAction = my.actions.LOGIN;
             }
         }
+        console.log("Setup with current action: " + my.currentAction);
     }
     setupLoginState();
 
