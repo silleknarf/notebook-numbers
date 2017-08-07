@@ -39,6 +39,17 @@ var leaderboardSystem = function(eventManager) {
         eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
     }
 
+    var setupLoginState = function() {
+        if (window.AppInterface && window.AppInterface.isSignedIn) {
+            if (window.AppInterface.isSignedIn()) {
+                my.currentAction = my.actions.LEADERBOARDS;
+            } else {
+                my.currentAction = my.actions.LOGIN;
+            }
+        }
+    }
+    setupLoginState();
+
     var initialiseEvents = function() {
         eventManager.vent.on("SYSTEM:LEADERBOARDS:ACTION", action);
         eventManager.vent.on("SYSTEM:LEADERBOARDS:GET_ACTION", getAction);
