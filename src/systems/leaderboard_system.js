@@ -31,10 +31,12 @@ var leaderboardSystem = function(eventManager) {
 
     var loggedIn = function() {
         my.currentAction = my.actions.LEADERBOARDS;
+        eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
     }
 
     var loggedOut = function() { 
         my.currentAction = my.actions.LOGIN;
+        eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
     }
 
     var initialiseEvents = function() {
