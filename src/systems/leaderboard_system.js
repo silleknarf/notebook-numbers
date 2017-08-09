@@ -44,7 +44,7 @@ var leaderboardSystem = function(eventManager) {
     }
 
     var updateLeaderboards = function() {
-        var isTutorialMode = eventManager.vent.trigger("SYSTEM:MODE:GET").mode !== "tutorial";
+        var isTutorialMode = eventManager.vent.trigger("SYSTEM:MODE:GET").mode === "tutorial";
         if (isTutorialMode)
             return;
         
