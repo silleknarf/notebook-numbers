@@ -77,6 +77,11 @@ var menuViewComponent = function() {
         var firstMenuItem = _.head(_.values(my.menuItems));
         var menuItemsCount = _.keys(my.menuItems).length;
         var font = getFont(bounds.absolute);
+
+        my.menuItems.level.text = "- Level: " + eventManager.vent.trigger("SYSTEM:LEVEL:GET_NEXT_NUMBER").number + " -";
+        my.menuItems.level.visible = eventManager.vent.trigger("SYSTEM:MODE:GET").mode !== "tutorial";
+        my.menuItems.leaderboards.text = "- " + eventManager.vent.trigger("SYSTEM:LEADERBOARDS:GET_ACTION").text + " -";
+
         var i = 0;
         _.forEach(
             my.menuItems,
@@ -87,10 +92,6 @@ var menuViewComponent = function() {
                 menuItem.font = font;
                 i++;
             });
-
-        my.menuItems.level.text = "- Level: " + eventManager.vent.trigger("SYSTEM:LEVEL:GET_NEXT_NUMBER").number + " -";
-        my.menuItems.level.visible = eventManager.vent.trigger("SYSTEM:MODE:GET").mode !== "tutorial";
-        my.menuItems.leaderboards.text = "- " + eventManager.vent.trigger("SYSTEM:LEADERBOARDS:GET_ACTION").text + " -";
     }
 
     var remove = function(renderSystem) {
