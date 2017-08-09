@@ -8,7 +8,7 @@ var leaderboardSystem = function(eventManager) {
 
     var login = function() {
         console.log("Log in");
-        if (window.AppInterface && window.AppInterface.isSignedIn()) {
+        if (window.AppInterface) {
             window.AppInterface.logIn();
         } 
     }
