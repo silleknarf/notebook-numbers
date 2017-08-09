@@ -44,6 +44,10 @@ var leaderboardSystem = function(eventManager) {
     }
 
     var updateLeaderboards = function() {
+        var isTutorialMode = eventManager.vent.trigger("SYSTEM:MODE:GET").mode !== "tutorial";
+        if (isTutorialMode)
+            return;
+        
         var score = eventManager.vent.trigger("SYSTEM:SCORE:GET").score;
         if (window.AppInterface && window.AppInterface.isSignedIn()) {
             window.AppInterface.updateLeaderboards(score);
