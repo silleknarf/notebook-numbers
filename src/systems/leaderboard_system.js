@@ -7,8 +7,10 @@ var leaderboardSystem = function(eventManager) {
     my.currentAction = my.actions.LOGIN;
 
     var login = function() {
-        console.log("Login");
-        loggedIn();
+        console.log("Log in");
+        if (window.AppInterface && window.AppInterface.isSignedIn()) {
+            window.AppInterface.logIn();
+        } 
     }
 
     var openLeaderboards = function() {
@@ -41,12 +43,6 @@ var leaderboardSystem = function(eventManager) {
         eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
     }
 
-    var updateLeaderboards = function() {
-        var score = eventManager.vent.trigger("SYSTEM:SCORE:GET").score;
-        if (window.AppInterface && window.AppInterface.isSignedIn()) {
-            window.AppInterface.updateLeaderboards(score);
-        } 
-    }
     var updateLeaderboards = function() {
         var score = eventManager.vent.trigger("SYSTEM:SCORE:GET").score;
         if (window.AppInterface && window.AppInterface.isSignedIn()) {
