@@ -10,7 +10,7 @@ var menuViewComponent = function() {
     };
 
     var addMenuItem = function(absolute, key, text, sortOrder, action) {
-        var menuItem = new createjs.Text("- " + text);
+        var menuItem = new createjs.Text("- " + text + " -");
 
         menuItem.font = getFont(absolute);
         menuItem.color = config.titleColour;
@@ -75,22 +75,22 @@ var menuViewComponent = function() {
     var render = function(renderSystem, entity, eventManager) {
         var bounds = entity.components[componentTypeEnum.BOUNDS];
         var firstMenuItem = _.head(_.values(my.menuItems));
-        var middle = Math.floor(bounds.absolute.width/2 - firstMenuItem.getMeasuredWidth()/2);
         var menuItemsCount = _.keys(my.menuItems).length;
         var font = getFont(bounds.absolute);
         var i = 0;
         _.forEach(
             my.menuItems,
             function(menuItem) {
+                var middle = Math.floor(bounds.absolute.width/2 - menuItem.getMeasuredWidth()/2);
                 menuItem.x = bounds.absolute.x + middle;
                 menuItem.y = bounds.absolute.y + bounds.absolute.height * i / menuItemsCount; 
                 menuItem.font = font;
                 i++;
             });
 
-        my.menuItems.level.text = "- Level: " + eventManager.vent.trigger("SYSTEM:LEVEL:GET_NEXT_NUMBER").number;
+        my.menuItems.level.text = "- Level: " + eventManager.vent.trigger("SYSTEM:LEVEL:GET_NEXT_NUMBER").number + " -";
         my.menuItems.level.visible = eventManager.vent.trigger("SYSTEM:MODE:GET").mode !== "tutorial";
-        my.menuItems.leaderboards.text = "- " + eventManager.vent.trigger("SYSTEM:LEADERBOARDS:GET_ACTION").text;
+        my.menuItems.leaderboards.text = "- " + eventManager.vent.trigger("SYSTEM:LEADERBOARDS:GET_ACTION").text + " -";
     }
 
     var remove = function(renderSystem) {
