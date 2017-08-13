@@ -3,13 +3,13 @@ TODO
 + Save the "next level" variable
 - Leaderboards
     + New menu item for login/viewing highscores
-    - iOS
-        - Link menu item code to swift code
-        - Login to iOS game center
-        - Call highscore endpoint
-    - Android    
+    + Android    
         + Link menu item code to Java code
         + Login to google play game services
+        + Call highscore endpoint
+    - iOS
+        - Link menu item code to swift code
+        + Login to iOS game center
         + Call highscore endpoint
     - Hide the login button on non-native versions
 - Set up deploy scripts for mobile apps

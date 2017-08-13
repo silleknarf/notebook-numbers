@@ -33,6 +33,44 @@ var init = function() {
         levelSystem(eventManager);
         leaderboardSystem(eventManager);
 
+        function connectToSwiftWebViewBridge(callback) {
+            if (window.SwiftWebViewBridge) {
+                callback(SwiftWebViewBridge);
+            } else {
+                document.addEventListener('SwiftWebViewBridgeReady', function() {
+                    callback(SwiftWebViewBridge);
+                }, false);
+            }
+        }
+
+        connectToSwiftWebViewBridge(function(bridge) {
+            bridge.init(function(message, responseCallback) {
+                log('JS got a message', message);
+                var data = {
+                    'JS Responds': 'Message received = )'
+                };
+                responseCallback(data);
+            });
+
+            bridge.registerHandlerForSwift('triggerEvent', function(event, responseCallback) {
+                console.log('ObjC called triggerEvent with', JSON.stringify(event));
+                alert(JSON.stringify(event));
+            });
+            
+            bridge.callSwiftHandler(
+                "printReceivedParams", 
+                {
+                    "name": "小明",
+                    "age": "6", 
+                    "school": "GDUT"
+                }, 
+                function(responseData)
+                {
+                    log('JS got responds from Swift: ', responseData);
+                });
+        });
+
+
         var backgroundEntity = backgroundEntityFactory();
         ecs.addEntity(null, backgroundEntity);
 

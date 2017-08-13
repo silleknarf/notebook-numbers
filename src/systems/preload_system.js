@@ -29,6 +29,7 @@ var preloadSystemFactory = function() {
             { src: "lib/backbone-min.js" },
             { src: "lib/keymaster-min.js" },
             { src: "lib/platform.js" },
+            { src: "lib/SwiftWebViewBridge.js" },
 
             { src: "src/ecs/ecs.js" },
             { src: "src/ecs/entity.js" },
