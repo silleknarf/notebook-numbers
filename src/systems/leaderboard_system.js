@@ -18,6 +18,7 @@ var leaderboardSystem = function(eventManager) {
         if (window.AppInterface && window.AppInterface.isSignedIn()) {
             window.AppInterface.openLeaderboards();
         } 
+        if (window.webkit && window.webkit.messageHandlers.)
     }
 
     var action = function() {
@@ -52,17 +53,26 @@ var leaderboardSystem = function(eventManager) {
         if (window.AppInterface && window.AppInterface.isSignedIn()) {
             window.AppInterface.updateLeaderboards(score);
         } 
+        maybeRunSwiftEvent("SYSTEM:SWIFT:UPDATE_LEADERBOARD", score);
     }
 
+    var maybeRunSwiftEvent = function(event, params) {
+        if (window.webkit && window.webkit.messageHandlers) {
+            var event = { event: event, params: params };
+            window.webkit.messageHandlers.swift.postMessage(event);
+        }
+    };
+
     var setupLoginState = function() {
-        if (window.AppInterface && window.AppInterface.isSignedIn) {
+        if (window.AppInterface) {
             if (window.AppInterface.isSignedIn()) {
                 my.currentAction = my.actions.LEADERBOARDS;
             } else {
                 my.currentAction = my.actions.LOGIN;
             }
+            console.log("Setup with current action: " + my.currentAction);
         }
-        console.log("Setup with current action: " + my.currentAction);
+        maybeRunSwiftEvent("SYSTEM:SWIFT:CHECK_LOGIN");
     }
     setupLoginState();
 

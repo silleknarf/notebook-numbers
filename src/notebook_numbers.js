@@ -33,6 +33,7 @@ var init = function() {
         levelSystem(eventManager);
         leaderboardSystem(eventManager);
 
+        /*
         function connectToSwiftWebViewBridge(callback) {
             if (window.SwiftWebViewBridge) {
                 callback(SwiftWebViewBridge);
@@ -56,7 +57,7 @@ var init = function() {
                 console.log('ObjC called triggerEvent with', JSON.stringify(event));
                 alert(JSON.stringify(event));
             });
-            
+
             bridge.callSwiftHandler(
                 "printReceivedParams", 
                 {
@@ -68,8 +69,7 @@ var init = function() {
                 {
                     log('JS got responds from Swift: ', responseData);
                 });
-        });
-
+        });*/
 
         var backgroundEntity = backgroundEntityFactory();
         ecs.addEntity(null, backgroundEntity);
