@@ -12,8 +12,8 @@ TODO
         + Login to iOS game center
         + Call highscore endpoint
     + Remove cocoapods
-    - Hide the login button on non-native versions
-    - Hide the leaderboard button on non-native versions
+    + Hide the login button on non-native versions
+    + Hide the leaderboard button on non-native versions
     - Test iOS leaderboards
 - Set up deploy scripts for mobile apps
     - Android 

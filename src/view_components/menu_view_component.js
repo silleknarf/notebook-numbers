@@ -9,11 +9,12 @@ var menuViewComponent = function() {
         return font;
     };
 
+    // TODO: do this dynamically somehow 
+    // - chicken and egg problem means we can't
+    // know how many items there are until we have
+    // added them :/
     var getMenuItemsCount = function() {
-        return _(my.menuItems)
-            .filter(function(menuItem) { return menuItem.visible; })
-            .value()
-            .length;
+        return 4;
     };
 
     var addMenuItem = function(absolute, key, text, sortOrder, action) {
@@ -32,6 +33,7 @@ var menuViewComponent = function() {
         menuItem.on("click", function() {
             action();
         });
+        menuItem.sortOrder = sortOrder;
         my.renderSystem.stage.addChild(menuItem);
         my.menuItems[key] = menuItem;
     }
@@ -72,7 +74,7 @@ var menuViewComponent = function() {
             absolute, 
             "login", 
             "Login", 
-            4,
+            3,
             function() { 
                 eventManager.vent.trigger("SYSTEM:LEADERBOARDS:LOG_IN");
             });
@@ -81,7 +83,7 @@ var menuViewComponent = function() {
             absolute, 
             "level", 
             "Level: ", 
-            5,
+            4,
             function() { 
                 eventManager.vent.trigger("SYSTEM:LEVEL:NEXT");
                 eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
@@ -107,7 +109,7 @@ var menuViewComponent = function() {
             my.menuItems,
             function(menuItem) {
                 if (!menuItem.visible)
-                    return;
+                    return true;
 
                 var middle = Math.floor(bounds.absolute.width/2 - menuItem.getMeasuredWidth()/2);
                 menuItem.x = bounds.absolute.x + middle;
