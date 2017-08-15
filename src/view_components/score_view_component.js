@@ -24,14 +24,14 @@ var scoreViewComponent = function() {
     var render = function(renderSystem, entity, eventManager) {
         var bounds = entity.components[componentTypeEnum.BOUNDS];
 
+        my.score.text = "Score: " + entity.components[componentTypeEnum.SCORE].score.toLocaleString();
+        my.score.visible = entity.components[componentTypeEnum.SCORE].isVisible;
+
+        var font = getFont(bounds.absolute);
         var middle = Math.floor(bounds.absolute.width/2 - my.score.getMeasuredWidth()/2);
         my.score.x = bounds.absolute.x + middle;
         my.score.y = bounds.absolute.y; 
-
-        var font = getFont(bounds.absolute);
         my.score.font = font;
-        my.score.text = "Score: " + entity.components[componentTypeEnum.SCORE].score;
-        my.score.visible = entity.components[componentTypeEnum.SCORE].isVisible;
     }
 
     var remove = function(renderSystem) {

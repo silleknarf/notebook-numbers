@@ -31,6 +31,7 @@ var init = function() {
         tutorialSystem(ecs, eventManager);
         scoreSystem(ecs, eventManager);
         levelSystem(eventManager);
+        leaderboardSystem(eventManager);
 
         var backgroundEntity = backgroundEntityFactory();
         ecs.addEntity(null, backgroundEntity);

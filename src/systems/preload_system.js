@@ -29,6 +29,7 @@ var preloadSystemFactory = function() {
             { src: "lib/backbone-min.js" },
             { src: "lib/keymaster-min.js" },
             { src: "lib/platform.js" },
+            { src: "lib/SwiftWebViewBridge.js" },
 
             { src: "src/ecs/ecs.js" },
             { src: "src/ecs/entity.js" },
@@ -64,6 +65,7 @@ var preloadSystemFactory = function() {
             { src: "src/systems/scroll_system.js" },
             { src: "src/systems/gizmo_system.js" },
             { src: "src/systems/level_system.js" },
+            { src: "src/systems/leaderboard_system.js" },
 
             { src: "src/entities/refill_grid_entity.js" },
             { src: "src/entities/cursor_entity.js" },

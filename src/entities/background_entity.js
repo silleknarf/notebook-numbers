@@ -17,11 +17,11 @@ var backgroundEntityFactory = function() {
     var gridBackgroundEntity = entity("grid_background", gridBackgroundEntityComponents);
 
     var menuPageX = config.isVerticalLayout ? 0 : 50;
-    var titleBoundsComponent = boundsComponent({ x: menuPageX, y: 0, width: gridBackgroundWidth, height: 20});
+    var titleBoundsComponent = boundsComponent({ x: menuPageX, y: 0, width: gridBackgroundWidth, height: 15});
     var titleEntityComponents = [titleViewComponent(), titleBoundsComponent];
     var titleEntity = entity("title", titleEntityComponents);
 
-    var menuBoundsComponent = boundsComponent({ x: menuPageX, y: 20, width: gridBackgroundWidth, height: 20});
+    var menuBoundsComponent = boundsComponent({ x: menuPageX, y: 15, width: gridBackgroundWidth, height: 25});
     var menuEntityComponents = [menuViewComponent(), menuBoundsComponent];
     var menuEntity = entity("menu", menuEntityComponents);
 
