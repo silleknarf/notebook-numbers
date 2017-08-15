@@ -17,7 +17,7 @@ var menuViewComponent = function() {
         return 4;
     };
 
-    var addMenuItem = function(absolute, key, text, sortOrder, action) {
+    var addMenuItem = function(absolute, key, text, sortOrder, action, defaultVisiblilty) {
         var menuItem = new createjs.Text("- " + text + " -");
 
         menuItem.font = getFont(absolute);
@@ -34,6 +34,7 @@ var menuViewComponent = function() {
             action();
         });
         menuItem.sortOrder = sortOrder;
+        menuItem.visible = defaultVisiblilty || true;
         my.renderSystem.stage.addChild(menuItem);
         my.menuItems[key] = menuItem;
     }
@@ -68,7 +69,8 @@ var menuViewComponent = function() {
             3,
             function() { 
                 eventManager.vent.trigger("SYSTEM:LEADERBOARDS:OPEN_LEADERBOARDS");
-            });
+            },
+            false);
 
         addMenuItem(
             absolute, 
@@ -77,7 +79,8 @@ var menuViewComponent = function() {
             3,
             function() { 
                 eventManager.vent.trigger("SYSTEM:LEADERBOARDS:LOG_IN");
-            });
+            },
+            false);
 
         addMenuItem(
             absolute, 
