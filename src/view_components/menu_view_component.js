@@ -103,7 +103,7 @@ var menuViewComponent = function() {
         my.menuItems.level.text = "- Level: " + 
             eventManager.vent.trigger("SYSTEM:LEVEL:GET_NEXT_NUMBER").number + 
             " / " +
-            eventManager.vent.trigger("SYSTEM:LEVEL:GET_MAX_NUMBER").number;
+            eventManager.vent.trigger("SYSTEM:LEVEL:GET_MAX_NUMBER").number +
             " -";
         var isTutorialMode = eventManager.vent.trigger("SYSTEM:MODE:GET").mode !== "tutorial";        
         my.menuItems.level.visible = isTutorialMode;
