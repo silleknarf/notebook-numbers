@@ -61,7 +61,7 @@ var leaderboardSystem = function(eventManager) {
         if (window.AppInterface && window.AppInterface.isSignedIn()) {
             window.AppInterface.updateLeaderboards(score);
         } 
-        maybeRunSwiftEvent("SYSTEM:SWIFT:UPDATE_LEADERBOARD", score);
+        maybeRunSwiftEvent("SYSTEM:SWIFT:UPDATE_LEADERBOARDS", score);
     }
 
     var setupLoginState = function() {
