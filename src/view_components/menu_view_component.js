@@ -34,7 +34,8 @@ var menuViewComponent = function() {
             action();
         });
         menuItem.sortOrder = sortOrder;
-        menuItem.visible = defaultVisiblilty || true;
+        if (defaultVisiblilty === false)
+            menuItem.visible = false;
         my.renderSystem.stage.addChild(menuItem);
         my.menuItems[key] = menuItem;
     }
