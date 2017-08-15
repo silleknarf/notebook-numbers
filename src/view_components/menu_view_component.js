@@ -3,10 +3,17 @@ var menuViewComponent = function() {
     my.menuItems = {};
 
     var getFont = function(absolute) {
-        var menuItemsCount = _.keys(my.menuItems).length;
+        var menuItemsCount = getMenuItemsCount();
         var fontSize = Math.floor(absolute.height / (menuItemsCount + 1));
         var font = fontSize + "px " + config.titleFont;
         return font;
+    };
+
+    var getMenuItemsCount = function() {
+        return _(my.menuItems)
+            .filter(function(menuItem) { return menuItem.visible; })
+            .value()
+            .length;
     };
 
     var addMenuItem = function(absolute, key, text, sortOrder, action) {
@@ -58,14 +65,23 @@ var menuViewComponent = function() {
             "Leaderboards", 
             3,
             function() { 
-                eventManager.vent.trigger("SYSTEM:LEADERBOARDS:ACTION");
+                eventManager.vent.trigger("SYSTEM:LEADERBOARDS:OPEN_LEADERBOARDS");
+            });
+
+        addMenuItem(
+            absolute, 
+            "login", 
+            "Login", 
+            4,
+            function() { 
+                eventManager.vent.trigger("SYSTEM:LEADERBOARDS:LOG_IN");
             });
 
         addMenuItem(
             absolute, 
             "level", 
             "Level: ", 
-            4,
+            5,
             function() { 
                 eventManager.vent.trigger("SYSTEM:LEVEL:NEXT");
                 eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
@@ -75,17 +91,24 @@ var menuViewComponent = function() {
     var render = function(renderSystem, entity, eventManager) {
         var bounds = entity.components[componentTypeEnum.BOUNDS];
         var firstMenuItem = _.head(_.values(my.menuItems));
-        var menuItemsCount = _.keys(my.menuItems).length;
+        var menuItemsCount = getMenuItemsCount();
         var font = getFont(bounds.absolute);
 
         my.menuItems.level.text = "- Level: " + eventManager.vent.trigger("SYSTEM:LEVEL:GET_NEXT_NUMBER").number + " -";
-        my.menuItems.level.visible = eventManager.vent.trigger("SYSTEM:MODE:GET").mode !== "tutorial";
-        my.menuItems.leaderboards.text = "- " + eventManager.vent.trigger("SYSTEM:LEADERBOARDS:GET_ACTION").text + " -";
+        var isTutorialMode = eventManager.vent.trigger("SYSTEM:MODE:GET").mode !== "tutorial";        
+        my.menuItems.level.visible = isTutorialMode;
+
+        var isLoggedIn = eventManager.vent.trigger("SYSTEM:LEADERBOARDS:GET_IS_LOGGED_IN").isLoggedIn;
+        my.menuItems.leaderboards.visible = config.isNativeApp && isLoggedIn;
+        my.menuItems.login.visible = config.isNativeApp && config.isAndroid && !isLoggedIn;
 
         var i = 0;
         _.forEach(
             my.menuItems,
             function(menuItem) {
+                if (!menuItem.visible)
+                    return;
+
                 var middle = Math.floor(bounds.absolute.width/2 - menuItem.getMeasuredWidth()/2);
                 menuItem.x = bounds.absolute.x + middle;
                 menuItem.y = bounds.absolute.y + bounds.absolute.height * i / menuItemsCount; 

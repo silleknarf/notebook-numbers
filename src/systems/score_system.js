@@ -53,6 +53,7 @@ var scoreSystem = function(ecs, eventManager) {
                 entity.components[componentTypeEnum.SCORE].isVisible = my.isScoreVisible;
             });
         saveScore();
+        eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
     }
 
     var initialiseEvents = function() {
