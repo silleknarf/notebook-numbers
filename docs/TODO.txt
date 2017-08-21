@@ -6,8 +6,8 @@ TODO
 - UI Improvements
     + Double the width of the grid background
     + Add banderole
-    - Add html overlay on the bottom right of the canvas
-    - Make the app full screen
+    + Add html overlay on the bottom right of the canvas
+    + Make the app full screen
     - Switch to smaller icons
     - Change the font
     - Test

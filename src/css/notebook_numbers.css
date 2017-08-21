@@ -68,3 +68,16 @@ canvas {
   	height: 50vh;
 }
 
+.icon-social {
+	width: 20%;
+	height: 10%;
+}
+
+.link-social {
+	color: transparent;
+}
+
+.row { 
+	margin-bottom: 10px !important;
+}
+
