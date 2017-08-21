@@ -60,89 +60,69 @@
         </div>
     </div>
     <div>
-        <div id="header" class="row" style="height: 60px; visibility: hidden;">
-            <div style="float: left; margin: 5px">
-                <a  href="https://play.google.com/store/apps/details?id=com.silleknarf.notebooknumbers"
-                    style="color: white">
-                    <img alt="Get it on Google Play"
-                         src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png"
-                         width="172"
-                         height="53"
-                         style="margin: 4px 0" />
-                </a>
-                <a  href="https://itunes.apple.com/app/noteboook-numbers/id1262922571">
-                    <img alt="Download on the App Store"
-                         src="src/images/Download_on_the_App_Store_Badge_US-UK_135x40.svg"
-                         width="172"
-                         height="60"
-                         preserveAspectRatio="none"
-                         overflow="hidden" />
-                </a>
-                
-            </div>
-            <div style="float: right">
-                <div style="float: left; margin: 5px 0; display: none" 
-                     class="fb-like share-button" 
-                     data-href="https://www.facebook.com/NotebookNumbers" 
-                     data-layout="standard" 
-                     data-action="like" 
-                     data-show-faces="true" 
-                     data-share="true"></div>
-                <div style="float: left; display: none"
-                     class="share-buttons">
-                     <div style="margin: 5px 15px 0 0">
-                        <a href="https://twitter.com/silleknarf" 
-                        class="twitter-follow-button" 
-                        data-show-count="false">Follow @silleknarf</a>
-                        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-                     </div>
-                     <div style="background: #003266"
-                          class="badge">
-                        <img src="src/images/mail.bordered.png" alt="mail" width="14" height="10" 
-                             style="margin-top: 5px; margin-left: 6px; float: left" />
-                        <a  style="margin-left: 6px"
-                            class="badge-text"
-                            href="mailto:support@notebooknumbers.com">
-                            Email Support
-                        </a>
-                     </div>
-                     <div style="background: grey"
-                          class="badge">
-                        <img src="src/images/GitHub.png" alt="mail" width="15" height="15" 
-                             style="margin-top: 2px; margin-left: 5px; float: left" />
-                        <a  style="margin-left: 5px"
-                            class="badge-text" 
-                            href="https://github.com/silleknarf/notebook-numbers">
-                            View On GitHub
-                        </a>
-                     </div>
-                </div>
-                <div style="float: left; margin: 5px">
-                    <div>
-                        <a href="http://www.createjs.com">
-                            <img
-                                border="0" 
-                                alt="Create.js" 
-                                src="src/images/attributions/logo_createjs.png" 
-                                width="120px"
-                                height="30px">
-                        </a>
-                    </div>
-                    <div>
-                        <a href="http://getbootstrap.com">
-                            <img border="0" alt="Bootstrap" src="src/images/attributions/logo_bootstrap.png"
-                                width="120px"
-                                height="30px">
-                        </a>
-                    </div>
+        <div id="canvas" style="width: 100vw; height: 100vh; float: left">
+          <canvas id="notebooknumbers" style="display: none;">Notebook Numbers</canvas>
+          <div id="overlay" style="visibility: hidden">
+            <div class="row" style="height: 60px">
+                <div style="margin: 0 auto; width: 348px">
+                    <a  href="https://play.google.com/store/apps/details?id=com.silleknarf.notebooknumbers"
+                        style="color: white">
+                        <img alt="Get it on Google Play"
+                             src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png"
+                             width="172"
+                             height="53"
+                             style="margin: 4px 0" />
+                    </a>
+                    <a  href="https://itunes.apple.com/app/noteboook-numbers/id1262922571">
+                        <img alt="Download on the App Store"
+                             src="src/images/Download_on_the_App_Store_Badge_US-UK_135x40.svg"
+                             width="172"
+                             height="60"
+                             preserveAspectRatio="none"
+                             overflow="hidden" />
+                    </a>
                 </div>
             </div>
-        </div>
-        <div >
-            <div id="canvas" style="width: 100vw; height: calc(100vh - 70px); float: left">
-                <canvas id="notebooknumbers" style="display: none;">Notebook Numbers</canvas>
+            <div class="row" style="margin: 0 auto; width: 15%">
+              <a href="https://www.facebook.com/NotebookNumbers"
+                 class="link-social">
+                <img class="icon-social" src="src/images/social_icons/fb-icon.png">
+              </a>
+              <a href="https://www.twitter.com/silleknarf"
+                 class="link-social">
+                <img class="icon-social" src="src/images/social_icons/twitter-icon.png">
+              </a>
+              <a href="https://www.github.com/silleknarf/notebook-numbers"
+                 class="link-social">
+                <img class="icon-social" src="src/images/social_icons/github-icon.png">
+              </a>
+              <a href="mailto:support@notebooknumbers.com"
+                 class="link-social">
+                <img class="icon-social" src="src/images/social_icons/mail.png">
+              </a>
             </div>
+            <div class="row" style="margin: 0 auto; width: 120px">
+              <div>
+                  <a href="http://www.createjs.com">
+                      <img
+                          border="0" 
+                          alt="Create.js" 
+                          src="src/images/attributions/logo_createjs.png" 
+                          width="120px"
+                          height="30px">
+                  </a>
+              </div>
+              <div>
+                  <a href="http://getbootstrap.com">
+                      <img border="0" alt="Bootstrap" src="src/images/attributions/logo_bootstrap.png"
+                          width="120px"
+                          height="30px">
+                  </a>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 </body>
 </html>

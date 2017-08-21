@@ -40,10 +40,10 @@ var init = function() {
 
             // Full screen the game on mobile
             if (config.isMobile) {
-                $("#header").remove();
+                $("#overlay").remove();
                 $("#canvas").height("100vh");
             } else {
-                $("#header").css("visibility", "visible");
+                $("#overlay").css("visibility", "visible");
                 $(".share-button").css("display", "initial");
                 $(".share-buttons").css("display", "initial");
             }

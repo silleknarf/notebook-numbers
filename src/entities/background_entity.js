@@ -4,7 +4,7 @@ var backgroundEntityFactory = function() {
     var coverEntityComponents = [coverViewComponent(), coverBoundsComponent];
     var coverEntity = entity("cover", coverEntityComponents);
 
-    var gridBackgroundWidth = config.isVerticalLayout ? 100 : 50;
+    var gridBackgroundWidth = config.isVertialLayout ? 100 : 50;
     var gridBackgroundHeight = config.isVerticalLayout ? 55 : 100;
     var gridBackgroundY = config.isVerticalLayout ? 45 : 0;
     var gridBackgroundBoundsComponent = boundsComponent({ 
@@ -15,6 +15,15 @@ var backgroundEntityFactory = function() {
     });
     var gridBackgroundEntityComponents = [gridBackgroundViewComponent(), gridBackgroundBoundsComponent];
     var gridBackgroundEntity = entity("grid_background", gridBackgroundEntityComponents);
+
+    var rightPageBackgroundBoundsComponent = boundsComponent({ 
+        x: 50, 
+        y: gridBackgroundY, 
+        width: gridBackgroundWidth, 
+        height: gridBackgroundHeight 
+    });
+    var rightPageBackgroundEntityComponents = [gridBackgroundViewComponent(), rightPageBackgroundBoundsComponent];
+    var rightPageBackgroundEntity = entity("right_page_background", rightPageBackgroundEntityComponents);
 
     var menuPageX = config.isVerticalLayout ? 0 : 50;
     var titleBoundsComponent = boundsComponent({ x: menuPageX, y: 0, width: gridBackgroundWidth, height: 15});
@@ -33,10 +42,21 @@ var backgroundEntityFactory = function() {
     var bindingsEntityComponents = [bindingsViewComponent(), bindingsBoundsComponent];
     var bindingsEntity = entity("bindings", bindingsEntityComponents);
 
-    var subEntities = [coverEntity, gridBackgroundEntity, titleEntity, menuEntity, scoreEntity];
+    var endpaperBoundsComponent = boundsComponent({ x: menuPageX, y: 0, width: 50, height: 50 });
+    var endpaperEntityComponents = [endpaperViewComponent(), endpaperBoundsComponent];
+    var endpaperEntity = entity("endpaper", endpaperEntityComponents);
 
-    if (!config.isVerticalLayout)
-        subEntities.push(bindingsEntity)
+    var subEntities = [ coverEntity, gridBackgroundEntity ];
+
+    if (!config.isVerticalLayout) {
+        subEntities.push(rightPageBackgroundEntity);
+        subEntities.push(endpaperEntity);
+        subEntities.push(bindingsEntity);
+    }
+
+    subEntities.push(titleEntity);
+    subEntities.push(menuEntity);
+    subEntities.push(scoreEntity);
 
     var backgroundEntityComponents = [backgroundViewComponent(), boundsComponent()];
     var backgroundEntity = entity("background_view", backgroundEntityComponents, subEntities);

@@ -48,6 +48,7 @@ var preloadSystemFactory = function() {
             { src: "src/view_components/grid_background_view_component.js" },
             { src: "src/view_components/bindings_view_component.js" },
             { src: "src/view_components/score_view_component.js" },
+            { src: "src/view_components/endpaper_view_component.js" },
 
             { src: "src/view_systems/grid_view_system.js" },
             { src: "src/view_systems/cursor_view_system.js" },

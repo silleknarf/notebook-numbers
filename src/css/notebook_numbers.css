@@ -59,3 +59,25 @@ canvas {
 	color: white; 
 	text-align: center;
 }
+
+#overlay {
+  	position: absolute;
+  	left: 50vw;
+  	top: 50vh;
+  	width: 50vw;
+  	height: 50vh;
+}
+
+.icon-social {
+	width: 20%;
+	height: 10%;
+}
+
+.link-social {
+	color: transparent;
+}
+
+.row { 
+	margin-bottom: 10px !important;
+}
+
