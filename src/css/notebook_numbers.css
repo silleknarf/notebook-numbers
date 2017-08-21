@@ -59,3 +59,12 @@ canvas {
 	color: white; 
 	text-align: center;
 }
+
+#overlay {
+  	position: absolute;
+  	left: 50vw;
+  	top: 50vh;
+  	width: 50vw;
+  	height: 50vh;
+}
+
