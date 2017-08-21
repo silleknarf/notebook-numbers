@@ -1,9 +1,14 @@
+BLOCKED
+=======
+
+- Do a release
+    - Wait for iOS release
+    - Release Android version
+    - Check live leaderboards
+
 TODO
 ====
 
-+ Save the "next level" variable
-+ Leaderboards
-+ UI Improvements
 - Undo (in app purchase)
     - Add undo button
     - Keep record of grid moves
@@ -31,6 +36,12 @@ TODO
         - If successful then copy development branch to master branch
         - Display badge on Github
 - Timed mode
+    - Add new level with time limit
+    - Add timer system
+    - Start the time when a new game is started 
+    - Display the timer
+    - Display a message when the game has ended and end the game
+    - Test
 - More levels
 - Change the font
 - Marketing
