@@ -3,14 +3,7 @@ TODO
 
 + Save the "next level" variable
 + Leaderboards
-- UI Improvements
-    + Double the width of the grid background
-    + Add banderole
-    + Add html overlay on the bottom right of the canvas
-    + Make the app full screen
-    - Switch to smaller icons
-    - Change the font
-    - Test
++ UI Improvements
 - Undo (in app purchase)
     - Add undo button
     - Keep record of grid moves
@@ -39,6 +32,7 @@ TODO
         - Display badge on Github
 - Timed mode
 - More levels
+- Change the font
 - Marketing
     - Write a blog post about how to release a cross-platform game using JS and HTML
     - Write a post-mortem of the game
