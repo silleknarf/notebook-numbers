@@ -1,20 +1,7 @@
 TODO
 
 + Save the "next level" variable
-- Leaderboards
-    + New menu item for login/viewing highscores
-    + Android    
-        + Link menu item code to Java code
-        + Login to google play game services
-        + Call highscore endpoint
-    + iOS
-        + Link menu item code to swift code
-        + Login to iOS game center
-        + Call highscore endpoint
-    + Remove cocoapods
-    + Hide the login button on non-native versions
-    + Hide the leaderboard button on non-native versions
-    - Test iOS leaderboards
++ Leaderboards
 - Set up deploy scripts for mobile apps
     - Android 
         - Bump the version numbers
