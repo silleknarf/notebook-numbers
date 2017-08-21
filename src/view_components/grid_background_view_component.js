@@ -11,7 +11,7 @@ var gridBackgroundViewComponent = function() {
             .drawRect(0, bounds.absolute.y, width, height-bounds.absolute.y);
         gridBackgroundView.graphics = my.backgroundGraphics;
 
-        gridBackgroundView.x = gridBackgroundMargin;
+        gridBackgroundView.x = gridBackgroundMargin+bounds.absolute.x;
         gridBackgroundView.y = coverMargin / 2;
         gridBackgroundView.sourceRect = new createjs.Rectangle(
             0,
