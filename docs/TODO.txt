@@ -1,7 +1,27 @@
 TODO
+====
 
 + Save the "next level" variable
 + Leaderboards
+- UI Improvements
+    - Double the width of the grid background
+    - Add banderole
+    - Add html overlay on the bottom right of the canvas
+    - Make the app full screen
+    - Switch to smaller icons
+    - Change the font
+    - Test
+- Undo (in app purchase)
+    - Add undo button
+    - Keep record of grid moves
+    - Make actions undo-able
+    - Limit undos to 3 per game
+    - Add in-app purchases for undo
+        - Add store button
+        - Implement Android in-app purchase
+        - Implement iOS in-app purchase
+        - Keep track of purchased undos
+        - Display purchased undos
 - Set up deploy scripts for mobile apps
     - Android 
         - Bump the version numbers
@@ -17,6 +37,8 @@ TODO
         - Run the tests
         - If successful then copy development branch to master branch
         - Display badge on Github
+- Timed mode
+- More levels
 - Marketing
     - Write a blog post about how to release a cross-platform game using JS and HTML
     - Write a post-mortem of the game
@@ -29,7 +51,6 @@ TODO
     - Android
         - Call Android in app purchase endpoint
         - Top up cheats count
-- Undo (in app purchase)
 - Title re-alignment bug
 - Line up the grid with the numbers
 - Remove from cursor
