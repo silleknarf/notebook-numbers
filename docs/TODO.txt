@@ -9,17 +9,17 @@ BLOCKED
 TODO
 ====
 
-- Undo (in app purchase)
-    - Add undo button
-    - Keep record of grid moves
-    - Make actions undo-able
-    - Limit undos to 3 per game
-    - Add in-app purchases for undo
-        - Add store button
-        - Implement Android in-app purchase
-        - Implement iOS in-app purchase
-        - Keep track of purchased undos
-        - Display purchased undos
++ Undo 
+    + Add undo button
+    + Keep record of grid moves
+    + Make actions undo-able
+    + Limit undos to 3 per game
+- Add in-app purchases for undo
+    - Add store button
+    - Implement Android in-app purchase
+    - Implement iOS in-app purchase
+    - Keep track of purchased undos
+    - Display purchased undos
 - Set up deploy scripts for mobile apps
     - Android 
         - Bump the version numbers

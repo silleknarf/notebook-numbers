@@ -32,6 +32,7 @@ var init = function() {
         scoreSystem(ecs, eventManager);
         levelSystem(eventManager);
         leaderboardSystem(eventManager);
+        undoSystem(eventManager);
 
         var backgroundEntity = backgroundEntityFactory();
         ecs.addEntity(null, backgroundEntity);

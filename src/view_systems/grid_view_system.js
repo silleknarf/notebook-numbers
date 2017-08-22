@@ -40,6 +40,12 @@ var gridViewSystem = function(ecs, eventManager) {
                 cell.digit = row[j];
             }
         }
+
+        // If the old row had more cells then remove the surplus
+        if (typeof(previousRow) !== "undefined" && previousRow.length > row.length) {
+            var toRemove = _.slice(previousRow, row.length, previousRow.length);
+            removeOldEntities(toRemove);
+        }
         my.topCellHeight = bounds.relative.y + bounds.relative.height;
     };
 
@@ -125,7 +131,8 @@ var gridViewSystem = function(ecs, eventManager) {
 
             var isPreviousRowArray = Array.isArray(previousGridRows[i])
             var isArray = Array.isArray(grid[i])
-            var isEmptyRow = isArray && grid[i].length === 0;
+            var isNonRow = typeof(grid[i]) === "undefined";
+            var isEmptyRow = isNonRow || (isArray && grid[i].length === 0);
             var isNewRowType = isArray !== isPreviousRowArray || 
                 typeof previousGridRows[i] === "undefined";
 

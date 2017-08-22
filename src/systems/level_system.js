@@ -66,6 +66,10 @@ var levelSystem = function(eventManager) {
 
     // Cycle through the unlocked levels
     var nextLevel = function() {
+        var isTutorialMode = eventManager.vent.trigger("SYSTEM:MODE:GET").mode === "tutorial";        
+        if (isTutorialMode)
+            return;
+        
         my.nextLevel++;
         if (my.nextLevel > my.currentUnlockedLevel)
             my.nextLevel = 1;
@@ -74,6 +78,10 @@ var levelSystem = function(eventManager) {
 
     // Unlock a level if you have progressed
     var unlockLevel = function() {
+        var isTutorialMode = eventManager.vent.trigger("SYSTEM:MODE:GET").mode === "tutorial";        
+        if (isTutorialMode)
+            return;
+
         var nextLevel = my.currentLevel + 1;
         if (nextLevel > my.currentUnlockedLevel && nextLevel <= my.levels.length)
             my.currentUnlockedLevel = nextLevel;

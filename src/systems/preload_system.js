@@ -66,6 +66,7 @@ var preloadSystemFactory = function() {
             { src: "src/systems/gizmo_system.js" },
             { src: "src/systems/level_system.js" },
             { src: "src/systems/leaderboard_system.js" },
+            { src: "src/systems/undo_system.js" },
 
             { src: "src/entities/refill_grid_entity.js" },
             { src: "src/entities/cursor_entity.js" },

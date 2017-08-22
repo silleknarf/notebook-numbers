@@ -12,6 +12,7 @@ var modeSystem = function(ecs, eventManager, gridUtil) {
         my.currentMode = mode.name;
 
         eventManager.vent.trigger("VIEWSYSTEM:CELLS:GRID_CHANGED");
+        eventManager.vent.trigger("SYSTEM:UNDO:CLEAR");
         eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
     };
 

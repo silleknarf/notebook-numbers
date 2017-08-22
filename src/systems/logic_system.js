@@ -70,10 +70,23 @@ var logicSystem = function(ecs, eventManager, gridUtil) {
         ecs.removeEntities("refill_grid");
     };
 
+    var undoEvent = function(move) {
+        updateGrid(function(grid) {
+            if (move.type === moveTypes.MAKE_MOVE) {
+                gridUtil.undoMakeMove(grid, move);
+            } else if (move.type === moveTypes.REFILL_GRID) {
+                gridUtil.undoRefillGrid(grid, move);
+            } else if (move.type === moveTypes.CLEAR_LINE) {
+                gridUtil.undoClearLine(grid, move);
+            }
+        });
+    }
+
     var initialiseEvents = function() {
         eventManager.vent.on("SYSTEM:LOGIC:REFILL_GRID", refillGridEvent);
         eventManager.vent.on("SYSTEM:LOGIC:MAKE_MOVE", makeMoveEvent);
         eventManager.vent.on("SYSTEM:LOGIC:GRID_COMPLETED", gridCompletedEvent);
+        eventManager.vent.on("SYSTEM:LOGIC:UNDO", undoEvent);
     };
 
     initialiseEvents();

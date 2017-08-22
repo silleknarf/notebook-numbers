@@ -14,7 +14,7 @@ var menuViewComponent = function() {
     // know how many items there are until we have
     // added them :/
     var getMenuItemsCount = function() {
-        return 4;
+        return 5;
     };
 
     var addMenuItem = function(absolute, key, text, sortOrder, action, defaultVisiblilty) {
@@ -92,6 +92,15 @@ var menuViewComponent = function() {
                 eventManager.vent.trigger("SYSTEM:LEVEL:NEXT");
                 eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
             });
+
+        addMenuItem(
+            absolute, 
+            "undo", 
+            "Undo", 
+            5,
+            function() { 
+                eventManager.vent.trigger("SYSTEM:UNDO:UNDO");
+            });
     };
 
     var render = function(renderSystem, entity, eventManager) {
@@ -105,9 +114,12 @@ var menuViewComponent = function() {
             " / " +
             eventManager.vent.trigger("SYSTEM:LEVEL:GET_MAX_NUMBER").number +
             " -";
-        var isTutorialMode = eventManager.vent.trigger("SYSTEM:MODE:GET").mode !== "tutorial";        
-        my.menuItems.level.visible = isTutorialMode;
+        var isTutorialMode = eventManager.vent.trigger("SYSTEM:MODE:GET").mode === "tutorial";        
+        my.menuItems.level.visible = !isTutorialMode;
 
+        var undosRemaining = eventManager.vent.trigger("SYSTEM:UNDO:GET_REMAINING").undosRemaining;
+        my.menuItems.undo.text = "- Undo (" + undosRemaining + ") -"; 
+        my.menuItems.undo.visible = !isTutorialMode && undosRemaining > 0;
         var isLoggedIn = eventManager.vent.trigger("SYSTEM:LEADERBOARDS:GET_IS_LOGGED_IN").isLoggedIn;
         my.menuItems.leaderboards.visible = config.isNativeApp && isLoggedIn;
         my.menuItems.login.visible = config.isNativeApp && config.isAndroid && !isLoggedIn;

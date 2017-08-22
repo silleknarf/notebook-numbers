@@ -115,6 +115,24 @@ var cursorSystem = function(ecs, eventManager, gridUtil, cellUtil) {
         eventManager.vent.trigger("VIEWSYSTEM:CURSOR:UPDATED");
     }
 
+    var reset = function(cursor) {
+        cursor.cells = [];
+        cursor.state = my.states.speed;
+        
+        eventManager.vent.trigger("VIEWSYSTEM:CURSOR:UPDATED");
+    }
+
+    var resetEvent = function(cell) { 
+        ecs.runSystem(
+            [componentTypeEnum.GRID],
+            function(entity) {
+                var gridComponent = entity.components[componentTypeEnum.GRID]; 
+                var cursor = gridComponent.cursor;
+
+                reset(cursor);
+            });
+    };
+
     var addEvent = function(cell) { 
         var gridsUpdated = {};
         ecs.runSystemOnce(
@@ -154,6 +172,7 @@ var cursorSystem = function(ecs, eventManager, gridUtil, cellUtil) {
     var initialiseEvents = function() {
         eventManager.vent.on("SYSTEM:CURSOR:CHECK", checkEvent);
         eventManager.vent.on("SYSTEM:CURSOR:ADD", addEvent);
+        eventManager.vent.on("SYSTEM:CURSOR:RESET", resetEvent);
     };
     initialiseEvents();
 };

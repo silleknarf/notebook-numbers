@@ -168,6 +168,12 @@ var gridUtilFactory = function(cellUtil) {
             }
             lastJ += 1;
         }
+
+        var move = { 
+            type: moveTypes.REFILL_GRID,
+            cellsCount: remainingNumbers.length 
+        };
+        eventManager.vent.trigger("SYSTEM:UNDO:ADD", move);
     }
 
     /** 
@@ -201,15 +207,31 @@ var gridUtilFactory = function(cellUtil) {
      * @method makeMove
      **/
     var makeMove = function(grid, firstCell, secondCell) {
+        // Lets get ourselves some fresh cells which
+        // we can safely put on the undo stack
+        var firstCell =  _.clone(firstCell);
+        var secondCell =  _.clone(secondCell);
+
         var cells = [firstCell, secondCell]
+
         var rows = {};
         for (var c = 0; c < cells.length; c++) {
             var i = cells[c].i;
             var j = cells[c].j;
+
+            cells[c].digit = grid[i][j];
+
             grid[i][j] = 0;
             // we need to keep a set of rows to maybe remove
             rows[i] = true;
         }
+
+        var move = { 
+            type: moveTypes.MAKE_MOVE,
+            firstCell: firstCell, 
+            secondCell: secondCell 
+        };
+        eventManager.vent.trigger("SYSTEM:UNDO:ADD", move);
 
         maybeRemoveRows(grid, rows);
     }
@@ -236,6 +258,8 @@ var gridUtilFactory = function(cellUtil) {
             if (isEmptyRow) {
                 grid[rowIndex] = [];
                 eventManager.vent.trigger("SYSTEM:SCORE:ADD", 10);
+                var move = { type: moveTypes.CLEAR_LINE, index: rowIndex };
+                eventManager.vent.trigger("SYSTEM:UNDO:ADD", move);
                 return true;
             }
         }
@@ -273,11 +297,51 @@ var gridUtilFactory = function(cellUtil) {
         return grid;
     }
 
+    var undoMakeMove = function(grid, move) {
+        var firstCell = move.firstCell;
+        var secondCell = move.secondCell;
+        grid[firstCell.i][firstCell.j] = firstCell.digit;
+        grid[secondCell.i][secondCell.j] = secondCell.digit;
+    };
+
+    // remove the numbers at the end
+    var undoRefillGrid = function(grid, move) {
+        var cellsCount = move.cellsCount;
+        while (cellsCount > 0) {
+            var lastRow = grid[grid.length-1];
+            var cellsRemoved = lastRow.length;
+            if (lastRow.length <= cellsCount) {
+                grid.length = grid.length-1;
+            } else {
+                lastRow.length = lastRow.length - cellsCount;
+                cellsRemoved = cellsCount;
+            }
+
+            cellsCount -= cellsRemoved;
+        }
+    }
+
+    var undoClearLine = function(grid, move) {
+        var emptyRow = _.times(9, function() { return 0; });
+        grid.splice(move.index, 1, emptyRow);
+        eventManager.vent.trigger("SYSTEM:SCORE:ADD", -10);
+    }
+
+    // Normal moves
     my.makeMove = makeMove;
-    my.checkCompleted = checkCompleted;
     my.refillGrid = refillGrid;
     my.check = check;
+
+    my.checkCompleted = checkCompleted;
+    
+    // Saving
     my.saveGrid = saveGrid;
     my.loadGrid = loadGrid;
+
+    // Undo moves
+    my.undoMakeMove = undoMakeMove;
+    my.undoRefillGrid = undoRefillGrid;
+    my.undoClearLine = undoClearLine;
+
     return my;
 };
