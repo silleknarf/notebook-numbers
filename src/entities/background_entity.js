@@ -4,7 +4,7 @@ var backgroundEntityFactory = function() {
     var coverEntityComponents = [coverViewComponent(), coverBoundsComponent];
     var coverEntity = entity("cover", coverEntityComponents);
 
-    var gridBackgroundWidth = config.isVertialLayout ? 100 : 50;
+    var gridBackgroundWidth = config.isVerticalLayout ? 100 : 50;
     var gridBackgroundHeight = config.isVerticalLayout ? 55 : 100;
     var gridBackgroundY = config.isVerticalLayout ? 45 : 0;
     var gridBackgroundBoundsComponent = boundsComponent({ 
