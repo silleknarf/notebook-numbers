@@ -19,12 +19,12 @@ var classicEntityFactory = function(gridUtil) {
     } else {
         eventManager.vent.trigger("SYSTEM:SCORE:LOAD");
         eventManager.vent.trigger("SYSTEM:LEVEL:LOAD");
+        eventManager.vent.trigger("SYSTEM:TIMER:LOAD");
     }
 
     var classicGridComponent = gridComponent(savedGrid);
 
     var classicBounds = boundsComponent();
-    //classicBounds.relative.width = config.isVerticalLayout ? 100 : 50;
 
     var gridEntity = gridEntityFactory(classicGridComponent);
     var cursorEntity = cursorEntityFactory(classicGridComponent);

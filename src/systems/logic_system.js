@@ -43,6 +43,7 @@ var logicSystem = function(ecs, eventManager, gridUtil) {
         var currentLevel = eventManager.vent.trigger("SYSTEM:LEVEL:GET_CURRENT_NUMBER").number;
         var maxLevel = eventManager.vent.trigger("SYSTEM:LEVEL:GET_MAX_NUMBER").number;
         updateGrid(function(grid) {
+          
             var newGrid = [
                 "Well done you have",
                 "completed level " +  currentLevel + " of ",
@@ -71,6 +72,7 @@ var logicSystem = function(ecs, eventManager, gridUtil) {
     };
 
     var timerExpiredEvent = function() {
+        eventManager.vent.trigger("SYSTEM:CURSOR:RESET");
         gridUtil.saveGrid(null);
         updateGrid(function(grid) {
             var newGrid = [

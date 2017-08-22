@@ -29,6 +29,7 @@ var timerSystem = function(eventManager) {
                     my.duration = null;
                     my.timeInSecondsRemaining = null;
                 }
+                save();
 
                 eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
             }
@@ -54,10 +55,24 @@ var timerSystem = function(eventManager) {
         eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
     }
 
+    var save = function() {
+        localStorage.setItem("timeInSecondsRemaining", my.timeInSecondsRemaining);
+        localStorage.setItem("event", my.event);
+    };
+
+    var load = function() {
+        var timeInSecondsRemaining = localStorage.getItem("timeInSecondsRemaining");
+        if (timeInSecondsRemaining !== null) {
+            var event = localStorage.getItem("event");
+            set(timeInSecondsRemaining, event);
+        }
+    }
+
     var initialiseEvents = function() {
         eventManager.vent.on("SYSTEM:TIMER:SET", set);
         eventManager.vent.on("SYSTEM:TIMER:GET_REMAINING", getRemaining);
         eventManager.vent.on("SYSTEM:TIMER:RESET", reset);
+        eventManager.vent.on("SYSTEM:TIMER:LOAD", load);
         eventManager.vent.on("SYSTEM:LOGIC:GRID_COMPLETED", reset);
     };
     initialiseEvents();
