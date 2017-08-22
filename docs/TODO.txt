@@ -16,7 +16,7 @@ TODO
     + Start the time when a new game is started 
     + Display the timer
     + Display a message when the game has ended and end the game
-    - Add the levels with timers
+    + Add the levels with timers
     - Test
 - Set up deploy scripts for mobile apps
     - Android 
