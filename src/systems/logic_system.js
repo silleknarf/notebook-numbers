@@ -70,6 +70,24 @@ var logicSystem = function(ecs, eventManager, gridUtil) {
         ecs.removeEntities("refill_grid");
     };
 
+    var timerExpiredEvent = function() {
+        gridUtil.saveGrid(null);
+        updateGrid(function(grid) {
+            var newGrid = [
+                "Oh dear, the",
+                "time limit has",
+                "expired!",
+                "",
+                "Click the new game button",
+                "to play again.",
+            ];
+            // Replace the grid without updating the reference
+            grid.length = 0;
+            Array.prototype.push.apply(grid, newGrid);
+        });
+        ecs.removeEntities("refill_grid");
+    };
+
     var undoEvent = function(move) {
         updateGrid(function(grid) {
             if (move.type === moveTypes.MAKE_MOVE) {
@@ -87,6 +105,7 @@ var logicSystem = function(ecs, eventManager, gridUtil) {
         eventManager.vent.on("SYSTEM:LOGIC:MAKE_MOVE", makeMoveEvent);
         eventManager.vent.on("SYSTEM:LOGIC:GRID_COMPLETED", gridCompletedEvent);
         eventManager.vent.on("SYSTEM:LOGIC:UNDO", undoEvent);
+        eventManager.vent.on("SYSTEM:LOGIC:TIMER_EXPIRED", timerExpiredEvent);
     };
 
     initialiseEvents();

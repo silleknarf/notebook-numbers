@@ -25,6 +25,9 @@ var scoreViewComponent = function() {
         var bounds = entity.components[componentTypeEnum.BOUNDS];
 
         my.score.text = "Score: " + entity.components[componentTypeEnum.SCORE].score.toLocaleString();
+        var timeRemaining = eventManager.vent.trigger("SYSTEM:TIMER:GET_REMAINING").remaining;
+        if (timeRemaining !== null)
+            my.score.text += " (" + timeRemaining + ")";
         my.score.visible = entity.components[componentTypeEnum.SCORE].isVisible;
 
         var font = getFont(bounds.absolute);
