@@ -10,16 +10,13 @@ TODO
 ====
 
 + Undo 
-    + Add undo button
-    + Keep record of grid moves
-    + Make actions undo-able
-    + Limit undos to 3 per game
-- Add in-app purchases for undo
-    - Add store button
-    - Implement Android in-app purchase
-    - Implement iOS in-app purchase
-    - Keep track of purchased undos
-    - Display purchased undos
+- Timed mode
+    - Add new level with time limit
+    - Add timer system
+    - Start the time when a new game is started 
+    - Display the timer
+    - Display a message when the game has ended and end the game
+    - Test
 - Set up deploy scripts for mobile apps
     - Android 
         - Bump the version numbers
@@ -35,18 +32,17 @@ TODO
         - Run the tests
         - If successful then copy development branch to master branch
         - Display badge on Github
-- Timed mode
-    - Add new level with time limit
-    - Add timer system
-    - Start the time when a new game is started 
-    - Display the timer
-    - Display a message when the game has ended and end the game
-    - Test
 - More levels
 - Change the font
 - Marketing
     - Write a blog post about how to release a cross-platform game using JS and HTML
     - Write a post-mortem of the game
+- Add in-app purchases for undo
+    - Add store button
+    - Implement Android in-app purchase
+    - Implement iOS in-app purchase
+    - Keep track of purchased undos
+    - Display purchased undos
 - Cheats (in app purchase)
     - Add new menu item for buying cheats
     - Implement cheat functionality
