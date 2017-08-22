@@ -34,16 +34,29 @@ var levelSystem = function(eventManager) {
     };
 
     my.levels = [
-        [[8,2,9,7,7,1,3,8,1],[9,2,8,1,5,5,7,8,1]], // Very easy
-        [[1,9,5,1,5,1,1,9,5],[5,9,1,5,9,1,5,5,1]], // Quite easy
-        [[9,7,1,3,1,3,7,9,1],[3,9,1,3,7,9,7,1,3]], // Quite easy
-        [[1,2,3,2,2,3,1,2,3],[2,3,1,2,3,1,2,2,1]], // Medium
-        [[5,5,5,9,1,2,3,4,7],[1,2,3,5,7,8,2,1,4]], // Medium
-        [[2,1,4,2,1,4,2,1,4],[1,2,4,1,1,3,4,2,1]], // Pretty hard
-        generateClassicGrid(), // the classic
-        [[1,2,3,5,1,2,3,5,1],[5,1,2,3,5,1,5,3,1]], // Hard
-        [[1,9,1,2,3,4,5,6,7],[2,3,4,5,6,7,8,8,2],[7,3,1,2,3,4,5,6,7]], // Hard
-        [[1,2,3,4,5,6,7,8,9],[2,3,4,5,6,7,8,9,1],[3,4,5,6,7,8,9,1,2]] // Is it even possible?
+        // Original levels
+        { grid: [[8,2,9,7,7,1,3,8,1],[9,2,8,1,5,5,7,8,1]] }, // Very easy
+        { grid: [[1,9,5,1,5,1,1,9,5],[5,9,1,5,9,1,5,5,1]] }, // Quite easy
+        { grid: [[9,7,1,3,1,3,7,9,1],[3,9,1,3,7,9,7,1,3]] }, // Quite easy
+        { grid: [[1,2,3,2,2,3,1,2,3],[2,3,1,2,3,1,2,2,1]] }, // Hard
+        { grid: [[5,5,5,9,1,2,3,4,7],[1,2,3,5,7,8,2,1,4]] }, // Very hard
+        { grid: [[2,1,4,2,1,4,2,1,4],[1,2,4,1,1,3,4,2,1]] }, // Pretty hard
+        { grid: generateClassicGrid() }, // the classic
+        { grid: [[1,2,3,5,1,2,3,5,1],[5,1,2,3,5,1,5,3,1]] }, // Hard
+        { grid: [[1,9,1,2,3,4,5,6,7],[2,3,4,5,6,7,8,8,2],[7,3,1,2,3,4,5,6,7]] }, // Hard
+        { grid: [[1,2,3,4,5,6,7,8,9],[2,3,4,5,6,7,8,9,1],[3,4,5,6,7,8,9,1,2]] } // Easy!
+
+        // Timed levels
+        { grid: [[8,2,9,7,7,1,3,8,1],[9,2,8,1,5,5,7,8,1]], timer: 20 }, // Very easy (timed)
+        { grid: [[1,2,3,4,5,6,7,8,9],[2,3,4,5,6,7,8,9,1],[3,4,5,6,7,8,9,1,2]], timer: 30 }, // Easy!
+        { grid: [[1,9,5,1,5,1,1,9,5],[5,9,1,5,9,1,5,5,1]], timer: 30 }, // Quite easy
+        { grid: [[9,7,1,3,1,3,7,9,1],[3,9,1,3,7,9,7,1,3]], timer: 30 }, // Quite easy
+        { grid: generateClassicGrid(), timer: 60 }, // the classic
+        { grid: [[2,1,4,2,1,4,2,1,4],[1,2,4,1,1,3,4,2,1]], timer: 80 }, // Pretty hard
+        { grid: [[1,2,3,5,1,2,3,5,1],[5,1,2,3,5,1,5,3,1]], timer: 100 }, // Hard
+        { grid: [[1,9,1,2,3,4,5,6,7],[2,3,4,5,6,7,8,8,2],[7,3,1,2,3,4,5,6,7]], timer: 100 }, // Hard
+        { grid: [[1,2,3,2,2,3,1,2,3],[2,3,1,2,3,1,2,2,1]], timer: 120 }, // Hard
+        { grid: [[5,5,5,9,1,2,3,4,7],[1,2,3,5,7,8,2,1,4]], timer: 120 }, // Very hard
     ];
 
     // Get the level currently in play
@@ -52,10 +65,11 @@ var levelSystem = function(eventManager) {
     }
 
     // Start a new level
-    var getLevelGrid = function() {
+    var getLevel = function() {
         my.currentLevel = my.nextLevel;
         this.number = my.nextLevel;
-        this.grid = _.cloneDeep(my.levels[my.currentLevel-1]);
+        this.grid = _.cloneDeep(my.levels[my.currentLevel-1].grid);
+        this.timer = my.levels[my.currentLevel-1].timer;
         saveLevel();
     }
 
@@ -114,7 +128,7 @@ var levelSystem = function(eventManager) {
     }
 
     var initialiseEvents = function() {
-        eventManager.vent.on("SYSTEM:LEVEL:GET_GRID", getLevelGrid);
+        eventManager.vent.on("SYSTEM:LEVEL:GET_LEVEL", getLevel);
         eventManager.vent.on("SYSTEM:LEVEL:GET_CURRENT_NUMBER", getCurrentLevelNumber);
         eventManager.vent.on("SYSTEM:LEVEL:GET_NEXT_NUMBER", getNextLevelNumber);
         eventManager.vent.on("SYSTEM:LEVEL:GET_MAX_NUMBER", getMaxLevelNumber);

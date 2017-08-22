@@ -10,13 +10,8 @@ TODO
 ====
 
 + Undo 
-- Timed mode
-    - Add new level with time limit
-    - Add timer system
-    - Start the time when a new game is started 
-    - Display the timer
-    - Display a message when the game has ended and end the game
-    - Test
++ More levels
++ Timed mode
 - Set up deploy scripts for mobile apps
     - Android 
         - Bump the version numbers
@@ -32,7 +27,6 @@ TODO
         - Run the tests
         - If successful then copy development branch to master branch
         - Display badge on Github
-- More levels
 - Change the font
 - Marketing
     - Write a blog post about how to release a cross-platform game using JS and HTML
