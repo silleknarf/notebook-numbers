@@ -19,7 +19,5 @@ jobs:
     steps:
       - checkout
 
-      - run: yarn install
-
       # run tests!
-      - run: yarn test
+      - run: sh test/test.sh
