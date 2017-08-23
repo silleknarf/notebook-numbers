@@ -4,4 +4,4 @@ stages:
 job_name:
   stage: test
   script:
-    - sh test.sh
+    - sh test.sh 
