@@ -3,15 +3,17 @@ BLOCKED
 
 - Do a release
     - Wait for iOS release
-    - Release Android version
+    + Release Android version
     - Check live leaderboards
 
 TODO
 ====
 
-+ Undo 
-+ More levels
-+ Timed mode
+- Set up CI
+    - Set up Gitlab integration
+        - Run the tests
+        - If successful then copy development branch to master branch
+        - Display badge on Github
 - Set up deploy scripts for mobile apps
     - Android 
         - Bump the version numbers
@@ -22,11 +24,6 @@ TODO
         - Bump the version number
         - Generate Archive
         - Upload to App Store
-- Set up CI
-    - Set up Gitlab integration
-        - Run the tests
-        - If successful then copy development branch to master branch
-        - Display badge on Github
 - Change the font
 - Marketing
     - Write a blog post about how to release a cross-platform game using JS and HTML
