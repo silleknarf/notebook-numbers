@@ -27,3 +27,9 @@ jobs:
 
       # run tests!
       - run: cd test && ./test.sh
+
+workflows:
+  version: 2
+  test_and_merge:
+    jobs:
+      - test
