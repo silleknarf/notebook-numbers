@@ -19,5 +19,7 @@ jobs:
     steps:
       - checkout
 
+      - npm install mocha-phantomjs-core
+
       # run tests!
       - run: sh test/test.sh
