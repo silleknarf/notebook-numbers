@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/silleknarf/notebook-numbers.svg?style=shield)](https://circleci.com/gh/silleknarf/notebook-numbers)
+
 Notebook Numbers Web
 ====================
 
