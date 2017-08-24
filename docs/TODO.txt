@@ -9,11 +9,6 @@ BLOCKED
 TODO
 ====
 
-- Set up CI
-    - Set up Gitlab integration
-        - Run the tests
-        - If successful then copy development branch to master branch
-        - Display badge on Github
 - Set up deploy scripts for mobile apps
     - Android 
         - Bump the version numbers
