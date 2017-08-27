@@ -52,6 +52,7 @@ var timerSystem = function(eventManager) {
     var reset = function() {
         my.duration = null;
         my.timeInSecondsRemaining = null;
+        save();
         eventManager.vent.trigger("SYSTEM:BOUNDS:UPDATE");
     }
 
@@ -62,7 +63,7 @@ var timerSystem = function(eventManager) {
 
     var load = function() {
         var timeInSecondsRemaining = localStorage.getItem("timeInSecondsRemaining");
-        if (timeInSecondsRemaining !== null) {
+        if (timeInSecondsRemaining !== null && !isNaN(timeInSecondsRemaining)) {
             var event = localStorage.getItem("event");
             set(timeInSecondsRemaining, event);
         }
