@@ -16,14 +16,10 @@
 
     <meta property="og:image" content="src/images/Icon.Yellowtail.2017.png" />
 
-    <!-- CSS -->
-    <link href="src/fonts/fonts.css" rel='stylesheet' type='text/css'>
-    <link href="src/css/notebook_numbers.css" rel="stylesheet" type="text/css">
-
     <!-- The game -->
-    <script type="text/javascript" src="lib/preloadjs-0.3.1.min.js"></script>
-    <script type="text/javascript" src="src/systems/preload_system.js"></script>
-    <script type="text/javascript" src="src/notebook_numbers.js"></script>
+    <link href="build/css/stylesheet.css" rel="stylesheet" type="text/css">
+    <script src="build/js/bundle.js"></script>
+
 
     <!-- Google Analytics -->
     <script>
@@ -36,20 +32,8 @@
       ga('send', 'pageview');
 
     </script>
-
-    <!-- Facebook SDK -->
-    <div id="fb-root" />
-    <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.4&appId=380477585391200";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-
 </head>
-<body onload="init()" style="height: 100%; overflow: hidden" >
+<body style="height: 100%; overflow: hidden" >
     <div class="font_preload" style="opacity: 0">
         <span style="font-family: 'YellowTail', Arial, sans-serif;"></span>
         <span style="font-family: 'Londrina Solid', Arial, sans-serif;"></span>
@@ -68,7 +52,7 @@
                     <a  href="https://play.google.com/store/apps/details?id=com.silleknarf.notebooknumbers"
                         style="color: white">
                         <img alt="Get it on Google Play"
-                             src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png"
+                             src="src/images/en_generic_rgb_wo_60.png"
                              width="172"
                              height="53"
                              style="margin: 4px 0" />

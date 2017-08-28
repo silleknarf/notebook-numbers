@@ -1,0 +1,20 @@
+{
+  "name": "notebook-numbers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "./test/test.sh"
+  },
+  "author": "silleknarf",
+  "devDependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.6",
+    "gulp-concat": "^2.6.0",
+    "gulp-minify": "0.0.10",
+    "gulp-order": "^1.1.1",
+    "gulp-rev": "^7.0.0",
+    "streamqueue": "^1.1.1"
+  }
+}

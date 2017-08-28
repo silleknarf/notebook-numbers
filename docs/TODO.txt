@@ -1,14 +1,19 @@
-BLOCKED
-=======
-
-- Do a release
-    - Wait for iOS release
-    + Release Android version
-    - Check live leaderboards
-
 TODO
 ====
 
+- Bundling and minification
+    - Pre-optimisation for average AUS internet: 7.61s
+    - Implement bundling and minification
+- Implement share for undos
+    - Add api for notebook numbers
+        - Create api project 
+        - Set up api in AWS
+        - Add share button
+        - Create unique id for each nn instance
+        - Create endpoint
+            - which logs user id
+            - which gets the number of remaining undos
+            - which logs when extra undos are used
 - Set up deploy scripts for mobile apps
     - Android 
         - Bump the version numbers
