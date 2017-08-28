@@ -65,3 +65,4 @@ var init = function() {
         });
     });
 }
+init();

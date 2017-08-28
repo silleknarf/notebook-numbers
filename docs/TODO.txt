@@ -1,14 +1,9 @@
-BLOCKED
-=======
-
-- Do a release
-    - Wait for iOS release
-    + Release Android version
-    - Check live leaderboards
-
 TODO
 ====
 
+- Bundling and minification
+    - Pre-optimisation for average AUS internet: 7.61s
+    - Implement bundling and minification
 - Implement share for undos
     - Add api for notebook numbers
         - Create api project 
