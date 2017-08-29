@@ -52,7 +52,7 @@ gulp.task('pack-js', ['clean-js'], function () {
 });
 
 gulp.task('pack-css', ['clean-css'], function () {  
-  return gulp.src(['src/css/*.css'])
+  return gulp.src("src/css/*.css")
     .pipe(concat('stylesheet.css'))
     .pipe(cleanCss())
     //.pipe(rev())

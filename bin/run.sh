@@ -1,2 +1,1 @@
-./server.py --dir ".." --port "8000" &
-gulp &
+./server.py --dir ".." --port "8000"

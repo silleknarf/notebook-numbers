@@ -4,7 +4,7 @@ TODO
 - Submit app to review sites
     + Bluestacks.com
     + getandroidstuff.com
-    - alphadigits.com
+    + alphadigits.com
 
 - Implement share for undos
     - Add api for notebook numbers
