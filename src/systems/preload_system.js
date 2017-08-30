@@ -22,8 +22,6 @@ var preloadSystemFactory = function() {
         var manifest = [
             { src: "src/images/tile.png", id: "background" },
             { src: "src/images/bindings.png", id: "bindings" },
-            { src: "src/fonts/Londrina Solid.ttf", id: "bindings" },
-            { src: "src/fonts/Yellowtail.ttf", id: "bindings" }
         ];
         // This means we will use tag loading instead 
         // We need this so we get a debuggable file

@@ -5,7 +5,14 @@ TODO
     + Bluestacks.com
     + getandroidstuff.com
     + alphadigits.com
-
+    + Indiegamehunt.com
+- Follow up on Aziz's feedback
+    - Change the font
+    - Change colour on hover
+- Title re-alignment bug
+- Marketing
+    - Write a blog post about how to release a cross-platform game using JS and HTML
+    - Write a post-mortem of the game
 - Implement share for undos
     - Add api for notebook numbers
         - Create api project 
@@ -16,20 +23,6 @@ TODO
             - which logs user id
             - which gets the number of remaining undos
             - which logs when extra undos are used
-- Set up deploy scripts for mobile apps
-    - Android 
-        - Bump the version numbers
-        - Gradle sync
-        - Generate signed APK
-        - Upload to Play Store
-    - iOS
-        - Bump the version number
-        - Generate Archive
-        - Upload to App Store
-- Change the font
-- Marketing
-    - Write a blog post about how to release a cross-platform game using JS and HTML
-    - Write a post-mortem of the game
 - Add in-app purchases for undo
     - Add store button
     - Implement Android in-app purchase
@@ -45,6 +38,15 @@ TODO
     - Android
         - Call Android in app purchase endpoint
         - Top up cheats count
-- Title re-alignment bug
+- Set up deploy scripts for mobile apps
+    - Android 
+        - Bump the version numbers
+        - Gradle sync
+        - Generate signed APK
+        - Upload to Play Store
+    - iOS
+        - Bump the version number
+        - Generate Archive
+        - Upload to App Store
 - Line up the grid with the numbers
 - Remove from cursor
