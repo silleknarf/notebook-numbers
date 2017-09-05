@@ -23,7 +23,7 @@ var timerSystem = function(eventManager) {
                 var timeInSeconds = Math.floor((event.time - my.startTime) / oneSecond);
                 my.timeInSecondsRemaining = my.duration - timeInSeconds;
                 // The event is happening now!
-                if (my.timeInSecondsRemaining === 0) {
+                if (my.timeInSecondsRemaining <== 0) {
                     // Execute the event code
                     eventManager.vent.trigger(my.event);
                     my.duration = null;

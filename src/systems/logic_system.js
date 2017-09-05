@@ -48,12 +48,6 @@ var logicSystem = function(ecs, eventManager, gridUtil) {
                 "Well done you have",
                 "completed level " +  currentLevel + " of ",
                 "Notebook Numbers!",
-                "Click the new game button",
-                "to play the next level.",
-                "",
-                "Tip: Click the level button to",
-                "cycle through the unlocked",
-                "levels."
             ];
             if (currentLevel === maxLevel)
             {
