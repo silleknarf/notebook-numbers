@@ -1,18 +1,20 @@
 TODO
 ====
 
-- Submit app to review sites
-    + Bluestacks.com
-    + getandroidstuff.com
-    + alphadigits.com
-    + Indiegamehunt.com
 - Follow up on Aziz's feedback
     - Change the font
     - Change colour on hover
-- Title re-alignment bug
+- Sarah J's feedback
+    - Animation when crossing out numbers
+    - Change the font
+    - Change the scoring system to make the game more rewarding
+    - Game too hard
+    - More positive feedback / reinforcement
+    - More tips
 - Marketing
     - Write a blog post about how to release a cross-platform game using JS and HTML
     - Write a post-mortem of the game
+- Title re-alignment bug
 - Implement share for undos
     - Add api for notebook numbers
         - Create api project 
