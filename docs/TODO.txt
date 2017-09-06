@@ -3,7 +3,7 @@ TODO
 
 - Follow up on Aziz's feedback
     - Change the font
-        - Cabin Script 
+        - Cabin Sketch 
         - Caveat
         - Architect's Daughter
         - Oleo Script
