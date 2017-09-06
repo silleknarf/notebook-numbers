@@ -3,6 +3,11 @@ TODO
 
 - Follow up on Aziz's feedback
     - Change the font
+        - Cabin Script 
+        - Caveat
+        - Architect's Daughter
+        - Oleo Script
+        - Gloria Hallelujah 
     - Change colour on hover
 - Sarah J's feedback
     - Animation when crossing out numbers
