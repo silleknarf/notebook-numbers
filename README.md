@@ -12,8 +12,8 @@ The game is playable at [http://notebooknumbers.com](http://notebooknumbers.com)
 
 It's also available to buy on [Android](https://play.google.com/store/apps/details?id=com.silleknarf.notebooknumbers&hl=en) and [iOS](https://itunes.apple.com/app/noteboook-numbers/id1262922571).
 
-Installation
-============
+Development Guide
+=================
 
 Notebook Numbers web is implemented as a javascript web-app, the easiest way to get it running is to spin up a server locally.
 
